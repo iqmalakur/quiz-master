@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package app.views.host;
 
@@ -8,7 +8,7 @@ package app.views.host;
  *
  * @author iakba
  */
-public class Register extends javax.swing.JFrame {
+public class Register extends javax.swing.JPanel {
 
   /**
    * Creates new form Register
@@ -26,7 +26,6 @@ public class Register extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    container = new javax.swing.JPanel();
     nameField = new javax.swing.JTextField();
     usernameField = new javax.swing.JTextField();
     passwordField = new javax.swing.JTextField();
@@ -36,28 +35,26 @@ public class Register extends javax.swing.JFrame {
     btnBack = new javax.swing.JLabel();
     background = new javax.swing.JLabel();
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-    container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+    setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     nameField.setBackground(new java.awt.Color(217, 217, 217));
-    container.add(nameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 212, 300, 35));
+    add(nameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 212, 300, 35));
 
     usernameField.setBackground(new java.awt.Color(217, 217, 217));
-    container.add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+    add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
     passwordField.setBackground(new java.awt.Color(217, 217, 217));
-    container.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 385, 300, 35));
+    add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 385, 300, 35));
 
     quoteText.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
     quoteText.setForeground(new java.awt.Color(255, 255, 255));
     quoteText.setText("quote text");
-    container.add(quoteText, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, -1, -1));
+    add(quoteText, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, -1, -1));
 
     quoteSource.setFont(new java.awt.Font("Palatino Linotype", 1, 12)); // NOI18N
     quoteSource.setForeground(new java.awt.Color(255, 255, 255));
     quoteSource.setText("- quote source");
-    container.add(quoteSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
+    add(quoteSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
 
     btnSend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-submit-btn.png"))); // NOI18N
     btnSend.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -75,29 +72,14 @@ public class Register extends javax.swing.JFrame {
         btnSendMouseReleased(evt);
       }
     });
-    container.add(btnSend, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 442, -1, -1));
+    add(btnSend, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 442, -1, -1));
 
     btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-back-btn.png"))); // NOI18N
     btnBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    container.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(725, 38, -1, -1));
+    add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(725, 38, -1, -1));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/register.png"))); // NOI18N
-    container.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
-    );
-    layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-    );
-
-    pack();
+    add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnSendMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSendMouseEntered
@@ -116,46 +98,11 @@ public class Register extends javax.swing.JFrame {
     btnSend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-submit-btn.png")));
   }//GEN-LAST:event_btnSendMouseReleased
 
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-          javax.swing.UIManager.setLookAndFeel(info.getClassName());
-          break;
-        }
-      }
-    } catch (ClassNotFoundException ex) {
-      java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-      java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-      java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
-
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        new Register().setVisible(true);
-      }
-    });
-  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnBack;
   private javax.swing.JLabel btnSend;
-  private javax.swing.JPanel container;
   private javax.swing.JTextField nameField;
   private javax.swing.JTextField passwordField;
   private javax.swing.JLabel quoteSource;
