@@ -4,23 +4,31 @@
  */
 package app.views.host;
 
+import app.Controller;
+import app.views.View;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
  * @author User
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends View {
 
   /**
    * Creates new form Login
+   *
+   * @param controller
    */
-  public Login() {
+  public Login(JFrame controller) {
+    super(controller);
+    controller.setTitle("Quiz Master - Login");
+
     initComponents();
   }
 
@@ -64,6 +72,9 @@ public class Login extends javax.swing.JPanel {
 
     loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
     loginBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        loginBackBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         loginBackBtnMouseEntered(evt);
       }
@@ -75,6 +86,11 @@ public class Login extends javax.swing.JPanel {
 
     daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar.png"))); // NOI18N
     daftarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    daftarBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        daftarBtnMouseClicked(evt);
+      }
+    });
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
 
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
@@ -89,11 +105,19 @@ public class Login extends javax.swing.JPanel {
     // TODO add your handling code here:
     String icon = "image/button/loginBackBtn-hover.png";
     try {
-      loginBackBtn.setIcon( new ImageIcon(ImageIO.read( new File(icon) ) ) );
+      loginBackBtn.setIcon(new ImageIcon(ImageIO.read(new File(icon))));
     } catch (IOException ex) {
       Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
     }
   }//GEN-LAST:event_loginBackBtnMouseEntered
+
+  private void loginBackBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseClicked
+    Controller.setPanel(new Home(controller));
+  }//GEN-LAST:event_loginBackBtnMouseClicked
+
+  private void daftarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarBtnMouseClicked
+    Controller.setPanel(new Register(controller));
+  }//GEN-LAST:event_daftarBtnMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
