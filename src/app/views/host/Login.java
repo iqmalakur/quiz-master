@@ -5,31 +5,26 @@
 package app.views.host;
 
 import app.Controller;
-import app.views.View;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 /**
  *
  * @author User
  */
-public class Login extends View {
+public class Login extends javax.swing.JPanel {
 
   /**
    * Creates new form Login
    *
-   * @param controller
    */
-  public Login(JFrame controller) {
-    super(controller);
-    controller.setTitle("Quiz Master - Login");
-
+  public Login() {
     initComponents();
+    Controller.setFrameTitle("Quiz Master - Login");
   }
 
   /**
@@ -112,11 +107,11 @@ public class Login extends View {
   }//GEN-LAST:event_loginBackBtnMouseEntered
 
   private void loginBackBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseClicked
-    Controller.setPanel(new Home(controller));
+    Controller.setPanel(new Home());
   }//GEN-LAST:event_loginBackBtnMouseClicked
 
   private void daftarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarBtnMouseClicked
-    Controller.setPanel(new Register(controller));
+    Controller.setPanel(new Register());
   }//GEN-LAST:event_daftarBtnMouseClicked
 
 

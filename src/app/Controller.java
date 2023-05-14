@@ -13,18 +13,25 @@ import javax.swing.JPanel;
  * @author iakba
  */
 public class Controller extends JFrame {
+  private static JFrame controller;
 
   /**
    * Creates new form Controller
    */
   public Controller() {
     initComponents();
-    container.add(new Home(this));
+    
+    controller = this;
+    container.add(new Home());
   }
 
   public static void setPanel(JPanel panel) {
     container.add(panel);
     container.remove(0);
+  }
+  
+  public static void setFrameTitle(String title){
+    controller.setTitle(title);
   }
 
   /**

@@ -5,25 +5,20 @@
 package app.views.host;
 
 import app.Controller;
-import app.views.View;
-import javax.swing.JFrame;
 
 /**
  *
  * @author iakba
  */
-public class Home extends View {
+public class Home extends javax.swing.JPanel {
 
   /**
    * Creates new form Home
    *
-   * @param controller
    */
-  public Home(JFrame controller) {
-    super(controller);
-    controller.setTitle("Quiz Master - Home");
-
+  public Home() {
     initComponents();
+    Controller.setFrameTitle("Quiz Master - Home");
   }
 
   /**
@@ -96,7 +91,7 @@ public class Home extends View {
   }//GEN-LAST:event_btnJoinMouseReleased
 
   private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-    Controller.setPanel(new Login(controller));
+    Controller.setPanel(new Login());
   }//GEN-LAST:event_btnLoginMouseClicked
 
 

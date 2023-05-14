@@ -5,25 +5,20 @@
 package app.views.host;
 
 import app.Controller;
-import app.views.View;
-import javax.swing.JFrame;
 
 /**
  *
  * @author iakba
  */
-public class Register extends View {
+public class Register extends javax.swing.JPanel {
 
   /**
    * Creates new form Register
    *
-   * @param controller
    */
-  public Register(JFrame controller) {
-    super(controller);
-    controller.setTitle("Quiz Master - Register");
-
+  public Register() {
     initComponents();
+    Controller.setFrameTitle("Quiz Master - Register");
   }
 
   /**
@@ -113,7 +108,7 @@ public class Register extends View {
   }//GEN-LAST:event_btnSendMouseReleased
 
   private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
-    Controller.setPanel(new Login(controller));
+    Controller.setPanel(new Login());
   }//GEN-LAST:event_btnBackMouseClicked
 
 
