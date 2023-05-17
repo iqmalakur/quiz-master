@@ -23,6 +23,7 @@ import org.bson.types.ObjectId;
  *
  * @author iakba
  */
+
 public abstract class Model {
   private MongoCollection<Document> collection;
 

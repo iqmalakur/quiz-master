@@ -16,6 +16,7 @@ import java.util.List;
  *
  * @author iakba
  */
+
 public class Quiz extends Model {
 
   public Quiz() {
@@ -48,6 +49,7 @@ public class Quiz extends Model {
   public LinkedList<Document> get(){
     MongoCursor<Document> cursor = getCollection().find().iterator();
     LinkedList<Document> data = new LinkedList<>();
+
 
     while(cursor.hasNext()){
       data.add(convertQuiz(cursor.next()));

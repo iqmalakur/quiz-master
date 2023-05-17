@@ -84,6 +84,18 @@ public class Register extends javax.swing.JPanel {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         btnBackMouseClicked(evt);
       }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        btnBackMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        btnBackMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        btnBackMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        btnBackMouseReleased(evt);
+      }
     });
     add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(725, 38, -1, -1));
 
@@ -110,6 +122,22 @@ public class Register extends javax.swing.JPanel {
   private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
     Controller.setPanel(new Login());
   }//GEN-LAST:event_btnBackMouseClicked
+
+  private void btnBackMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseEntered
+    btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/registBackBtn-hover.png")));
+  }//GEN-LAST:event_btnBackMouseEntered
+
+  private void btnBackMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseExited
+    btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-back-btn.png")));
+  }//GEN-LAST:event_btnBackMouseExited
+
+  private void btnBackMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMousePressed
+    btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/registBackBtn-click.png")));
+  }//GEN-LAST:event_btnBackMousePressed
+
+  private void btnBackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseReleased
+    btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-back-btn.png")));
+  }//GEN-LAST:event_btnBackMouseReleased
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

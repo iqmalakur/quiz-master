@@ -64,6 +64,18 @@ public class Home extends javax.swing.JPanel {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         btnLoginMouseClicked(evt);
       }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        btnLoginMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        btnLoginMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        btnLoginMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        btnLoginMouseReleased(evt);
+      }
     });
     add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(664, 20, -1, -1));
     add(optionalField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 316, 181, 29));
@@ -93,6 +105,22 @@ public class Home extends javax.swing.JPanel {
   private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
     Controller.setPanel(new Login());
   }//GEN-LAST:event_btnLoginMouseClicked
+
+  private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
+    btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn-hover.png")));
+  }//GEN-LAST:event_btnLoginMouseEntered
+
+  private void btnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseExited
+    btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn.png")));
+  }//GEN-LAST:event_btnLoginMouseExited
+
+  private void btnLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMousePressed
+    btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn-click.png")));
+  }//GEN-LAST:event_btnLoginMousePressed
+
+  private void btnLoginMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseReleased
+    btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn.png")));
+  }//GEN-LAST:event_btnLoginMouseReleased
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
