@@ -97,13 +97,7 @@ public class Login extends javax.swing.JPanel {
   }//GEN-LAST:event_rememberMeCheckBoxActionPerformed
 
   private void loginBackBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseEntered
-    // TODO add your handling code here:
-    String icon = "image/button/loginBackBtn-hover.png";
-    try {
-      loginBackBtn.setIcon(new ImageIcon(ImageIO.read(new File(icon))));
-    } catch (IOException ex) {
-      Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-hover.png")));
   }//GEN-LAST:event_loginBackBtnMouseEntered
 
   private void loginBackBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseClicked

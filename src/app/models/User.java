@@ -4,9 +4,10 @@
  */
 package app.models;
 
-import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
+import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -15,120 +16,81 @@ import org.bson.types.ObjectId;
  *
  * @author iakba
  */
-public class User extends BaseModel {
-  private String username;
-  private String password;
-  private String email;
-  private String name;
-  private Quiz[] quizzes;
-  
-  public User(Document data){
+public class User extends Model {
+  public User(){
     super("User");
-    init(data);
   }
   
-  public User(ObjectId id){
-    super("User");
-    
-    FindIterable<Document> data = collection.find();
-    init(data.first());
-  }
-  
-  private void init(Document data){
-    username = data.getString("username");
-    password = data.getString("password");
-    email = data.getString("email");
-    name = data.getString("name");
-    
-    List<ObjectId> users = data.getList("quizzes", ObjectId.class);
-    quizzes = new Quiz[3];
-    
-    for(int i = 0; i < quizzes.length; i++){
-      quizzes[i] = new Quiz(users.get(i));
+  private Document convertQuiz(Document data){
+    if(data.get("quizzes") != null){
+      Model quiz = new Quiz();
+      List<ObjectId> quizzesId = data.getList("quizzes", ObjectId.class);
+      Document[] quizzes = new Document[3];
+
+      for(int i = 0; i < quizzesId.size(); i++){
+        quizzes[i] = quiz.get(quizzesId.get(i));
+      }
+
+      data.append("quizzes", quizzes);
     }
-  }
-
-  public User setUsername(String username) {
-    this.username = username;
-    return this;
-  }
-
-  public User setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-
-  public User setEmail(String email) {
-    this.email = email;
-    return this;
-  }
-
-  public User setName(String name) {
-    this.name = name;
-    return this;
-  }
-  
-  public void addQuiz(Quiz quiz){
-    new Model("Quiz").add(new Document());
-  }
-  
-  public void removeQuiz(int index){
     
+    return data;
   }
   
   @Override
-  public void save(){
-    // Cari dokumen yang ingin diubah
-    Document query = new Document("_id", this.getId());
-    Document existingDoc = collection.find(query).first();
+  public Document get(ObjectId id){
+    Document query = new Document("_id", id);
+    Document data = convertQuiz(getCollection().find(query).first());
+    
+    return data;
+  }
+  
+  @Override
+  public LinkedList<Document> get(){
+    MongoCursor<Document> cursor = getCollection().find().iterator();
+    LinkedList<Document> data = new LinkedList<>();
 
-    if (existingDoc != null) {
-        ObjectId[] quizzes = new ObjectId[3];
-        
-        for(int i = 0; i < this.quizzes.length; i++){
-          quizzes[i] = this.quizzes[i].getId();
-        }
-      
-        // Ubah data pada dokumen yang sudah ada
-        UpdateResult updateResult = collection.updateOne(
-          query,
-          Updates.combine(
-            Updates.set("username", username),
-            Updates.set("password", password),
-            Updates.set("email", email),
-            Updates.set("name", name),
-            Updates.set("quizzes", quizzes)
-          )
-        );
-
-        if (updateResult.getModifiedCount() > 0) {
-            System.out.println("Data berhasil diubah!");
-        } else {
-            System.out.println("Data gagal diubah.");
-        }
-    } else {
-        System.out.println("Data tidak ditemukan.");
+    while(cursor.hasNext()){
+      data.add(convertQuiz(cursor.next()));
     }
+
+    return data;
   }
   
-  public boolean checkPassword(String password){
-    return this.password.equals(password);
-  }
+  @Override
+  public boolean update(Document data, ObjectId id){
+    Document query = new Document("_id", id);
+    Document existingDoc = getCollection().find(query).first();
+    
+    if (existingDoc != null) {
+      String username = query.containsKey("username") ?
+        query.getString("username") : existingDoc.getString("username");
+      
+      String password = query.containsKey("password") ?
+        query.getString("password") : existingDoc.getString("password");
+      
+      String email = query.containsKey("email") ?
+        query.getString("email") : existingDoc.getString("email");
+      
+      String name = query.containsKey("name") ?
+        query.getString("name") : existingDoc.getString("name");
+      
+      
+      UpdateResult updateResult = getCollection().updateOne(
+        query,
+        Updates.combine(
+          Updates.set("username", username),
+          Updates.set("password", password),
+          Updates.set("email", email),
+          Updates.set("name", name)
+//          Updates.set("quizzes", quizzes)
+        )
+      );
 
-  public String getUsername() {
-    return username;
-  }
 
-  public String getEmail() {
-    return email;
+      return updateResult.getModifiedCount() > 0;
+    }
+    
+    return false;
   }
-
-  public String getName() {
-    return name;
-  }
-
-  public Quiz[] getQuizzes() {
-    return quizzes;
-  }
-  
 }
