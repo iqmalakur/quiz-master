@@ -66,6 +66,7 @@ public class Login extends javax.swing.JPanel {
     add(rememberMeCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 343, 20, 20));
 
     loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
+    loginBackBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     loginBackBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         loginBackBtnMouseClicked(evt);
@@ -73,10 +74,34 @@ public class Login extends javax.swing.JPanel {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         loginBackBtnMouseEntered(evt);
       }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        loginBackBtnMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        loginBackBtnMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        loginBackBtnMouseReleased(evt);
+      }
     });
     add(loginBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
     loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn.png"))); // NOI18N
+    loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        loginBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        loginBtnMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        loginBtnMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        loginBtnMouseReleased(evt);
+      }
+    });
     add(loginBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(532, 368, 90, 40));
 
     daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar.png"))); // NOI18N
@@ -84,6 +109,12 @@ public class Login extends javax.swing.JPanel {
     daftarBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         daftarBtnMouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        daftarBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        daftarBtnMouseExited(evt);
       }
     });
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
@@ -97,13 +128,7 @@ public class Login extends javax.swing.JPanel {
   }//GEN-LAST:event_rememberMeCheckBoxActionPerformed
 
   private void loginBackBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseEntered
-    // TODO add your handling code here:
-    String icon = "image/button/loginBackBtn-hover.png";
-    try {
-      loginBackBtn.setIcon(new ImageIcon(ImageIO.read(new File(icon))));
-    } catch (IOException ex) {
-      Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-click.png")));
   }//GEN-LAST:event_loginBackBtnMouseEntered
 
   private void loginBackBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseClicked
@@ -113,6 +138,42 @@ public class Login extends javax.swing.JPanel {
   private void daftarBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarBtnMouseClicked
     Controller.setPanel(new Register());
   }//GEN-LAST:event_daftarBtnMouseClicked
+
+  private void loginBackBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseExited
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png")));
+  }//GEN-LAST:event_loginBackBtnMouseExited
+
+  private void loginBackBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMousePressed
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-hover.png")));
+  }//GEN-LAST:event_loginBackBtnMousePressed
+
+  private void loginBackBtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseReleased
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png")));
+  }//GEN-LAST:event_loginBackBtnMouseReleased
+
+  private void loginBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseEntered
+    loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn-hover.png")));
+  }//GEN-LAST:event_loginBtnMouseEntered
+
+  private void loginBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseExited
+    loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn.png")));
+  }//GEN-LAST:event_loginBtnMouseExited
+
+  private void loginBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMousePressed
+    loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn-click.png")));
+  }//GEN-LAST:event_loginBtnMousePressed
+
+  private void loginBtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseReleased
+    loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn.png")));
+  }//GEN-LAST:event_loginBtnMouseReleased
+
+  private void daftarBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarBtnMouseEntered
+    daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar-hover.png")));
+  }//GEN-LAST:event_daftarBtnMouseEntered
+
+  private void daftarBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_daftarBtnMouseExited
+    daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar.png")));
+  }//GEN-LAST:event_daftarBtnMouseExited
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

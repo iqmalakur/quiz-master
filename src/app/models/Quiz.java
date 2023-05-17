@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
  */
 public class Quiz extends BaseModel {
   private String name;
-  private Question[] question;
+//  private Question[] question;
   private String code;
   private String optField;
   
@@ -35,9 +35,9 @@ public class Quiz extends BaseModel {
     return this;
   }
 
-  public void addQuestion(Question question){
-    
-  }
+//  public void addQuestion(Question question){
+//    
+//  }
   
   public void removeQuestion(int index){
     
@@ -52,9 +52,9 @@ public class Quiz extends BaseModel {
     return name;
   }
 
-  public Question[] getQuestion() {
-    return question;
-  }
+//  public Question[] getQuestion() {
+//    return question;
+//  }
 
   public String getCode() {
     return code;
