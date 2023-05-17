@@ -16,9 +16,10 @@ import org.bson.types.ObjectId;
  * @author User
  */
 public class Model extends Connection {
-
+  private String collectionName;
   public Model(String collectionName) {
     super(collectionName);
+    this.collectionName = collectionName;
   }
   
   public boolean add(Document data){
@@ -47,7 +48,9 @@ public class Model extends Connection {
     MongoCursor<Document> cursor = collection.find().iterator();
     LinkedList<BaseModel> data = new LinkedList<>();
     while(cursor.hasNext()){
-      data.add(new BaseModel(cursor.next()));
+     switch(collectionName){
+       case "User" -> data.add(new User(cursor.next()));
+     }
     }
     return data;
   }
