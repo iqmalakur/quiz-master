@@ -4,6 +4,8 @@
  */
 package app.views.host;
 
+import app.Controller;
+
 /**
  *
  * @author iakba
@@ -12,9 +14,11 @@ public class Register extends javax.swing.JPanel {
 
   /**
    * Creates new form Register
+   *
    */
   public Register() {
     initComponents();
+    Controller.setFrameTitle("Quiz Master - Register");
   }
 
   /**
@@ -76,6 +80,11 @@ public class Register extends javax.swing.JPanel {
 
     btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-back-btn.png"))); // NOI18N
     btnBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btnBackMouseClicked(evt);
+      }
+    });
     add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(725, 38, -1, -1));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/register.png"))); // NOI18N
@@ -97,6 +106,10 @@ public class Register extends javax.swing.JPanel {
   private void btnSendMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSendMouseReleased
     btnSend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-submit-btn.png")));
   }//GEN-LAST:event_btnSendMouseReleased
+
+  private void btnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBackMouseClicked
+    Controller.setPanel(new Login());
+  }//GEN-LAST:event_btnBackMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

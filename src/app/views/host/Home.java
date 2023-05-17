@@ -4,6 +4,8 @@
  */
 package app.views.host;
 
+import app.Controller;
+
 /**
  *
  * @author iakba
@@ -12,9 +14,11 @@ public class Home extends javax.swing.JPanel {
 
   /**
    * Creates new form Home
+   *
    */
   public Home() {
     initComponents();
+    Controller.setFrameTitle("Quiz Master - Home");
   }
 
   /**
@@ -56,6 +60,11 @@ public class Home extends javax.swing.JPanel {
 
     btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn.png"))); // NOI18N
     btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btnLoginMouseClicked(evt);
+      }
+    });
     add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(664, 20, -1, -1));
     add(optionalField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 316, 181, 29));
     add(nameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 252, 181, 29));
@@ -80,6 +89,10 @@ public class Home extends javax.swing.JPanel {
   private void btnJoinMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJoinMouseReleased
     btnJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-join-btn.png")));
   }//GEN-LAST:event_btnJoinMouseReleased
+
+  private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
+    Controller.setPanel(new Login());
+  }//GEN-LAST:event_btnLoginMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
