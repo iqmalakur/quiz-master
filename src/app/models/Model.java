@@ -4,6 +4,7 @@
  */
 package app.models;
 
+import app.Controller;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
@@ -27,6 +28,12 @@ import org.bson.types.ObjectId;
 public abstract class Model {
   private MongoCollection<Document> collection;
 
+  /**
+   * Menginisialisasi objek dari Model <br>
+   * Melakukan koneksi ke database MongoDB
+   * 
+   * @param collectionName Nama collection yang akan digunakan
+   */
   public Model(String collectionName) {
     String connectionString = "mongodb+srv://iqmalak21:iqmalakur@tubes.fpy8mlc.mongodb.net/?retryWrites=true&w=majority";
 
@@ -45,17 +52,54 @@ public abstract class Model {
       MongoDatabase database = mongoClient.getDatabase("TubesQuiz");
       collection = database.getCollection(collectionName);
     } catch (MongoException e) {
-      e.printStackTrace();
+      Controller.showErrorDialog("Terjadi kesalahan koneksi!\nError : " + e.getMessage());
     }
   }
   
+  /**
+   * Mengembalikan objek collection untuk berinteraksi dengan data pada collection
+   * 
+   * @return Objek dari MongoCollection
+   */
   protected MongoCollection<Document> getCollection(){
     return collection;
   }
+
+  /**
+   * Mengambil data spesifik berdasarkan Id pada collcetion
+   * 
+   * @param id Id dari data yang dicari berupa ObjectId
+   * @return   Data yang dicari, berupa Document
+   */
+  public Document get(ObjectId id) {
+    Document query = new Document("_id", id);
+    Document data = getCollection().find(query).first();
+    
+    return data;
+  }
+
+  /**
+   * Mengambil semua data pada collection
+   * 
+   * @return LinkedList dari data yang berbentuk Document
+   */
+  public LinkedList<Document> get() {
+    MongoCursor<Document> cursor = getCollection().find().iterator();
+    LinkedList<Document> data = new LinkedList<>();
+
+    while(cursor.hasNext()){
+      data.add(cursor.next());
+    }
+
+    return data;
+  }
   
-  public abstract Document get(ObjectId id);
-  public abstract LinkedList<Document> get();
-  
+  /**
+   * Menambahkan data baru pada collection
+   * 
+   * @param data Data yang akan ditambahkan berbentuk Document
+   * @return     Mengembalikan true jika data berhasil ditambahkan
+   */
   public boolean insert(Document data){
     try{
       collection.insertOne(data);
@@ -65,12 +109,26 @@ public abstract class Model {
     }
   }
   
+  /**
+   * Menghapus data tertentu pada collection
+   * 
+   * @param id Id dari data yang akan dihapus berbentuk ObjectId
+   * @return   Mengembalikan true jika data berhasil dihapus
+   */
   public boolean delete(ObjectId id){
     Document query = new Document("_id", id);
     DeleteResult deleteResult = collection.deleteOne(query);
 
+    // Mengembalikan true jika ada data yang dihapus
     return deleteResult.getDeletedCount() > 0;
   }
   
+  /**
+   * Mengubah data pada collection
+   * 
+   * @param data Data baru berupa Document
+   * @param id   Id dari data yang akan diubah berupa ObjectId
+   * @return     Mengembalikan true jika berhasil dan false jika gagal
+   */
   public abstract boolean update(Document data, ObjectId id);
 }

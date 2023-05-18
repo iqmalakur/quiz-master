@@ -7,6 +7,7 @@ package app.models;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
@@ -17,77 +18,92 @@ import org.bson.types.ObjectId;
  * @author iakba
  */
 public class User extends Model {
+
+  /**
+   * Menginisialisasi objek dengan memanggil parent constructor <br>
+   * Menetapkan "User" sebagai nama collection yang digunakan
+   */
   public User(){
     super("User");
   }
   
-  private Document convertQuiz(Document data){
-    if(data.get("quizzes") != null){
-      Model quiz = new Quiz();
-      List<ObjectId> quizzesId = data.getList("quizzes", ObjectId.class);
-      Document[] quizzes = new Document[3];
-
-      for(int i = 0; i < quizzesId.size(); i++){
-        quizzes[i] = quiz.get(quizzesId.get(i));
-      }
-
-      data.append("quizzes", quizzes);
-    }
-    
-    return data;
-  }
-  
+  /**
+   * Mengambil data spesifik berdasarkan Id pada collcetion
+   * 
+   * @param id Id dari data yang dicari berupa ObjectId
+   * @return   Data yang dicari, berupa Document
+   */
   @Override
   public Document get(ObjectId id){
     Document query = new Document("_id", id);
-    Document data = convertQuiz(getCollection().find(query).first());
+    Document data = getCollection().find(query).first();
     
     return data;
   }
   
+  /**
+   * Mengambil semua data pada collection
+   * 
+   * @return LinkedList dari data yang berbentuk Document
+   */
   @Override
   public LinkedList<Document> get(){
     MongoCursor<Document> cursor = getCollection().find().iterator();
     LinkedList<Document> data = new LinkedList<>();
 
     while(cursor.hasNext()){
-      data.add(convertQuiz(cursor.next()));
+      data.add(cursor.next());
     }
 
     return data;
   }
   
+  /**
+   * Mengubah data pada collection
+   * 
+   * @param data Data baru berupa Document
+   * @param id   Id dari data yang akan diubah berupa ObjectId
+   * @return     Mengembalikan true jika berhasil dan false jika gagal
+   */
   @Override
   public boolean update(Document data, ObjectId id){
     Document query = new Document("_id", id);
     Document existingDoc = getCollection().find(query).first();
     
+    // Jika data ditemukan
     if (existingDoc != null) {
-      String username = query.containsKey("username") ?
-        query.getString("username") : existingDoc.getString("username");
+      // Menyiapkan data untuk update
+      // Jika field ada pada parameter data, maka akan digunakan
+      // Jika tidak ada maka akan digunakan dari existingDoc
       
-      String password = query.containsKey("password") ?
-        query.getString("password") : existingDoc.getString("password");
+      String username = data.containsKey("username") ?
+        data.getString("username") : existingDoc.getString("username");
       
-      String email = query.containsKey("email") ?
-        query.getString("email") : existingDoc.getString("email");
+      String password = data.containsKey("password") ?
+        data.getString("password") : existingDoc.getString("password");
       
-      String name = query.containsKey("name") ?
-        query.getString("name") : existingDoc.getString("name");
+      String email = data.containsKey("email") ?
+        data.getString("email") : existingDoc.getString("email");
       
+      String name = data.containsKey("name") ?
+        data.getString("name") : existingDoc.getString("name");
       
+      List<ObjectId> quizzes = data.containsKey("quizzes") ?
+        data.getList("quizzes", ObjectId.class) : existingDoc.getList("quizzes", ObjectId.class);
+      
+      // Update data
       UpdateResult updateResult = getCollection().updateOne(
         query,
         Updates.combine(
           Updates.set("username", username),
           Updates.set("password", password),
           Updates.set("email", email),
-          Updates.set("name", name)
-//          Updates.set("quizzes", quizzes)
+          Updates.set("name", name),
+          Updates.set("quizzes", quizzes)
         )
       );
 
-
+      // Mengembalikan true jika ada data yang berubah
       return updateResult.getModifiedCount() > 0;
     }
     

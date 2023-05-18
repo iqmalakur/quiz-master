@@ -1,0 +1,27 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
+ */
+package app.models;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author iakba
+ */
+public class RespondentTest {
+  
+  public RespondentTest() {
+  }
+
+  @Test
+  public void testGet() {
+  }
+  
+  @Test
+  public void testCrud() {
+  }
+  
+}

@@ -6,6 +6,7 @@ package app;
 
 import app.views.host.Home;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -16,7 +17,9 @@ public class Controller extends JFrame {
   private static JFrame controller;
 
   /**
-   * Creates new form Controller
+   * Menginisialisasi nilai controller dengan objek Controller yang dibuat <br>
+   * Menetapkan <a href="views/host/Home.html">Home</a>
+   * sebagai Panel awal dari Controller
    */
   public Controller() {
     initComponents();
@@ -25,13 +28,67 @@ public class Controller extends JFrame {
     container.add(new Home());
   }
 
+  /**
+   * Mengubah Panel yang aktif dan menghapus Panel sebelumnya
+   * 
+   * @param panel Panel yang akan digunakan pada Frame
+   */
   public static void setPanel(JPanel panel) {
     container.add(panel);
     container.remove(0);
   }
   
+  /**
+   * Mengubah judul dari Frame pada objek controller
+   * 
+   * @param title Judul baru untuk Frame
+   */
   public static void setFrameTitle(String title){
     controller.setTitle(title);
+  }
+  
+  /**
+   * Menampilkan informasi berupa pop up menggunakan JOptionPane
+   * 
+   * @param message Pesan pada pop up JOptionPane
+   */
+  public static void showInformationDialog(String message){
+    JOptionPane.showMessageDialog(
+      controller,
+      message,
+      "Error",
+      JOptionPane.INFORMATION_MESSAGE
+    );
+  }
+  
+  /**
+   * Menampilkan informasi error berupa pop up menggunakan JOptionPane
+   * 
+   * @param message Pesan pada pop up JOptionPane
+   */
+  public static void showErrorDialog(String message){
+    JOptionPane.showMessageDialog(
+      controller,
+      message,
+      "Error",
+      JOptionPane.ERROR_MESSAGE
+    );
+  }
+  
+  /**
+   * Menampilkan konfirmasi berupa pop up menggunakan JOptionPane
+   * 
+   * @param message Pesan pada pop up JOptionPane
+   * @return        Mengembalikan 0 jika pilihan No dan 1 jika Yes
+   */
+  public static int showConfirmDialog(String message){
+    return JOptionPane.showConfirmDialog(
+      controller,
+      message,
+      "Konfirmasi",
+      JOptionPane.YES_NO_OPTION,
+      JOptionPane.WARNING_MESSAGE
+    );
   }
 
   /**

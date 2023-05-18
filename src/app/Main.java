@@ -4,11 +4,6 @@
  */
 package app;
 
-import app.models.Model;
-import app.models.User;
-import java.util.LinkedList;
-import org.bson.Document;
-
 /**
  *
  * @author iakba
@@ -19,11 +14,6 @@ public class Main {
    * @param args the command line arguments
    */
   public static void main(String args[]) {
-    Model m = new User();
-    System.out.println(m.get());
-    m.update(new Document("name", "Ucup"), m.get().get(0).getObjectId("_id"));
-    System.out.println(m.get());
-    
     /* Set the Nimbus look and feel */
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -48,9 +38,9 @@ public class Main {
     //</editor-fold>
 
     /* Create and display the form */
-//    java.awt.EventQueue.invokeLater(() -> {
-//      new Controller().setVisible(true);
-//    });
+    java.awt.EventQueue.invokeLater(() -> {
+      new Controller().setVisible(true);
+    });
   }
 
 }
