@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
  * @author iakba
  */
 public class Register extends javax.swing.JPanel {
+  private boolean passwordHidden = true;
 
   /**
    * Creates new form Register
@@ -37,6 +38,7 @@ public class Register extends javax.swing.JPanel {
 
     nameField = new javax.swing.JTextField();
     usernameField = new javax.swing.JTextField();
+    eyeIcon = new javax.swing.JLabel();
     passwordField = new javax.swing.JPasswordField();
     passwordFieldUnhide = new javax.swing.JTextField();
     quoteText = new javax.swing.JLabel();
@@ -53,11 +55,30 @@ public class Register extends javax.swing.JPanel {
     usernameField.setBackground(new java.awt.Color(217, 217, 217));
     add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
+    eyeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/closed-eye.png"))); // NOI18N
+    eyeIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    eyeIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        eyeIconMouseClicked(evt);
+      }
+    });
+    add(eyeIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(695, 389, -1, -1));
+
     passwordField.setBackground(new java.awt.Color(217, 217, 217));
     passwordField.setCaretColor(new java.awt.Color(230, 230, 230));
+    passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordFieldKeyReleased(evt);
+      }
+    });
     add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 385, 300, 35));
 
     passwordFieldUnhide.setBackground(new java.awt.Color(217, 217, 217));
+    passwordFieldUnhide.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordFieldUnhideKeyReleased(evt);
+      }
+    });
     add(passwordFieldUnhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 385, 300, 35));
 
     quoteText.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
@@ -157,14 +178,31 @@ public class Register extends javax.swing.JPanel {
     String username = usernameField.getText();
     String password = new String(passwordField.getPassword());
     
+    Model user = new User();
+    
+    Document userExist = user.get("username", username);
+    
+    if(userExist != null){
+      Controller.showErrorDialog("Username telah terdaftar!");
+      return;
+    }
+    
+    if(password.length() < 8){
+      Controller.showErrorDialog("Panjang password minimal 8 karakter!");
+      return;
+    }
+    
+    if(!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")){
+      Controller.showErrorDialog("Password harus terdapat setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka!");
+      return;
+    }
+    
     Document data = new Document()
       .append("name", name)
       .append("username", username)
       .append("password", password)
       .append("quizzes", new ArrayList<ObjectId>())
     ;
-    
-    Model user = new User();
     
     if(user.insert(data)){
       Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali");
@@ -174,11 +212,33 @@ public class Register extends javax.swing.JPanel {
     }
   }//GEN-LAST:event_btnSendMouseClicked
 
+  private void eyeIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eyeIconMouseClicked
+    passwordHidden = !passwordHidden;
+    
+    passwordField.setVisible(passwordHidden);
+    passwordFieldUnhide.setVisible(!passwordHidden);
+    
+    if(passwordHidden) passwordField.requestFocus();
+    else passwordFieldUnhide.requestFocus();
+    
+    String icon = passwordHidden ? "closed-eye" : "eye";
+    eyeIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/" + icon + ".png")));
+  }//GEN-LAST:event_eyeIconMouseClicked
+
+  private void passwordFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyReleased
+    passwordFieldUnhide.setText(new String(passwordField.getPassword()));
+  }//GEN-LAST:event_passwordFieldKeyReleased
+
+  private void passwordFieldUnhideKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldUnhideKeyReleased
+    passwordField.setText(passwordFieldUnhide.getText());
+  }//GEN-LAST:event_passwordFieldUnhideKeyReleased
+
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnBack;
   private javax.swing.JLabel btnSend;
+  private javax.swing.JLabel eyeIcon;
   private javax.swing.JTextField nameField;
   private javax.swing.JPasswordField passwordField;
   private javax.swing.JTextField passwordFieldUnhide;

@@ -88,4 +88,15 @@ public class UserTest {
     assertTrue(user.delete(id));
   }
   
+  @Test
+  public void testGetWithQuery(){
+    Document user1 = user.get("username", "ucup");
+    assertEquals("Ucup", user1.getString("name"));
+    
+    Document user2 = user.get(new Document("name", "Ucup"));
+    assertEquals("ucup", user2.getString("username"));
+    
+    assertEquals(user1, user2);
+  }
+  
 }

@@ -77,6 +77,31 @@ public abstract class Model {
     
     return data;
   }
+  
+  /**
+   * Mengambil data spesifik berdasarkan key dan value tertentu pada collcetion
+   * 
+   * @param key   Key pada collection
+   * @param value Nilai dari key
+   * @return      Data yang dicari, berupa Document
+   */
+  public Document get(String key, String value) {
+    Document query = new Document(key, value);
+    Document data = getCollection().find(query).first();
+    
+    return data;
+  }
+  
+  /**
+   * Mengambil data spesifik berdasarkan query tertentu
+   * 
+   * @param query Object Document yang berisi key - value untuk query pencarian
+   * @return      Data yang dicari, berupa Document
+   */
+  public Document get(Document query) {
+    Document data = getCollection().find(query).first();
+    return data;
+  }
 
   /**
    * Mengambil semua data pada collection
