@@ -5,30 +5,47 @@
 package app.views.host;
 
 import app.Controller;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import app.models.Model;
+import app.models.User;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import org.bson.Document;
 
 /**
  *
  * @author User
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends javax.swing.JPanel  {
 
   /**
    * Creates new form Login
    *
    */
   public Login() {
-    initComponents();
-    Controller.setFrameTitle("Quiz Master - Login");
+    remember();
+    Model users = new User();
+    LinkedList<Document> user = new LinkedList(users.get());
+    user.forEach(usr->{
+      if(usr.getString("username").equals(dataRemember.get(0)) && 
+         usr.getString("password").equals(dataRemember.get(1))){
+        Controller.setPanel(new Dashboard());
+      } else {
+          initComponents();
+          Controller.setFrameTitle("Quiz Master - Login");
+      }
+    });
   }
+  private static String globalUsername;
+  private static String globalPassword;
+  private static String globalName;
 
+  
+  
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,11 +56,11 @@ public class Login extends javax.swing.JPanel {
   private void initComponents() {
 
     usernameLoginField1 = new javax.swing.JTextField();
-    passwordLoginField = new javax.swing.JTextField();
     rememberMeCheckBox = new javax.swing.JCheckBox();
     loginBackBtn = new javax.swing.JLabel();
     loginBtn = new javax.swing.JLabel();
     daftarBtn = new javax.swing.JLabel();
+    passwordLoginField = new javax.swing.JPasswordField();
     loginBG = new javax.swing.JLabel();
 
     setPreferredSize(new java.awt.Dimension(799, 527));
@@ -52,19 +69,11 @@ public class Login extends javax.swing.JPanel {
     usernameLoginField1.setBackground(new java.awt.Color(217, 217, 217));
     add(usernameLoginField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 212, 300, 35));
 
-    passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
-    add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
-
     rememberMeCheckBox.setBackground(new java.awt.Color(255, 255, 255));
     rememberMeCheckBox.setForeground(new java.awt.Color(255, 255, 255));
     rememberMeCheckBox.setText(" ");
     rememberMeCheckBox.setBorder(null);
     rememberMeCheckBox.setPreferredSize(new java.awt.Dimension(30, 30));
-    rememberMeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        rememberMeCheckBoxActionPerformed(evt);
-      }
-    });
     add(rememberMeCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 343, 20, 20));
 
     loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
@@ -91,6 +100,9 @@ public class Login extends javax.swing.JPanel {
     loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn.png"))); // NOI18N
     loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        loginBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         loginBtnMouseEntered(evt);
       }
@@ -121,16 +133,15 @@ public class Login extends javax.swing.JPanel {
     });
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
 
+    passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
+    add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
     add(loginBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 527));
   }// </editor-fold>//GEN-END:initComponents
 
-  private void rememberMeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberMeCheckBoxActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_rememberMeCheckBoxActionPerformed
-
   private void loginBackBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseEntered
-    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-click.png")));
+    loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-hover.png")));
   }//GEN-LAST:event_loginBackBtnMouseEntered
 
   private void loginBackBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseClicked
@@ -177,13 +188,61 @@ public class Login extends javax.swing.JPanel {
     daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar.png")));
   }//GEN-LAST:event_daftarBtnMouseExited
 
+  private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
+    Model users = new User();
+    String username = usernameLoginField1.getText();
+    String password = new String(passwordLoginField.getPassword());
+    LinkedList<Document> user = new LinkedList(users.get());
+    user.forEach(usr->{
+      if(usr.getString("username").equals(username) && 
+         usr.getString("password").equals(password)){
+           globalUsername = usr.getString("username");
+           globalPassword = usr.getString("password");
+           globalName = usr.getString("name");
+           if(rememberMeCheckBox.isSelected()){
+              try {
+                FileWriter fw = new FileWriter("remember.txt");
+                fw.write(globalUsername + "\n");
+                fw.write(globalPassword + "\n");
+                fw.write(globalName);
+                fw.flush();
+                fw.close();
+              } catch (IOException ex) {
+                Controller.showErrorDialog("Gagal menyimpan data login");
+              }
+           }
+           Controller.setPanel(new Dashboard());
+      }
+    }); 
+  }//GEN-LAST:event_loginBtnMouseClicked
 
+    List<String> dataRemember = new ArrayList<String>();
+  public void remember(){
+    try {
+      BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"));
+      String line = dataUser.readLine();
+      while(line != null){
+        dataRemember.add(line);
+        line = dataUser.readLine();
+      } dataUser.close();
+//      String[] arrayData = dataRemember.toArray(new String[3]);
+//      usernameLoginField1.setText(arrayData[0]);
+//      passwordLoginField.setText(arrayData[1]);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
+  
+//  public void loginByRemember(){
+//    
+//  }
+  
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel daftarBtn;
   private javax.swing.JLabel loginBG;
   private javax.swing.JLabel loginBackBtn;
   private javax.swing.JLabel loginBtn;
-  private javax.swing.JTextField passwordLoginField;
+  private javax.swing.JPasswordField passwordLoginField;
   private javax.swing.JCheckBox rememberMeCheckBox;
   private javax.swing.JTextField usernameLoginField1;
   // End of variables declaration//GEN-END:variables

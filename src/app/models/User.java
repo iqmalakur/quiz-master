@@ -4,9 +4,11 @@
  */
 package app.models;
 
-import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -15,120 +17,96 @@ import org.bson.types.ObjectId;
  *
  * @author iakba
  */
-public class User extends BaseModel {
-  private String username;
-  private String password;
-  private String email;
-  private String name;
-  private Quiz[] quizzes;
-  
-  public User(Document data){
+public class User extends Model {
+
+  /**
+   * Menginisialisasi objek dengan memanggil parent constructor <br>
+   * Menetapkan "User" sebagai nama collection yang digunakan
+   */
+  public User(){
     super("User");
-    init(data);
   }
   
-  public User(ObjectId id){
-    super("User");
-    
-    FindIterable<Document> data = collection.find();
-    init(data.first());
-  }
-  
-  private void init(Document data){
-    username = data.getString("username");
-    password = data.getString("password");
-    email = data.getString("email");
-    name = data.getString("name");
-    
-    List<ObjectId> users = data.getList("quizzes", ObjectId.class);
-    quizzes = new Quiz[3];
-    
-    for(int i = 0; i < quizzes.length; i++){
-      quizzes[i] = new Quiz(users.get(i));
-    }
-  }
-
-  public User setUsername(String username) {
-    this.username = username;
-    return this;
-  }
-
-  public User setPassword(String password) {
-    this.password = password;
-    return this;
-  }
-
-  public User setEmail(String email) {
-    this.email = email;
-    return this;
-  }
-
-  public User setName(String name) {
-    this.name = name;
-    return this;
-  }
-  
-  public void addQuiz(Quiz quiz){
-    new Model("Quiz").add(new Document());
-  }
-  
-  public void removeQuiz(int index){
-    
-  }
-  
+  /**
+   * Mengambil data spesifik berdasarkan Id pada collcetion
+   * 
+   * @param id Id dari data yang dicari berupa ObjectId
+   * @return   Data yang dicari, berupa Document
+   */
   @Override
-  public void save(){
-    // Cari dokumen yang ingin diubah
-    Document query = new Document("_id", this.getId());
-    Document existingDoc = collection.find(query).first();
+  public Document get(ObjectId id){
+    Document query = new Document("_id", id);
+    Document data = getCollection().find(query).first();
+    
+    return data;
+  }
+  
+  /**
+   * Mengambil semua data pada collection
+   * 
+   * @return LinkedList dari data yang berbentuk Document
+   */
+  @Override
+  public LinkedList<Document> get(){
+    MongoCursor<Document> cursor = getCollection().find().iterator();
+    LinkedList<Document> data = new LinkedList<>();
 
-    if (existingDoc != null) {
-        ObjectId[] quizzes = new ObjectId[3];
-        
-        for(int i = 0; i < this.quizzes.length; i++){
-          quizzes[i] = this.quizzes[i].getId();
-        }
-      
-        // Ubah data pada dokumen yang sudah ada
-        UpdateResult updateResult = collection.updateOne(
-          query,
-          Updates.combine(
-            Updates.set("username", username),
-            Updates.set("password", password),
-            Updates.set("email", email),
-            Updates.set("name", name),
-            Updates.set("quizzes", quizzes)
-          )
-        );
-
-        if (updateResult.getModifiedCount() > 0) {
-            System.out.println("Data berhasil diubah!");
-        } else {
-            System.out.println("Data gagal diubah.");
-        }
-    } else {
-        System.out.println("Data tidak ditemukan.");
+    while(cursor.hasNext()){
+      data.add(cursor.next());
     }
+
+    return data;
   }
   
-  public boolean checkPassword(String password){
-    return this.password.equals(password);
-  }
+  /**
+   * Mengubah data pada collection
+   * 
+   * @param data Data baru berupa Document
+   * @param id   Id dari data yang akan diubah berupa ObjectId
+   * @return     Mengembalikan true jika berhasil dan false jika gagal
+   */
+  @Override
+  public boolean update(Document data, ObjectId id){
+    Document query = new Document("_id", id);
+    Document existingDoc = getCollection().find(query).first();
+    
+    // Jika data ditemukan
+    if (existingDoc != null) {
+      // Menyiapkan data untuk update
+      // Jika field ada pada parameter data, maka akan digunakan
+      // Jika tidak ada maka akan digunakan dari existingDoc
+      
+      String username = data.containsKey("username") ?
+        data.getString("username") : existingDoc.getString("username");
+      
+      String password = data.containsKey("password") ?
+        data.getString("password") : existingDoc.getString("password");
+      
+      String email = data.containsKey("email") ?
+        data.getString("email") : existingDoc.getString("email");
+      
+      String name = data.containsKey("name") ?
+        data.getString("name") : existingDoc.getString("name");
+      
+      List<ObjectId> quizzes = data.containsKey("quizzes") ?
+        data.getList("quizzes", ObjectId.class) : existingDoc.getList("quizzes", ObjectId.class);
+      
+      // Update data
+      UpdateResult updateResult = getCollection().updateOne(
+        query,
+        Updates.combine(
+          Updates.set("username", username),
+          Updates.set("password", password),
+          Updates.set("email", email),
+          Updates.set("name", name),
+          Updates.set("quizzes", quizzes)
+        )
+      );
 
-  public String getUsername() {
-    return username;
+      // Mengembalikan true jika ada data yang berubah
+      return updateResult.getModifiedCount() > 0;
+    }
+    
+    return false;
   }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Quiz[] getQuizzes() {
-    return quizzes;
-  }
-  
 }

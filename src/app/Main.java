@@ -38,11 +38,10 @@ public class Main {
     //</editor-fold>
 
     /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        new Controller().setVisible(true);
-      }
+    java.awt.EventQueue.invokeLater(() -> {
+      new Controller().setVisible(true);
     });
+    
   }
 
 }
