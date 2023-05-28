@@ -1,10 +1,1 @@
-[
-  {
-    "_id": "QUZ001",
-    "name": "Test Pengetahuan Pemrograman",
-    "questions": ["QST001", "QST002", "QST003", "QST004"],
-    "respondents": ["RES001"],
-    "code": "FK45R",
-    "optField": "Profesi"
-  }
-]
+[{"respondents":["RES001"],"code":"FK45R","name":"Test Pengetahuan Pemrograman","questions":["QST001","QST002","QST003","QST004"],"_id":"QUZ001","optField":"Profesi"}]

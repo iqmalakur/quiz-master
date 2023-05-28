@@ -4,99 +4,163 @@
  */
 package app.models;
 
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
-import java.util.List;
-import org.bson.Document;
-import org.bson.types.ObjectId;
+import org.json.JSONObject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author iakba
  */
 public class UserTest {
-  private final User user;
+  private final User model;
   
-  public UserTest(){
-    user = new User();
+  public UserTest() {
+    model = new User();
   }
   
+  @Test
+  public void testInsert(){
+    JSONObject newData = new JSONObject("""
+                                        {
+                                          "username": "udin",
+                                          "password": "udin",
+                                          "email": "udin@gmail.com",
+                                          "quizzes": ["QUZ001"],
+                                          "name": "Udin"
+                                        }
+                                        """);
+    assertTrue(model.insert(newData));
+    
+    LinkedList<JSONObject> data = model.get();
+    JSONObject lastData = data.getLast();
+    
+    assertEquals("udin", lastData.getString("username"));
+    assertEquals("Udin", lastData.getString("name"));
+  }
+
   @Test
   public void testGet() {
-    LinkedList<Document> users = user.get();
+    LinkedList<JSONObject> data = model.get();
+    JSONObject lastData = data.getLast();
     
-    ObjectId expectedId = new ObjectId("6460cce5b0c6e24873d968a9");
-    ObjectId actualId = users.get(0).getObjectId("_id");
-    
-    Document userById = user.get(actualId);
-    
-    assertEquals(users.get(0), userById);
-    assertEquals(expectedId, actualId);
-    
-    String expectedUsername = "ucup";
-    String actualUsername = users.get(0).getString("username");
-    assertEquals(expectedUsername, actualUsername);
-    
-    String expectedPassword = "ucup";
-    String actualPassword = users.get(0).getString("password");
-    assertEquals(expectedPassword, actualPassword);
-    
-    String expectedName = "Ucup";
-    String actualName = users.get(0).getString("name");
-    assertEquals(expectedName, actualName);
-    
-    String expectedEmail = "ucup@gmail.com";
-    String actualEmail = users.get(0).getString("email");
-    assertEquals(expectedEmail, actualEmail);
-    
-    ObjectId expectedFirstQuizId = new ObjectId("6465d43c7399c00748b823d6");
-    ObjectId actualFirstQuizId = users.get(0).getList("quizzes", ObjectId.class).get(0);
-    assertEquals(expectedFirstQuizId, actualFirstQuizId);
+    assertEquals("udin", lastData.getString("username"));
+    assertEquals("Udin", lastData.getString("name"));
   }
   
   @Test
-  public void testCrud(){
-    List<ObjectId> newUserQuizzes = new ArrayList<>();
-    newUserQuizzes.add(new ObjectId("6465d43c7399c00748b823d6"));
+  public void testGetByKeyValue() {
+    JSONObject dataByUsername = model.get("username", "udin");
     
-    Document newUser = new Document()
-      .append("username", "udin")
-      .append("password", "udin")
-      .append("email", "udin@gmail.com")
-      .append("name", "Udin")
-      .append("quizzes", newUserQuizzes)
-    ;
+    assertEquals("udin", dataByUsername.getString("username"));
+    assertEquals("Udin", dataByUsername.getString("name"));
     
-    assertTrue(user.insert(newUser));
-    assertEquals(user.get().get(1).getString("name"), "Udin");
-    
-    Document updateUser = new Document()
-      .append("username", "udinaja")
-      .append("password", "udin123")
-      .append("email", "udinaja@gmail.com")
-      .append("name", "Udin Markudin")
-      .append("quizzes", newUserQuizzes)
-    ;
-    
-    ObjectId id = user.get().get(1).getObjectId("_id");
-    
-    assertTrue(user.update(updateUser, id));
-    assertEquals(user.get().get(1).getString("name"), "Udin Markudin");
-    
-    assertTrue(user.delete(id));
+    JSONObject faultData = model.get("username", "otong");
+    assertNull(faultData);
   }
   
   @Test
-  public void testGetWithQuery(){
-    Document user1 = user.get("username", "ucup");
-    assertEquals("Ucup", user1.getString("name"));
+  public void testGetByQuery() {
+    JSONObject query = new JSONObject("""
+                                      {
+                                        "username": "udin",
+                                        "password": "udin"
+                                      }
+                                      """);
+    JSONObject data = model.get(query);
     
-    Document user2 = user.get(new Document("name", "Ucup"));
-    assertEquals("ucup", user2.getString("username"));
+    assertEquals("udin", data.getString("username"));
+    assertEquals("Udin", data.getString("name"));
     
-    assertEquals(user1, user2);
+    JSONObject faultQuery = new JSONObject("""
+                                      {
+                                        "username": "udin",
+                                        "password": "otong"
+                                      }
+                                      """);
+    JSONObject faultData = model.get(faultQuery);
+    assertNull(faultData);
+  }  
+  
+  @Test
+  public void testGetById(){
+    try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
+      byte[] rawData = dataRead.readAllBytes();
+      
+      JSONObject idFile = new JSONObject(new String(rawData));
+      int id = idFile.getInt("User");
+      
+      JSONObject data = model.get(String.format("USR%03d", id));
+    
+      assertEquals("udin", data.getString("username"));
+      assertEquals("Udin", data.getString("name"));
+
+      JSONObject faultData = model.get("USR000");
+      assertNull(faultData);
+    } catch(IOException e){
+      System.out.println(e);
+    }
   }
   
+  @Test
+  public void testUpdate(){
+    try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
+      byte[] rawData = dataRead.readAllBytes();
+      
+      JSONObject idFile = new JSONObject(new String(rawData));
+      int id = idFile.getInt("User");
+      
+      JSONObject beforeUpdate = model.get(String.format("USR%03d", id));
+      assertEquals("udin", beforeUpdate.getString("username"));
+      assertEquals("Udin", beforeUpdate.getString("name"));
+      
+      assertTrue(model.update(
+              new JSONObject("""
+                             {
+                                "name": "Otong"
+                             }
+                             """),
+              String.format("USR%03d", id))
+      );
+      
+      JSONObject afterUpdate = model.get(String.format("USR%03d", id));
+      assertEquals("udin", afterUpdate.getString("username"));
+      assertEquals("Otong", afterUpdate.getString("name"));
+    } catch(IOException e){
+      System.out.println(e);
+    }
+  }
+  
+  @Test
+  public void testDelete(){
+    try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
+      byte[] rawData = dataRead.readAllBytes();
+      
+      JSONObject idFile = new JSONObject(new String(rawData));
+      int id = idFile.getInt("User");
+      
+      assertNotNull(model.get(String.format("USR%03d", id)));
+      assertTrue(model.delete(String.format("USR%03d", id)));
+      assertNull(model.get(String.format("USR%03d", id)));
+      
+      try (OutputStream dataWrite = new FileOutputStream("data/IdCount.json")){
+        idFile.put("User", idFile.getInt("User") - 1);
+        byte[] byteData = idFile.toString().getBytes();
+        dataWrite.write(byteData);
+      } catch(IOException e){
+        System.out.println(e);
+      }
+    } catch(IOException e){
+      System.out.println(e);
+    }
+  }
 }

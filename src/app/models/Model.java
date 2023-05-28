@@ -43,11 +43,12 @@ public abstract class Model {
    */
   public LinkedList<JSONObject> get() {
     try(InputStream dataRead = new FileInputStream("data/" + fileName + ".json")) {
-      byte[] rawData = dataRead.readAllBytes();
+      byte[] byteData = dataRead.readAllBytes();
       
-      JSONArray data = new JSONArray(new String(rawData));
+      JSONArray data = new JSONArray(new String(byteData));
       LinkedList<JSONObject> result = new LinkedList<>();
 
+      // Mengisi linked list dengan data pada file JSON
       data.forEach(item -> result.add((JSONObject) item));
 
       return result;
@@ -65,18 +66,14 @@ public abstract class Model {
    */
   public JSONObject get(String id) {
     LinkedList<JSONObject> data = get();
-    JSONObject result = null;
     
     for(JSONObject item : data){
-      if(result == null){
-        if(item.get("_id").equals(id)){
-          result = item;
-          break;
-        }
+      if(item.get("_id").equals(id)){
+        return item;
       } 
     }
     
-    return result;
+    return null;
   }
   
   /**
@@ -88,18 +85,14 @@ public abstract class Model {
    */
   public JSONObject get(String key, Object value) {
     LinkedList<JSONObject> data = get();
-    JSONObject result = null;
     
     for(JSONObject item : data){
-      if(result == null){
-        if(item.get(key).equals(value)){
-          result = item;
-          break;
-        }
+      if(item.get(key).equals(value)){
+        return item;
       } 
     }
     
-    return result;
+    return null;
   }
   
   /**
@@ -112,27 +105,21 @@ public abstract class Model {
    */
   public JSONObject get(JSONObject query) {
     LinkedList<JSONObject> data = get();
-    JSONObject result = null;
     Set<String> keys = query.keySet();
     
     for(JSONObject item : data){
-      if(result == null){
-        boolean same = true;
-        
-        for(String key : keys) {
-          if(!query.get(key).equals(item.get(key))){
-            same = false;
-          }
+      boolean same = true;
+      
+      for(String key : keys) {
+        if(!query.get(key).equals(item.get(key))){
+          same = false;
         }
-        
-        if(same){
-          result = item;
-          break;
-        }
-      } 
+      }
+      
+      if(same) return item;
     }
     
-    return result;
+    return null;
   }
   
   /**
@@ -160,8 +147,7 @@ public abstract class Model {
    * @return     Mengembalikan true jika data berhasil ditambahkan
    */
   public boolean insert(JSONObject data){
-    LinkedList<JSONObject> allData = get();
-    JSONArray jsonData = new JSONArray(allData);
+    JSONArray jsonData = new JSONArray(get());
     
     try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
       byte[] rawData = dataRead.readAllBytes();
@@ -171,10 +157,12 @@ public abstract class Model {
       
       try (OutputStream dataWrite = new FileOutputStream("data/IdCount.json")){
         idFile.put(fileName, idFile.getInt(fileName) + 1);
+        
         byte[] byteData = idFile.toString().getBytes();
         dataWrite.write(byteData);
       } catch(IOException e){
         Controller.showErrorDialog("Terjadi error saat menulis data!");
+        return false;
       }
       
       data.put("_id", idPrefix + String.format("%03d", id + 1));
@@ -226,11 +214,12 @@ public abstract class Model {
     keys.forEach(key -> {
       if(!key.equals("_id")){
         target.put(key, data.has(key) ?
-        data.get(key) : target.get(key));
+                   data.get(key) : target.get(key));
       }
     });
     
-    for(int i = 0; i <= allData.size(); i++){
+    // Set data yang diubah
+    for(int i = 0; i < allData.size(); i++){
       if(allData.get(i).getString("_id").equals(target.getString("_id"))){
         allData.set(i, target);
         break;

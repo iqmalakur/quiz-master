@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001"],"email":"ucup@gmail.com","username":"ucup"},{"password":"Mj12345678","name":"jekson","quizzes":[],"_id":"USR002","username":"mj123"}]
+=======
+[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001"],"email":"ucup@gmail.com","username":"ucup"}]
+>>>>>>> 84de9c687cbc65c197dd98a18c68961b2624d1c2
