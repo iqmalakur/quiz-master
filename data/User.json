@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "USR001",
+    "username": "ucup",
+    "password": "ucup",
+    "email": "ucup@gmail.com",
+    "quizzes": ["QUZ001"],
+    "name": "Ucup"
+  }
+]

@@ -5,20 +5,15 @@
 package app.models;
 
 import app.Controller;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoException;
-import com.mongodb.ServerApi;
-import com.mongodb.ServerApiVersion;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.result.DeleteResult;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
-import org.bson.Document;
-import org.bson.types.ObjectId;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -26,134 +21,224 @@ import org.bson.types.ObjectId;
  */
 
 public abstract class Model {
-  private MongoCollection<Document> collection;
+  private final String fileName;
+  private final String idPrefix;
 
   /**
    * Menginisialisasi objek dari Model <br>
-   * Melakukan koneksi ke database MongoDB
+   * Membaca data dari file JSON
    * 
-   * @param collectionName Nama collection yang akan digunakan
+   * @param fileName Nama file JSON yang akan digunakan
+   * @param idPrefix Prefix dari ID untuk model
    */
-  public Model(String collectionName) {
-    String connectionString = "mongodb+srv://iqmalak21:iqmalakur@tubes.fpy8mlc.mongodb.net/?retryWrites=true&w=majority";
+  public Model(String fileName, String idPrefix) {
+    this.fileName = fileName;
+    this.idPrefix = idPrefix;
+  }
 
-    ServerApi serverApi = ServerApi.builder()
-      .version(ServerApiVersion.V1)
-      .build();
+  /**
+   * Mengambil semua data untuk model pada file JSON
+   * 
+   * @return LinkedList dari data yang berbentuk LinkedList dari JSONObject
+   */
+  public LinkedList<JSONObject> get() {
+    try(InputStream dataRead = new FileInputStream("data/" + fileName + ".json")) {
+      byte[] rawData = dataRead.readAllBytes();
+      
+      JSONArray data = new JSONArray(new String(rawData));
+      LinkedList<JSONObject> result = new LinkedList<>();
 
-    MongoClientSettings settings = MongoClientSettings.builder()
-      .applyConnectionString(new ConnectionString(connectionString))
-      .serverApi(serverApi)
-      .build();
+      data.forEach(item -> result.add((JSONObject) item));
 
-    // Membuat koneksi
-    MongoClient mongoClient = MongoClients.create(settings);
-    try {
-      MongoDatabase database = mongoClient.getDatabase("TubesQuiz");
-      collection = database.getCollection(collectionName);
-    } catch (MongoException e) {
-      Controller.showErrorDialog("Terjadi kesalahan koneksi!\nError : " + e.getMessage());
+      return result;
+    } catch(IOException e){
+      Controller.showErrorDialog("Terjadi error saat mengambil data!");
+      return null;
     }
   }
-  
-  /**
-   * Mengembalikan objek collection untuk berinteraksi dengan data pada collection
-   * 
-   * @return Objek dari MongoCollection
-   */
-  protected MongoCollection<Document> getCollection(){
-    return collection;
-  }
 
   /**
-   * Mengambil data spesifik berdasarkan Id pada collcetion
+   * Mengambil data spesifik berdasarkan Id pada file JSON
    * 
-   * @param id Id dari data yang dicari berupa ObjectId
-   * @return   Data yang dicari, berupa Document
+   * @param id Id dari data yang dicari berupa String
+   * @return   Data yang dicari, berupa JSONObject
    */
-  public Document get(ObjectId id) {
-    Document query = new Document("_id", id);
-    Document data = getCollection().find(query).first();
+  public JSONObject get(String id) {
+    LinkedList<JSONObject> data = get();
+    JSONObject result = null;
     
-    return data;
+    for(JSONObject item : data){
+      if(result == null){
+        if(item.get("_id").equals(id)){
+          result = item;
+          break;
+        }
+      } 
+    }
+    
+    return result;
   }
   
   /**
-   * Mengambil data spesifik berdasarkan key dan value tertentu pada collcetion
+   * Mengambil data spesifik berdasarkan key dan value tertentu pada file JSON
    * 
-   * @param key   Key pada collection
+   * @param key   Key pada file JSON
    * @param value Nilai dari key
-   * @return      Data yang dicari, berupa Document
+   * @return      Data yang dicari, berupa JSONObject
    */
-  public Document get(String key, String value) {
-    Document query = new Document(key, value);
-    Document data = getCollection().find(query).first();
+  public JSONObject get(String key, Object value) {
+    LinkedList<JSONObject> data = get();
+    JSONObject result = null;
     
-    return data;
-  }
-  
-  /**
-   * Mengambil data spesifik berdasarkan query tertentu
-   * 
-   * @param query Object Document yang berisi key - value untuk query pencarian
-   * @return      Data yang dicari, berupa Document
-   */
-  public Document get(Document query) {
-    Document data = getCollection().find(query).first();
-    return data;
-  }
-
-  /**
-   * Mengambil semua data pada collection
-   * 
-   * @return LinkedList dari data yang berbentuk Document
-   */
-  public LinkedList<Document> get() {
-    MongoCursor<Document> cursor = getCollection().find().iterator();
-    LinkedList<Document> data = new LinkedList<>();
-
-    while(cursor.hasNext()){
-      data.add(cursor.next());
+    for(JSONObject item : data){
+      if(result == null){
+        if(item.get(key).equals(value)){
+          result = item;
+          break;
+        }
+      } 
     }
-
-    return data;
+    
+    return result;
   }
   
   /**
-   * Menambahkan data baru pada collection
+   * Mengambil data spesifik berdasarkan query JSON tertentu <br>
+   * Digunakan untuk mencari data dengan menggunakan
+   * lebih dari satu key dan value
    * 
-   * @param data Data yang akan ditambahkan berbentuk Document
-   * @return     Mengembalikan true jika data berhasil ditambahkan
+   * @param query Object JSONObject yang berisi key - value untuk query pencarian
+   * @return      Data yang dicari, berupa JSONObject
    */
-  public boolean insert(Document data){
-    try{
-      collection.insertOne(data);
+  public JSONObject get(JSONObject query) {
+    LinkedList<JSONObject> data = get();
+    JSONObject result = null;
+    Set<String> keys = query.keySet();
+    
+    for(JSONObject item : data){
+      if(result == null){
+        boolean same = true;
+        
+        for(String key : keys) {
+          if(!query.get(key).equals(item.get(key))){
+            same = false;
+          }
+        }
+        
+        if(same){
+          result = item;
+          break;
+        }
+      } 
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Menulis ke file JSON
+   * 
+   * @param data Data yang akan ditulis berbentuk JSONObject
+   * @return     Mengembalikan true jika data berhasil ditulis
+   */
+  protected boolean write(JSONArray data){
+    try (OutputStream dataWrite = new FileOutputStream("data/" + fileName + ".json")){
+      byte[] byteData = data.toString().getBytes();
+      dataWrite.write(byteData);
+
       return true;
-    } catch(MongoException e){
+    } catch(IOException e){
+      Controller.showErrorDialog("Terjadi error saat menulis data!");
       return false;
     }
   }
   
   /**
-   * Menghapus data tertentu pada collection
+   * Menambahkan data baru pada file JSON
    * 
-   * @param id Id dari data yang akan dihapus berbentuk ObjectId
-   * @return   Mengembalikan true jika data berhasil dihapus
+   * @param data Data yang akan ditambahkan berbentuk JSONObject
+   * @return     Mengembalikan true jika data berhasil ditambahkan
    */
-  public boolean delete(ObjectId id){
-    Document query = new Document("_id", id);
-    DeleteResult deleteResult = collection.deleteOne(query);
-
-    // Mengembalikan true jika ada data yang dihapus
-    return deleteResult.getDeletedCount() > 0;
+  public boolean insert(JSONObject data){
+    LinkedList<JSONObject> allData = get();
+    JSONArray jsonData = new JSONArray(allData);
+    
+    try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
+      byte[] rawData = dataRead.readAllBytes();
+      
+      JSONObject idFile = new JSONObject(new String(rawData));
+      int id = idFile.getInt(fileName);
+      
+      try (OutputStream dataWrite = new FileOutputStream("data/IdCount.json")){
+        idFile.put(fileName, idFile.getInt(fileName) + 1);
+        byte[] byteData = idFile.toString().getBytes();
+        dataWrite.write(byteData);
+      } catch(IOException e){
+        Controller.showErrorDialog("Terjadi error saat menulis data!");
+      }
+      
+      data.put("_id", idPrefix + String.format("%03d", id + 1));
+      jsonData.put(data);
+      
+      return write(jsonData);
+    } catch(IOException e){
+      Controller.showErrorDialog("Terjadi error saat mengambil data!");
+      return false;
+    }
   }
   
   /**
-   * Mengubah data pada collection
+   * Menghapus data tertentu pada file JSON
    * 
-   * @param data Data baru berupa Document
-   * @param id   Id dari data yang akan diubah berupa ObjectId
+   * @param id Id dari data yang akan dihapus berbentuk String
+   * @return   Mengembalikan true jika data berhasil dihapus
+   */
+  public boolean delete(String id){
+    LinkedList<JSONObject> data = get();
+    JSONArray jsonData = new JSONArray(data);
+    int i = 0;
+    
+    for(JSONObject item : data){
+      if(item.getString("_id").equals(id)){
+        jsonData.remove(i);
+        return write(jsonData);
+      }
+      
+      i++;
+    }
+    
+    return false;
+  }
+  
+  /**
+   * Mengubah data pada file JSON
+   * 
+   * @param data Data baru berupa JSONObject
+   * @param id   Id dari data yang akan diubah berupa String
    * @return     Mengembalikan true jika berhasil dan false jika gagal
    */
-  public abstract boolean update(Document data, ObjectId id);
+  public boolean update(JSONObject data, String id) {
+    LinkedList<JSONObject> allData = get();
+    JSONObject target = get("_id", id);
+    
+    Set<String> keys = target.keySet();
+    
+    keys.forEach(key -> {
+      if(!key.equals("_id")){
+        target.put(key, data.has(key) ?
+        data.get(key) : target.get(key));
+      }
+    });
+    
+    for(int i = 0; i <= allData.size(); i++){
+      if(allData.get(i).getString("_id").equals(target.getString("_id"))){
+        allData.set(i, target);
+        break;
+      }
+    }
+    
+    JSONArray jsonData = new JSONArray(allData);
+
+    return write(jsonData);
+  }
 }
