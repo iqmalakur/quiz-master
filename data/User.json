@@ -1,10 +1,1 @@
-[
-  {
-    "_id": "USR001",
-    "username": "ucup",
-    "password": "ucup",
-    "email": "ucup@gmail.com",
-    "quizzes": ["QUZ001"],
-    "name": "Ucup"
-  }
-]
+[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001"],"email":"ucup@gmail.com","username":"ucup"}]
