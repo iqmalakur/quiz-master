@@ -7,8 +7,10 @@ package app.views.host;
 import app.Controller;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import app.views.host.Home;
 import app.views.host.DashboardCard;
-
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  *
  * @author iakba
@@ -22,7 +24,8 @@ public class Dashboard extends javax.swing.JPanel {
     initComponents();
     Controller.setFrameTitle("Quiz Master - Dashboard");
     jPanel1.setBackground(new Color (0,0,0,0));
-    
+    nameTextField.setBackground(new Color(0,0,0,0));
+    nameTextField.setDisabledTextColor(Color.black);
     nameTextField.setText("Ucup");
   }
 
@@ -37,8 +40,9 @@ public class Dashboard extends javax.swing.JPanel {
 
     btnLogout = new javax.swing.JLabel();
     editBtn = new javax.swing.JLabel();
-    nameTextField = new javax.swing.JLabel();
     jPanel1 = new javax.swing.JPanel();
+    homeBtn = new javax.swing.JLabel();
+    nameTextField = new javax.swing.JTextField();
     background = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
@@ -81,13 +85,36 @@ public class Dashboard extends javax.swing.JPanel {
     });
     add(editBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 25, -1, -1));
 
-    nameTextField.setFont(new java.awt.Font("MS Gothic", 1, 24)); // NOI18N
-    nameTextField.setText("jLabel2");
-    add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 20, 190, 30));
-
     jPanel1.setBackground(new java.awt.Color(255, 255, 255));
     jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
     add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, -1, 150));
+
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home.png"))); // NOI18N
+    homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        homeBtnMouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        homeBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        homeBtnMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        homeBtnMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        homeBtnMouseReleased(evt);
+      }
+    });
+    add(homeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(-45, 120, -1, -1));
+
+    nameTextField.setFont(new java.awt.Font("MS Gothic", 1, 24)); // NOI18N
+    nameTextField.setText("jTextField1");
+    nameTextField.setBorder(null);
+    nameTextField.setEnabled(false);
+    add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 20, 190, 30));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/dashboard.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -111,12 +138,16 @@ public class Dashboard extends javax.swing.JPanel {
 
   private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
     int check = Controller.showConfirmDialog("Anda yakin ingin melakukan Log Out?");
-    if(check == 0)Controller.setPanel(new Login());
+    if(check == 0){
+      Controller.setPanel(new Login());
+      Login.setUSER(null);
+      try(FileWriter fw = new FileWriter("cache/remember.txt")){} catch (IOException ex) {}
+    }
   }//GEN-LAST:event_btnLogoutMouseClicked
 
   private void editBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseClicked
-    nameTextField.setText(JOptionPane.showInputDialog("Buat nama baru:"));
-    
+    nameTextField.setEnabled(true);
+    nameTextField.requestFocus();
   }//GEN-LAST:event_editBtnMouseClicked
 
   private void editBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseEntered
@@ -127,12 +158,33 @@ public class Dashboard extends javax.swing.JPanel {
     editBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/pen.png")));
   }//GEN-LAST:event_editBtnMouseExited
 
+  private void homeBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseEntered
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home-hover.png")));
+  }//GEN-LAST:event_homeBtnMouseEntered
+
+  private void homeBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseExited
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home.png")));
+  }//GEN-LAST:event_homeBtnMouseExited
+
+  private void homeBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMousePressed
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home-click.png")));
+  }//GEN-LAST:event_homeBtnMousePressed
+
+  private void homeBtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseReleased
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home.png")));
+  }//GEN-LAST:event_homeBtnMouseReleased
+
+  private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
+    Controller.setPanel(new Home());
+  }//GEN-LAST:event_homeBtnMouseClicked
+
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnLogout;
   private javax.swing.JLabel editBtn;
+  private javax.swing.JLabel homeBtn;
   private javax.swing.JPanel jPanel1;
-  private javax.swing.JLabel nameTextField;
+  private javax.swing.JTextField nameTextField;
   // End of variables declaration//GEN-END:variables
 }

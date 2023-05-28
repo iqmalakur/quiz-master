@@ -10,16 +10,13 @@ import app.models.Quiz;
 import app.models.User;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import org.bson.Document;
+import org.json.JSONObject;
+
 
 /**
  *
@@ -121,30 +118,25 @@ public class Home extends javax.swing.JPanel {
   }//GEN-LAST:event_btnJoinMouseReleased
 
   private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
+    if(Login.getUSER() != null){Controller.setPanel(new Dashboard()); return;}
+    
     File fileRemember = new File("cache/remember.txt");
-    if (fileRemember.exists() && fileRemember.canRead()) {
-      System.out.println("IM HERE");
-      List<String> dataRemember = remember();
-      Model users = new User();
-      if (users.get(new Document()
-              .append("username", dataRemember.get(0))
-              .append("password", dataRemember.get(1))) != null) {
-//       private static USER =  users.get(new Document()
-//              .append("username", dataRemember.get(0))
-//              .append("password", dataRemember.get(1)));
-        Controller.setPanel(new Dashboard());
-      } else {
-        FileWriter fw;
-        try {
-          fw = new FileWriter("cache/remember.txt");
-          fw.close();
-        } catch (IOException ex) {
-        }
-        Controller.setPanel(new Login());
-      }
-    } else {
+    if (!fileRemember.exists()){Controller.setPanel(new Login()); return;}
+    
+    List<String> dataRemember = remember();
+    if(dataRemember.isEmpty()){Controller.setPanel(new Login()); return;} 
+    
+    Model users = new User();
+    JSONObject user = users.get(new JSONObject()
+                      .put("username", dataRemember.get(0))
+                      .put("password", dataRemember.get(1)));
+    if (user == null) {
+      try (FileWriter fw = new FileWriter("cache/remember.txt")){}catch(IOException ex){}
       Controller.setPanel(new Login());
-    }
+      return;
+    } 
+    Login.setUSER(user);
+    Controller.setPanel(new Dashboard());
   }//GEN-LAST:event_btnLoginMouseClicked
 
   private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
@@ -177,15 +169,17 @@ public class Home extends javax.swing.JPanel {
       List<String> dataRemember = new ArrayList<String>();
       BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"));
       String line = dataUser.readLine();
+      
       while (line != null) {
         dataRemember.add(line);
         line = dataUser.readLine();
-      }
-      dataUser.close();
+      }dataUser.close();
+      
       return dataRemember;
+      
     } catch (Exception e) {
-      System.out.println(e);
-      return null;
+        System.out.println(e);
+        return null;
     }
   }
 

@@ -7,15 +7,9 @@ package app.views.host;
 import app.Controller;
 import app.models.Model;
 import app.models.User;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import org.bson.Document;
+import org.json.JSONObject;
 
 /**
  *
@@ -32,11 +26,15 @@ public class Login extends javax.swing.JPanel  {
     Controller.setFrameTitle("Quiz Master - Login");
         
   }
-  private static String globalUsername;
-  private static String globalPassword;
-  private static String globalName;
+  private static JSONObject USER;
 
-  
+  public static JSONObject getUSER() {
+    return USER;
+  }
+
+  public static void setUSER(JSONObject USER) {
+    Login.USER = USER;
+  }
   
   /**
    * This method is called from within the constructor to initialize the form.
@@ -137,10 +135,20 @@ public class Login extends javax.swing.JPanel  {
     add(showIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 300, -1, -1));
 
     passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
+    passwordLoginField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordLoginFieldKeyReleased(evt);
+      }
+    });
     add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
     passwordLoginFieldShow.setBackground(new java.awt.Color(217, 217, 217));
     passwordLoginFieldShow.setText("jTextField1");
+    passwordLoginFieldShow.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordLoginFieldShowKeyReleased(evt);
+      }
+    });
     add(passwordLoginFieldShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
@@ -199,27 +207,31 @@ public class Login extends javax.swing.JPanel  {
     Model users = new User();
     String username = usernameLoginField1.getText();
     String password = new String(passwordLoginField.getPassword());
+    JSONObject user = users.get(new JSONObject().put("username", username).put("password", password));
     
-    if(users.get(new Document().append("username", username).append("password", password)) != null){
-         globalUsername = username;
-         globalPassword = password;
-         if(rememberMeCheckBox.isSelected()){
-            try {
-              FileWriter fw = new FileWriter("cache/remember.txt");
-              fw.write(globalUsername + "\n");
-              fw.write(globalPassword );
-              fw.flush();
-              fw.close();
-            } catch (IOException ex) {
-              Controller.showErrorDialog("Gagal menyimpan data login");
-            }
-         }
-         Controller.setPanel(new Dashboard());
+    if(user == null){ 
+      Controller.showInformationDialog(
+              "Username atau Password yang anda masukkan salah!", 
+              "Warning");
     }
+    if(rememberMeCheckBox.isSelected()){
+       try {
+         FileWriter fw = new FileWriter("cache/remember.txt");
+         fw.write(username + "\n");
+         fw.write(password );
+         fw.flush();
+         fw.close();
+       } catch (IOException ex) {
+         Controller.showErrorDialog("Gagal menyimpan data login");
+       }
+    }
+    Login.setUSER(user);
+    Controller.setPanel(new Dashboard());
   }//GEN-LAST:event_loginBtnMouseClicked
+  
   private boolean passwordHidden = true;
   private void showIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showIconMouseClicked
-     passwordHidden = !passwordHidden;
+    passwordHidden = !passwordHidden;
     
     passwordLoginField.setVisible(passwordHidden);
     passwordLoginFieldShow.setVisible(!passwordHidden);
@@ -230,6 +242,14 @@ public class Login extends javax.swing.JPanel  {
     String icon = passwordHidden ? "closed-eye" : "eye";
     showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/" + icon + ".png")));
   }//GEN-LAST:event_showIconMouseClicked
+
+  private void passwordLoginFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordLoginFieldKeyReleased
+    passwordLoginFieldShow.setText(new String(passwordLoginField.getPassword()));  
+  }//GEN-LAST:event_passwordLoginFieldKeyReleased
+
+  private void passwordLoginFieldShowKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordLoginFieldShowKeyReleased
+    passwordLoginField.setText(passwordLoginFieldShow.getText());
+  }//GEN-LAST:event_passwordLoginFieldShowKeyReleased
 
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
