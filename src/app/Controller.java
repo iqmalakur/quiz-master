@@ -26,8 +26,6 @@ public class Controller extends JFrame {
     
     controller = this;
     container.add(new Home());
-     
-//     setDefaultCloseOperation(showConfirmDialog("Apakah anda akan yakin akan melakukan Log Out?"));
   }
 
   /**
@@ -38,8 +36,6 @@ public class Controller extends JFrame {
   public static void setPanel(JPanel panel) {
     container.add(panel);
     container.remove(0);
-    System.out.println(container.getComponentCount());
-    
   }
   
   /**
@@ -56,11 +52,11 @@ public class Controller extends JFrame {
    * 
    * @param message Pesan pada pop up JOptionPane
    */
-  public static void showInformationDialog(String message){
+  public static void showInformationDialog(String message, String title){
     JOptionPane.showMessageDialog(
       controller,
       message,
-      "Error",
+      title,
       JOptionPane.INFORMATION_MESSAGE
     );
   }
@@ -83,7 +79,7 @@ public class Controller extends JFrame {
    * Menampilkan konfirmasi berupa pop up menggunakan JOptionPane
    * 
    * @param message Pesan pada pop up JOptionPane
-   * @return        Mengembalikan 0 jika pilihan No dan 1 jika Yes
+   * @return        Mengembalikan 1 jika pilihan No dan 0 jika Yes
    */
   public static int showConfirmDialog(String message){
     return JOptionPane.showConfirmDialog(

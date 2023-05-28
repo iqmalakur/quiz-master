@@ -5,7 +5,9 @@
 package app.views.host;
 
 import app.Controller;
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import app.views.host.DashboardCard;
 
 /**
  *
@@ -19,9 +21,8 @@ public class Dashboard extends javax.swing.JPanel {
   public Dashboard() {
     initComponents();
     Controller.setFrameTitle("Quiz Master - Dashboard");
-//    quizCard1.setVisible(false);
-//    quizCard2.setVisible(false);
-//    quizCard3.setVisible(false);
+    jPanel1.setBackground(new Color (0,0,0,0));
+    
     nameTextField.setText("Ucup");
   }
 
@@ -37,9 +38,7 @@ public class Dashboard extends javax.swing.JPanel {
     btnLogout = new javax.swing.JLabel();
     editBtn = new javax.swing.JLabel();
     nameTextField = new javax.swing.JLabel();
-    quizCard1 = new javax.swing.JLabel();
-    quizCard2 = new javax.swing.JLabel();
-    quizCard3 = new javax.swing.JLabel();
+    jPanel1 = new javax.swing.JPanel();
     background = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
@@ -86,14 +85,9 @@ public class Dashboard extends javax.swing.JPanel {
     nameTextField.setText("jLabel2");
     add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 20, 190, 30));
 
-    quizCard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-quiz-card1.png"))); // NOI18N
-    add(quizCard1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, -1));
-
-    quizCard2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-quiz-card2.png"))); // NOI18N
-    add(quizCard2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, -1, -1));
-
-    quizCard3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-quiz-card3.png"))); // NOI18N
-    add(quizCard3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 230, -1, -1));
+    jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+    jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
+    add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, -1, 150));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/dashboard.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -116,8 +110,8 @@ public class Dashboard extends javax.swing.JPanel {
   }//GEN-LAST:event_btnLogoutMouseReleased
 
   private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
-    Controller.showConfirmDialog("Anda yakin ingin melakukan Log Out?");
-    Controller.setPanel(new Login());
+    int check = Controller.showConfirmDialog("Anda yakin ingin melakukan Log Out?");
+    if(check == 0)Controller.setPanel(new Login());
   }//GEN-LAST:event_btnLogoutMouseClicked
 
   private void editBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseClicked
@@ -138,9 +132,7 @@ public class Dashboard extends javax.swing.JPanel {
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnLogout;
   private javax.swing.JLabel editBtn;
+  private javax.swing.JPanel jPanel1;
   private javax.swing.JLabel nameTextField;
-  private javax.swing.JLabel quizCard1;
-  private javax.swing.JLabel quizCard2;
-  private javax.swing.JLabel quizCard3;
   // End of variables declaration//GEN-END:variables
 }

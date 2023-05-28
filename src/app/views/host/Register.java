@@ -205,7 +205,7 @@ public class Register extends javax.swing.JPanel {
     ;
     
     if(user.insert(data)){
-      Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali");
+      Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali", "Notifikasi Registrasi");
       Controller.setPanel(new Login());
     } else{
       Controller.showErrorDialog("Gagal melakukan Register!");

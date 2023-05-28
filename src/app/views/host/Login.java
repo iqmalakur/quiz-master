@@ -8,6 +8,7 @@ import app.Controller;
 import app.models.Model;
 import app.models.User;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,19 +27,10 @@ public class Login extends javax.swing.JPanel  {
    * Creates new form Login
    *
    */
-  public Login() {
-    remember();
-    Model users = new User();
-    LinkedList<Document> user = new LinkedList(users.get());
-    user.forEach(usr->{
-      if(usr.getString("username").equals(dataRemember.get(0)) && 
-         usr.getString("password").equals(dataRemember.get(1))){
-        Controller.setPanel(new Dashboard());
-      } else {
-          initComponents();
-          Controller.setFrameTitle("Quiz Master - Login");
-      }
-    });
+  public Login() {  
+    initComponents();
+    Controller.setFrameTitle("Quiz Master - Login");
+        
   }
   private static String globalUsername;
   private static String globalPassword;
@@ -60,7 +52,9 @@ public class Login extends javax.swing.JPanel  {
     loginBackBtn = new javax.swing.JLabel();
     loginBtn = new javax.swing.JLabel();
     daftarBtn = new javax.swing.JLabel();
+    showIcon = new javax.swing.JLabel();
     passwordLoginField = new javax.swing.JPasswordField();
+    passwordLoginFieldShow = new javax.swing.JTextField();
     loginBG = new javax.swing.JLabel();
 
     setPreferredSize(new java.awt.Dimension(799, 527));
@@ -133,8 +127,21 @@ public class Login extends javax.swing.JPanel  {
     });
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
 
+    showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/closed-eye.png"))); // NOI18N
+    showIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    showIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        showIconMouseClicked(evt);
+      }
+    });
+    add(showIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 300, -1, -1));
+
     passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
     add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+
+    passwordLoginFieldShow.setBackground(new java.awt.Color(217, 217, 217));
+    passwordLoginFieldShow.setText("jTextField1");
+    add(passwordLoginFieldShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
     add(loginBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 527));
@@ -192,50 +199,38 @@ public class Login extends javax.swing.JPanel  {
     Model users = new User();
     String username = usernameLoginField1.getText();
     String password = new String(passwordLoginField.getPassword());
-    LinkedList<Document> user = new LinkedList(users.get());
-    user.forEach(usr->{
-      if(usr.getString("username").equals(username) && 
-         usr.getString("password").equals(password)){
-           globalUsername = usr.getString("username");
-           globalPassword = usr.getString("password");
-           globalName = usr.getString("name");
-           if(rememberMeCheckBox.isSelected()){
-              try {
-                FileWriter fw = new FileWriter("remember.txt");
-                fw.write(globalUsername + "\n");
-                fw.write(globalPassword + "\n");
-                fw.write(globalName);
-                fw.flush();
-                fw.close();
-              } catch (IOException ex) {
-                Controller.showErrorDialog("Gagal menyimpan data login");
-              }
-           }
-           Controller.setPanel(new Dashboard());
-      }
-    }); 
-  }//GEN-LAST:event_loginBtnMouseClicked
-
-    List<String> dataRemember = new ArrayList<String>();
-  public void remember(){
-    try {
-      BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"));
-      String line = dataUser.readLine();
-      while(line != null){
-        dataRemember.add(line);
-        line = dataUser.readLine();
-      } dataUser.close();
-//      String[] arrayData = dataRemember.toArray(new String[3]);
-//      usernameLoginField1.setText(arrayData[0]);
-//      passwordLoginField.setText(arrayData[1]);
-    } catch (Exception e) {
-      System.out.println(e);
+    
+    if(users.get(new Document().append("username", username).append("password", password)) != null){
+         globalUsername = username;
+         globalPassword = password;
+         if(rememberMeCheckBox.isSelected()){
+            try {
+              FileWriter fw = new FileWriter("cache/remember.txt");
+              fw.write(globalUsername + "\n");
+              fw.write(globalPassword );
+              fw.flush();
+              fw.close();
+            } catch (IOException ex) {
+              Controller.showErrorDialog("Gagal menyimpan data login");
+            }
+         }
+         Controller.setPanel(new Dashboard());
     }
-  }
-  
-//  public void loginByRemember(){
-//    
-//  }
+  }//GEN-LAST:event_loginBtnMouseClicked
+  private boolean passwordHidden = true;
+  private void showIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showIconMouseClicked
+     passwordHidden = !passwordHidden;
+    
+    passwordLoginField.setVisible(passwordHidden);
+    passwordLoginFieldShow.setVisible(!passwordHidden);
+    
+    if(passwordHidden) passwordLoginField.requestFocus();
+    else passwordLoginFieldShow.requestFocus();
+    
+    String icon = passwordHidden ? "closed-eye" : "eye";
+    showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/" + icon + ".png")));
+  }//GEN-LAST:event_showIconMouseClicked
+
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel daftarBtn;
@@ -243,7 +238,9 @@ public class Login extends javax.swing.JPanel  {
   private javax.swing.JLabel loginBackBtn;
   private javax.swing.JLabel loginBtn;
   private javax.swing.JPasswordField passwordLoginField;
+  private javax.swing.JTextField passwordLoginFieldShow;
   private javax.swing.JCheckBox rememberMeCheckBox;
+  private javax.swing.JLabel showIcon;
   private javax.swing.JTextField usernameLoginField1;
   // End of variables declaration//GEN-END:variables
 }
