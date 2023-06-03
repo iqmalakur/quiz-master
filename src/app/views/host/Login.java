@@ -5,28 +5,37 @@
 package app.views.host;
 
 import app.Controller;
-import java.io.File;
+import app.models.Model;
+import app.models.User;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends javax.swing.JPanel  {
 
   /**
    * Creates new form Login
    *
    */
-  public Login() {
+  public Login() {  
     initComponents();
     Controller.setFrameTitle("Quiz Master - Login");
+        
+  }
+  private static JSONObject USER;
+
+  public static JSONObject getUSER() {
+    return USER;
   }
 
+  public static void setUSER(JSONObject USER) {
+    Login.USER = USER;
+  }
+  
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,11 +46,13 @@ public class Login extends javax.swing.JPanel {
   private void initComponents() {
 
     usernameLoginField1 = new javax.swing.JTextField();
-    passwordLoginField = new javax.swing.JTextField();
     rememberMeCheckBox = new javax.swing.JCheckBox();
     loginBackBtn = new javax.swing.JLabel();
     loginBtn = new javax.swing.JLabel();
     daftarBtn = new javax.swing.JLabel();
+    showIcon = new javax.swing.JLabel();
+    passwordLoginField = new javax.swing.JPasswordField();
+    passwordLoginFieldShow = new javax.swing.JTextField();
     loginBG = new javax.swing.JLabel();
 
     setPreferredSize(new java.awt.Dimension(799, 527));
@@ -50,19 +61,11 @@ public class Login extends javax.swing.JPanel {
     usernameLoginField1.setBackground(new java.awt.Color(217, 217, 217));
     add(usernameLoginField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 212, 300, 35));
 
-    passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
-    add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
-
     rememberMeCheckBox.setBackground(new java.awt.Color(255, 255, 255));
     rememberMeCheckBox.setForeground(new java.awt.Color(255, 255, 255));
     rememberMeCheckBox.setText(" ");
     rememberMeCheckBox.setBorder(null);
     rememberMeCheckBox.setPreferredSize(new java.awt.Dimension(30, 30));
-    rememberMeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        rememberMeCheckBoxActionPerformed(evt);
-      }
-    });
     add(rememberMeCheckBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 343, 20, 20));
 
     loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
@@ -89,6 +92,9 @@ public class Login extends javax.swing.JPanel {
     loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBtn.png"))); // NOI18N
     loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        loginBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         loginBtnMouseEntered(evt);
       }
@@ -119,13 +125,35 @@ public class Login extends javax.swing.JPanel {
     });
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
 
+    showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/closed-eye.png"))); // NOI18N
+    showIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    showIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        showIconMouseClicked(evt);
+      }
+    });
+    add(showIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 300, -1, -1));
+
+    passwordLoginField.setBackground(new java.awt.Color(217, 217, 217));
+    passwordLoginField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordLoginFieldKeyReleased(evt);
+      }
+    });
+    add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+
+    passwordLoginFieldShow.setBackground(new java.awt.Color(217, 217, 217));
+    passwordLoginFieldShow.setText("jTextField1");
+    passwordLoginFieldShow.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        passwordLoginFieldShowKeyReleased(evt);
+      }
+    });
+    add(passwordLoginFieldShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
     add(loginBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 527));
   }// </editor-fold>//GEN-END:initComponents
-
-  private void rememberMeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberMeCheckBoxActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_rememberMeCheckBoxActionPerformed
 
   private void loginBackBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBackBtnMouseEntered
     loginBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-hover.png")));
@@ -175,14 +203,67 @@ public class Login extends javax.swing.JPanel {
     daftarBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/Daftar.png")));
   }//GEN-LAST:event_daftarBtnMouseExited
 
+  private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
+    Model users = new User();
+    String username = usernameLoginField1.getText();
+    String password = new String(passwordLoginField.getPassword());
+    JSONObject user = users.get(new JSONObject().put("username", username).put("password", password));
+    
+    if("".equals(username) && "".equals(password)){
+      Controller.showErrorDialog(
+              "Username dan Password tidak boleh kosong"); return;
+    }
+    if(user == null){ 
+      Controller.showErrorDialog(
+              "Username atau Password yang anda masukkan salah!"); return;
+    }
+    if(rememberMeCheckBox.isSelected()){
+       try {
+         FileWriter fw = new FileWriter("cache/remember.txt");
+         fw.write(username + "\n");
+         fw.write(password );
+         fw.flush();
+         fw.close();
+       } catch (IOException ex) {
+         Controller.showErrorDialog("Gagal menyimpan data login");
+       }
+    }
+    Login.setUSER(user);
+    Controller.setPanel(new Dashboard());
+  }//GEN-LAST:event_loginBtnMouseClicked
+  
+  private boolean passwordHidden = true;
+  private void showIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showIconMouseClicked
+    passwordHidden = !passwordHidden;
+    
+    passwordLoginField.setVisible(passwordHidden);
+    passwordLoginFieldShow.setVisible(!passwordHidden);
+    
+    if(passwordHidden) passwordLoginField.requestFocus();
+    else passwordLoginFieldShow.requestFocus();
+    
+    String icon = passwordHidden ? "closed-eye" : "eye";
+    showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/" + icon + ".png")));
+  }//GEN-LAST:event_showIconMouseClicked
 
+  private void passwordLoginFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordLoginFieldKeyReleased
+    passwordLoginFieldShow.setText(new String(passwordLoginField.getPassword()));  
+  }//GEN-LAST:event_passwordLoginFieldKeyReleased
+
+  private void passwordLoginFieldShowKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordLoginFieldShowKeyReleased
+    passwordLoginField.setText(passwordLoginFieldShow.getText());
+  }//GEN-LAST:event_passwordLoginFieldShowKeyReleased
+
+  
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel daftarBtn;
   private javax.swing.JLabel loginBG;
   private javax.swing.JLabel loginBackBtn;
   private javax.swing.JLabel loginBtn;
-  private javax.swing.JTextField passwordLoginField;
+  private javax.swing.JPasswordField passwordLoginField;
+  private javax.swing.JTextField passwordLoginFieldShow;
   private javax.swing.JCheckBox rememberMeCheckBox;
+  private javax.swing.JLabel showIcon;
   private javax.swing.JTextField usernameLoginField1;
   // End of variables declaration//GEN-END:variables
 }

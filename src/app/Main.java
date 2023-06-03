@@ -41,6 +41,7 @@ public class Main {
     java.awt.EventQueue.invokeLater(() -> {
       new Controller().setVisible(true);
     });
+    
   }
 
 }

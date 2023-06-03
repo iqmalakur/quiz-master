@@ -52,11 +52,11 @@ public class Controller extends JFrame {
    * 
    * @param message Pesan pada pop up JOptionPane
    */
-  public static void showInformationDialog(String message){
+  public static void showInformationDialog(String message, String title){
     JOptionPane.showMessageDialog(
       controller,
       message,
-      "Error",
+      title,
       JOptionPane.INFORMATION_MESSAGE
     );
   }
@@ -79,7 +79,7 @@ public class Controller extends JFrame {
    * Menampilkan konfirmasi berupa pop up menggunakan JOptionPane
    * 
    * @param message Pesan pada pop up JOptionPane
-   * @return        Mengembalikan 0 jika pilihan No dan 1 jika Yes
+   * @return        Mengembalikan 1 jika pilihan No dan 0 jika Yes
    */
   public static int showConfirmDialog(String message){
     return JOptionPane.showConfirmDialog(

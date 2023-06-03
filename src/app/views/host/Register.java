@@ -8,8 +8,7 @@ import app.Controller;
 import app.models.Model;
 import app.models.User;
 import java.util.ArrayList;
-import org.bson.Document;
-import org.bson.types.ObjectId;
+import org.json.JSONObject;
 
 /**
  *
@@ -180,7 +179,7 @@ public class Register extends javax.swing.JPanel {
     
     Model user = new User();
     
-    Document userExist = user.get("username", username);
+    JSONObject userExist = user.get("username", username);
     
     if(userExist != null){
       Controller.showErrorDialog("Username telah terdaftar!");
@@ -197,15 +196,15 @@ public class Register extends javax.swing.JPanel {
       return;
     }
     
-    Document data = new Document()
-      .append("name", name)
-      .append("username", username)
-      .append("password", password)
-      .append("quizzes", new ArrayList<ObjectId>())
+    JSONObject data = new JSONObject()
+      .put("name", name)
+      .put("username", username)
+      .put("password", password)
+      .put("quizzes", new ArrayList<String>())
     ;
     
     if(user.insert(data)){
-      Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali");
+      Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali", "Notifikasi Registrasi");
       Controller.setPanel(new Login());
     } else{
       Controller.showErrorDialog("Gagal melakukan Register!");

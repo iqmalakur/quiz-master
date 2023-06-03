@@ -5,6 +5,18 @@
 package app.views.host;
 
 import app.Controller;
+import app.models.Model;
+import app.models.Quiz;
+import app.models.User;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONObject;
+
 
 /**
  *
@@ -43,6 +55,9 @@ public class Home extends javax.swing.JPanel {
     btnJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-join-btn.png"))); // NOI18N
     btnJoin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnJoin.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btnJoinMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         btnJoinMouseEntered(evt);
       }
@@ -103,7 +118,25 @@ public class Home extends javax.swing.JPanel {
   }//GEN-LAST:event_btnJoinMouseReleased
 
   private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-    Controller.setPanel(new Login());
+    if(Login.getUSER() != null){Controller.setPanel(new Dashboard()); return;}
+    
+    File fileRemember = new File("cache/remember.txt");
+    if (!fileRemember.exists()){Controller.setPanel(new Login()); return;}
+    
+    List<String> dataRemember = remember();
+    if(dataRemember.isEmpty()){Controller.setPanel(new Login()); return;} 
+    
+    Model users = new User();
+    JSONObject user = users.get(new JSONObject()
+                      .put("username", dataRemember.get(0))
+                      .put("password", dataRemember.get(1)));
+    if (user == null) {
+      try (FileWriter fw = new FileWriter("cache/remember.txt")){}catch(IOException ex){}
+      Controller.setPanel(new Login());
+      return;
+    } 
+    Login.setUSER(user);
+    Controller.setPanel(new Dashboard());
   }//GEN-LAST:event_btnLoginMouseClicked
 
   private void btnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseEntered
@@ -122,6 +155,34 @@ public class Home extends javax.swing.JPanel {
     btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn.png")));
   }//GEN-LAST:event_btnLoginMouseReleased
 
+  private void btnJoinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJoinMouseClicked
+    Model quiz = new Quiz();
+    if(quiz.get("code", codeField.getText()) == null){
+      Controller.showErrorDialog("Kode yang anda masukkan salah!");
+      return;
+    }
+    Controller.showInformationDialog("Anda berhasil masuk bray!", "We did it!!!");
+//      Controller.setPanel(QuizPage);
+  }//GEN-LAST:event_btnJoinMouseClicked
+
+  public List<String> remember() {
+    try {
+      List<String> dataRemember = new ArrayList<String>();
+      BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"));
+      String line = dataUser.readLine();
+      
+      while (line != null) {
+        dataRemember.add(line);
+        line = dataUser.readLine();
+      }dataUser.close();
+      
+      return dataRemember;
+      
+    } catch (Exception e) {
+        System.out.println(e);
+        return null;
+    }
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
