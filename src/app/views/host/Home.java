@@ -157,11 +157,12 @@ public class Home extends javax.swing.JPanel {
 
   private void btnJoinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJoinMouseClicked
     Model quiz = new Quiz();
-    System.out.println(quiz.get());
-    if(quiz.get("code", codeField.getText()) != null) 
-        Controller.showInformationDialog("Anda berhasil masuk bray!", "We did it!!!");
+    if(quiz.get("code", codeField.getText()) == null){
+      Controller.showErrorDialog("Kode yang anda masukkan salah!");
+      return;
+    }
+    Controller.showInformationDialog("Anda berhasil masuk bray!", "We did it!!!");
 //      Controller.setPanel(QuizPage);
-    else Controller.showErrorDialog("Kode yang anda masukkan salah!");
   }//GEN-LAST:event_btnJoinMouseClicked
 
   public List<String> remember() {

@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001"],"email":"ucup@gmail.com","username":"ucup"},{"password":"Mj12345678","name":"jekson","quizzes":[],"_id":"USR002","username":"mj123"}]
-=======
-[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001"],"email":"ucup@gmail.com","username":"ucup"}]
->>>>>>> 84de9c687cbc65c197dd98a18c68961b2624d1c2
+[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001","QUZ002","QUZ003"],"username":"ucup"},{"password":"Mj12345678","name":"jekson","quizzes":["QUZ004","QUZ005","QUZ006"],"_id":"USR002","username":"mj123"},{"password":"Aldo1234","name":"aldo","quizzes":["QUZ007","QUZ008","QUZ009"],"_id":"USR003","username":"aldo123"}]

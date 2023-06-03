@@ -5,19 +5,26 @@
 package app.views.host;
 
 import java.awt.Color;
+import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
 public class DashboardCard extends javax.swing.JPanel {
-
+  public static int COUNT = 0;
   /**
    * Creates new form DashboardCard
    */
   public DashboardCard() {
     initComponents();
+    COUNT++;
     setBackground(new Color(0,0,0,0));
+    setVisible(true);
+  }
+  public DashboardCard(JSONObject data) {
+    this();
+     cardTitle.setText(data.getString("name"));
   }
 
   /**
@@ -40,7 +47,8 @@ public class DashboardCard extends javax.swing.JPanel {
     cardTitle.setFont(new java.awt.Font("Gadugi", 1, 12)); // NOI18N
     cardTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     cardTitle.setText("title");
-    add(cardTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 60, -1));
+    cardTitle.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+    add(cardTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 40));
 
     openQuizBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openQuizBtn.png"))); // NOI18N
     openQuizBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

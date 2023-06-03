@@ -5,12 +5,19 @@
 package app.views.host;
 
 import app.Controller;
+import app.models.Model;
+import app.models.Quiz;
+import app.models.User;
 import java.awt.Color;
-import javax.swing.JOptionPane;
-import app.views.host.Home;
 import app.views.host.DashboardCard;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.text.WrappedPlainView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 /**
  *
  * @author iakba
@@ -21,12 +28,22 @@ public class Dashboard extends javax.swing.JPanel {
    * Creates new form Dashboard
    */
   public Dashboard() {
+    DashboardCard.COUNT=0;
     initComponents();
     Controller.setFrameTitle("Quiz Master - Dashboard");
-    jPanel1.setBackground(new Color (0,0,0,0));
+    containerCardPanel.setBackground(new Color (0,0,0,0));
     nameTextField.setBackground(new Color(0,0,0,0));
     nameTextField.setDisabledTextColor(Color.black);
     nameTextField.setText("Ucup");
+    
+    Model quiz = new Quiz();
+    Login.getUSER().getJSONArray("quizzes").forEach(item -> {
+      containerCardPanel.remove(DashboardCard.COUNT);
+      containerCardPanel.add(new DashboardCard(quiz.get((String)item)));
+      if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
+    });
+    
+    
   }
 
   /**
@@ -40,7 +57,8 @@ public class Dashboard extends javax.swing.JPanel {
 
     btnLogout = new javax.swing.JLabel();
     editBtn = new javax.swing.JLabel();
-    jPanel1 = new javax.swing.JPanel();
+    containerCardPanel = new javax.swing.JPanel();
+    addCardBtn = new javax.swing.JLabel();
     homeBtn = new javax.swing.JLabel();
     nameTextField = new javax.swing.JTextField();
     background = new javax.swing.JLabel();
@@ -85,9 +103,18 @@ public class Dashboard extends javax.swing.JPanel {
     });
     add(editBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 25, -1, -1));
 
-    jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
-    add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, -1, 150));
+    containerCardPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+    addCardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-quiz-card-add.png"))); // NOI18N
+    addCardBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    addCardBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        addCardBtnMouseClicked(evt);
+      }
+    });
+    containerCardPanel.add(addCardBtn);
+
+    add(containerCardPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 470, 170));
 
     homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-home.png"))); // NOI18N
     homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -178,13 +205,48 @@ public class Dashboard extends javax.swing.JPanel {
     Controller.setPanel(new Home());
   }//GEN-LAST:event_homeBtnMouseClicked
 
+  private void addCardBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCardBtnMouseClicked
+    System.out.println(DashboardCard.COUNT);
+    containerCardPanel.remove(DashboardCard.COUNT);
+    containerCardPanel.add(new DashboardCard());
+    String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 5) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+   
+    Model quiz = new Quiz();
+    JSONObject dataQuiz = new JSONObject()
+    .put("respondents",new JSONArray())
+    .put("code",salt.toString())
+    .put("name","Quiz"+DashboardCard.COUNT)
+    .put("questions",new JSONArray())
+    .put("optField","")
+    ;
+    quiz.insert(dataQuiz);
+    String s = dataQuiz.getString("_id");
+    Login.getUSER().getJSONArray("quizzes").put(s);
+    new User().update(Login.getUSER(), Login.getUSER().getString("_id"));
+            
+    if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
+    revalidate();
+    repaint();
+  }//GEN-LAST:event_addCardBtnMouseClicked
+
+  
+  public void addCard(){
+    containerCardPanel.add(new DashboardCard());
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JLabel addCardBtn;
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnLogout;
+  private javax.swing.JPanel containerCardPanel;
   private javax.swing.JLabel editBtn;
   private javax.swing.JLabel homeBtn;
-  private javax.swing.JPanel jPanel1;
   private javax.swing.JTextField nameTextField;
   // End of variables declaration//GEN-END:variables
 }
