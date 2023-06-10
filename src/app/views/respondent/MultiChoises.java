@@ -10,12 +10,12 @@ import java.awt.Color;
  *
  * @author iakba
  */
-public class MultiChoises extends javax.swing.JPanel {
+public class SingleChoise extends javax.swing.JPanel {
 
   /**
    * Creates new form SingleChoise
    */
-  public MultiChoises() {
+  public SingleChoise() {
     initComponents();
   }
 

@@ -39,7 +39,7 @@ public class QuizTest {
                                           "optField": "Profesi"
                                         }
                                         """);
-    assertTrue(model.insert(newData));
+    assertNotNull(model.insert(newData));
     
     LinkedList<JSONObject> data = model.get();
     JSONObject lastData = data.getLast();
