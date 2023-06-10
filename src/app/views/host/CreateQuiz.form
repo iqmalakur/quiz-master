@@ -83,7 +83,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="337" y="420" width="110" height="50"/>
+          <AbsoluteConstraints x="340" y="450" width="110" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -140,6 +140,15 @@
         </Constraint>
       </Constraints>
     </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="30" y="170" width="730" height="260"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+    </Container>
     <Component class="javax.swing.JLabel" name="createQuizBG">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">

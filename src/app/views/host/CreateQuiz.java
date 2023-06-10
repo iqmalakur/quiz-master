@@ -36,6 +36,7 @@ public class CreateQuiz extends javax.swing.JPanel {
     idLabel = new javax.swing.JLabel();
     penBtn = new javax.swing.JLabel();
     copyBtn = new javax.swing.JLabel();
+    jScrollPane1 = new javax.swing.JScrollPane();
     createQuizBG = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
@@ -54,7 +55,7 @@ public class CreateQuiz extends javax.swing.JPanel {
     add(saveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 27, -1, -1));
 
     addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/tambahBtn.png"))); // NOI18N
-    add(addBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(337, 420, 110, 50));
+    add(addBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, 110, 50));
 
     judulLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 28)); // NOI18N
     judulLabel.setText("judul");
@@ -70,6 +71,7 @@ public class CreateQuiz extends javax.swing.JPanel {
 
     copyBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/copy.png"))); // NOI18N
     add(copyBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 58, 20, 30));
+    add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 730, 260));
 
     createQuizBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/createQuizBG.png"))); // NOI18N
     add(createQuizBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -83,6 +85,7 @@ public class CreateQuiz extends javax.swing.JPanel {
   private javax.swing.JLabel createQuizBG;
   private javax.swing.JLabel homeBtn;
   private javax.swing.JLabel idLabel;
+  private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JLabel judulLabel;
   private javax.swing.JLabel penBtn;
   private javax.swing.JRadioButton radioTIDAKbtn;

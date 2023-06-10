@@ -176,8 +176,8 @@ public class Dashboard extends javax.swing.JPanel {
     else{ 
       nameTextField.setEnabled(false);
       JSONObject dataUser = new JSONObject().put("name", nameTextField.getText());
-      new User().update(dataUser, Login.getUSER().getString("_id"));
-      
+      JSONObject newUser = new User().update(dataUser, Login.getUSER().getString("_id"));
+      Login.setUSER(newUser);
     }
   }//GEN-LAST:event_editBtnMouseClicked
 
