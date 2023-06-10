@@ -144,9 +144,9 @@ public abstract class Model {
    * Menambahkan data baru pada file JSON
    * 
    * @param data Data yang akan ditambahkan berbentuk JSONObject
-   * @return     Mengembalikan true jika data berhasil ditambahkan
+   * @return     Mengembalikan data jika berhasil ditambahkan dan null jika gagal
    */
-  public boolean insert(JSONObject data){
+  public JSONObject insert(JSONObject data){
     JSONArray jsonData = new JSONArray(get());
     
     try(InputStream dataRead = new FileInputStream("data/IdCount.json")) {
@@ -162,17 +162,18 @@ public abstract class Model {
         dataWrite.write(byteData);
       } catch(IOException e){
         Controller.showErrorDialog("Terjadi error saat menulis data!");
-        return false;
+        return null;
       }
       
       data.put("_id", idPrefix + String.format("%03d", id + 1));
       jsonData.put(data);
       
-      return write(jsonData);
+      if(write(jsonData)) return data;
     } catch(IOException e){
       Controller.showErrorDialog("Terjadi error saat mengambil data!");
-      return false;
     }
+    
+    return null;
   }
   
   /**
@@ -205,7 +206,7 @@ public abstract class Model {
    * @param id   Id dari data yang akan diubah berupa String
    * @return     Mengembalikan true jika berhasil dan false jika gagal
    */
-  public boolean update(JSONObject data, String id) {
+  public JSONObject update(JSONObject data, String id) {
     LinkedList<JSONObject> allData = get();
     JSONObject target = get("_id", id);
     
@@ -220,14 +221,13 @@ public abstract class Model {
     
     // Set data yang diubah
     for(int i = 0; i < allData.size(); i++){
-      if(allData.get(i).getString("_id").equals(target.getString("_id"))){
+      if(allData.get(i).getString("_id")
+                .equals(target.getString("_id"))){
         allData.set(i, target);
-        break;
+        return write(new JSONArray(allData)) ? target : null;
       }
     }
     
-    JSONArray jsonData = new JSONArray(allData);
-
-    return write(jsonData);
+    return null;
   }
 }
