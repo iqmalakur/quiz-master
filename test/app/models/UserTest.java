@@ -123,7 +123,7 @@ public class UserTest {
       assertEquals("udin", beforeUpdate.getString("username"));
       assertEquals("Udin", beforeUpdate.getString("name"));
       
-      assertTrue(model.update(
+      assertNotNull(model.update(
               new JSONObject("""
                              {
                                 "name": "Otong"

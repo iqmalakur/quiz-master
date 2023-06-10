@@ -5,18 +5,32 @@
 package app.views.respondent;
 
 import java.awt.Color;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+import org.json.JSONArray;
 
 /**
  *
  * @author iakba
  */
-public class SingleChoise extends javax.swing.JPanel {
-
+public class MultiChoises extends Answer {
   /**
    * Creates new form SingleChoise
+   * @param choises Pilihan jawaban berupa JSONArray
    */
-  public SingleChoise() {
+  public MultiChoises(JSONArray choises) {
     initComponents();
+    
+    firstOptionLabel.setText(choises.getString(0));
+    secondOptionLabel.setText(choises.getString(1));
+    thirdOptionLabel.setText(choises.getString(2));
+    fourthOptionLabel.setText(choises.getString(3));
+    
+    firstOption.setVisible(false);
+    secondOption.setVisible(false);
+    thirdOption.setVisible(false);
+    fourthOption.setVisible(false);
   }
 
   /**
@@ -28,20 +42,147 @@ public class SingleChoise extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    shortEssayAnswer = new javax.swing.JTextField();
+    choises = new javax.swing.ButtonGroup();
+    firstOptionPanel = new javax.swing.JPanel();
+    firstOptionLabel = new javax.swing.JLabel();
+    secondOptionPanel = new javax.swing.JPanel();
+    secondOptionLabel = new javax.swing.JLabel();
+    thirdOptionPanel = new javax.swing.JPanel();
+    thirdOptionLabel = new javax.swing.JLabel();
+    fourthOptionPanel = new javax.swing.JPanel();
+    fourthOptionLabel = new javax.swing.JLabel();
+    firstOption = new javax.swing.JCheckBox();
+    secondOption = new javax.swing.JCheckBox();
+    thirdOption = new javax.swing.JCheckBox();
+    fourthOption = new javax.swing.JCheckBox();
     background = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-    add(shortEssayAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 78, 658, 60));
+
+    firstOptionPanel.setBackground(new java.awt.Color(182, 99, 212));
+    firstOptionPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    firstOptionPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        firstOptionPanelMouseClicked(evt);
+      }
+    });
+    firstOptionPanel.setLayout(new java.awt.BorderLayout());
+
+    firstOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    firstOptionLabel.setText("abc");
+    firstOptionPanel.add(firstOptionLabel, java.awt.BorderLayout.CENTER);
+
+    add(firstOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 100, 100));
+
+    secondOptionPanel.setBackground(new java.awt.Color(182, 99, 212));
+    secondOptionPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    secondOptionPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        secondOptionPanelMouseClicked(evt);
+      }
+    });
+    secondOptionPanel.setLayout(new java.awt.BorderLayout());
+
+    secondOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    secondOptionLabel.setText("abc");
+    secondOptionPanel.add(secondOptionLabel, java.awt.BorderLayout.CENTER);
+
+    add(secondOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 100, 100));
+
+    thirdOptionPanel.setBackground(new java.awt.Color(182, 99, 212));
+    thirdOptionPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    thirdOptionPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        thirdOptionPanelMouseClicked(evt);
+      }
+    });
+    thirdOptionPanel.setLayout(new java.awt.BorderLayout());
+
+    thirdOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    thirdOptionLabel.setText("abc");
+    thirdOptionPanel.add(thirdOptionLabel, java.awt.BorderLayout.CENTER);
+
+    add(thirdOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, 100));
+
+    fourthOptionPanel.setBackground(new java.awt.Color(182, 99, 212));
+    fourthOptionPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    fourthOptionPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        fourthOptionPanelMouseClicked(evt);
+      }
+    });
+    fourthOptionPanel.setLayout(new java.awt.BorderLayout());
+
+    fourthOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    fourthOptionLabel.setText("abc");
+    fourthOptionPanel.add(fourthOptionLabel, java.awt.BorderLayout.CENTER);
+
+    add(fourthOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 100, 100));
+    add(firstOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+    add(secondOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
+    add(thirdOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, -1));
+    add(fourthOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, -1, -1));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/quizAnswer.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-27, -274, 720, 510));
   }// </editor-fold>//GEN-END:initComponents
 
+  private void updateChoises(JCheckBox activeChoise, JPanel activePanel){
+    activeChoise.setSelected(!activeChoise.isSelected());
+    
+    if(activeChoise.isSelected())
+      activePanel.setBorder(new LineBorder(new Color(255, 255, 255), 2, true));
+    else
+      activePanel.setBorder(null);
+  }
+  
+  private void firstOptionPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_firstOptionPanelMouseClicked
+    updateChoises(firstOption, firstOptionPanel);
+  }//GEN-LAST:event_firstOptionPanelMouseClicked
+
+  private void secondOptionPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_secondOptionPanelMouseClicked
+    updateChoises(secondOption, secondOptionPanel);
+  }//GEN-LAST:event_secondOptionPanelMouseClicked
+
+  private void thirdOptionPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_thirdOptionPanelMouseClicked
+    updateChoises(thirdOption, thirdOptionPanel);
+  }//GEN-LAST:event_thirdOptionPanelMouseClicked
+
+  private void fourthOptionPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fourthOptionPanelMouseClicked
+    updateChoises(fourthOption, fourthOptionPanel);
+  }//GEN-LAST:event_fourthOptionPanelMouseClicked
+
+  /**
+   * Mendapatkan answer dari sub-panel
+   * @return Mengembalikan jawaban berupa JSONArray
+   */
+  @Override
+  public JSONArray getAnswer() {
+    JSONArray answer = new JSONArray();
+    
+    if(firstOption.isSelected()) answer.put(0);
+    if(secondOption.isSelected()) answer.put(1);
+    if(thirdOption.isSelected()) answer.put(2);
+    if(fourthOption.isSelected()) answer.put(3);
+    
+    return answer;
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
-  private javax.swing.JTextField shortEssayAnswer;
+  private javax.swing.ButtonGroup choises;
+  private javax.swing.JCheckBox firstOption;
+  private javax.swing.JLabel firstOptionLabel;
+  private javax.swing.JPanel firstOptionPanel;
+  private javax.swing.JCheckBox fourthOption;
+  private javax.swing.JLabel fourthOptionLabel;
+  private javax.swing.JPanel fourthOptionPanel;
+  private javax.swing.JCheckBox secondOption;
+  private javax.swing.JLabel secondOptionLabel;
+  private javax.swing.JPanel secondOptionPanel;
+  private javax.swing.JCheckBox thirdOption;
+  private javax.swing.JLabel thirdOptionLabel;
+  private javax.swing.JPanel thirdOptionPanel;
   // End of variables declaration//GEN-END:variables
 }

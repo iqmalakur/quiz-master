@@ -123,7 +123,7 @@ public class QuizTest {
       assertEquals("Percobaan Quiz", beforeUpdate.getString("name"));
       assertEquals("Profesi", beforeUpdate.getString("optField"));
       
-      assertTrue(model.update(
+      assertNotNull(model.update(
               new JSONObject("""
                              {
                                 "name": "Ini Percobaan Quiz",

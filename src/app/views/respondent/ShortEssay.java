@@ -4,13 +4,11 @@
  */
 package app.views.respondent;
 
-import java.awt.Color;
-
 /**
  *
  * @author iakba
  */
-public class ShortEssay extends javax.swing.JPanel {
+public class ShortEssay extends Answer {
   /**
    * Creates new form SingleChoise
    */
@@ -38,6 +36,11 @@ public class ShortEssay extends javax.swing.JPanel {
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-27, -274, 720, 510));
   }// </editor-fold>//GEN-END:initComponents
 
+  /**
+   * Mendapatkan answer dari sub-panel
+   * @return Mengembalikan jawaban berupa String
+   */
+  @Override
   public String getAnswer() {
     return shortEssayAnswer.getText();
   }

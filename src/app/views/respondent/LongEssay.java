@@ -4,13 +4,11 @@
  */
 package app.views.respondent;
 
-import java.awt.Color;
-
 /**
  *
  * @author iakba
  */
-public class LongEssay extends javax.swing.JPanel {
+public class LongEssay extends Answer {
 
   /**
    * Creates new form SingleChoise
@@ -28,27 +26,35 @@ public class LongEssay extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    jScrollPane1 = new javax.swing.JScrollPane();
-    jTextArea1 = new javax.swing.JTextArea();
+    scrollPane = new javax.swing.JScrollPane();
+    longEssayAnswer = new javax.swing.JTextArea();
     background = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    jTextArea1.setColumns(20);
-    jTextArea1.setRows(5);
-    jScrollPane1.setViewportView(jTextArea1);
+    longEssayAnswer.setColumns(20);
+    longEssayAnswer.setRows(5);
+    scrollPane.setViewportView(longEssayAnswer);
 
-    add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 650, 200));
+    add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 650, 200));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/quizAnswer.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-27, -274, 720, 510));
   }// </editor-fold>//GEN-END:initComponents
 
+  /**
+   * Mendapatkan answer dari sub-panel
+   * @return Mengembalikan jawaban berupa String
+   */
+  @Override
+  public String getAnswer() {
+    return longEssayAnswer.getText();
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
-  private javax.swing.JScrollPane jScrollPane1;
-  private javax.swing.JTextArea jTextArea1;
+  private javax.swing.JTextArea longEssayAnswer;
+  private javax.swing.JScrollPane scrollPane;
   // End of variables declaration//GEN-END:variables
 }

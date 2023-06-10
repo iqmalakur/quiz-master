@@ -128,7 +128,7 @@ public class QuestionTest {
       assertEquals("Apakah ini percobaan?", beforeUpdate.getString("question"));
       assertEquals(2, beforeUpdate.getInt("grade"));
       
-      assertTrue(model.update(
+      assertNotNull(model.update(
               new JSONObject("""
                              {
                                 "question": "Apakah ini percobaan ya?",
