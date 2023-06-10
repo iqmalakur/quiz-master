@@ -4,10 +4,17 @@
  */
 package app.views.respondent;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author iakba
  */
-public interface Answer {
-  public Object getAnswer();
+public abstract class Answer extends JPanel {
+
+  /**
+   * Mendapatkan answer dari sub-panel
+   * @return Mengembalikan jawaban berupa Object
+   */
+  public abstract Object getAnswer();
 }

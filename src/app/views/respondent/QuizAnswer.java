@@ -4,15 +4,18 @@
  */
 package app.views.respondent;
 
+import app.Controller;
 import app.models.Model;
 import app.models.Question;
 import app.models.Quiz;
+import app.models.Respondent;
+import app.views.host.Home;
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -20,31 +23,39 @@ import org.json.JSONObject;
  * @author iakba
  */
 public class QuizAnswer extends javax.swing.JPanel {
-  private Model quiz;
-  private JSONObject data;
+  private final JSONObject quiz;
+  private JSONObject respondent;
   private LinkedList<JSONObject> questionData;
+  private JSONObject currentQuestion;
+  private Answer answerPanel;
   private int count = 0;
   private int counter = 0;
+  private int scoreMax = 0;
   private TimerTask task;
 
   /**
    * Creates new form QuizAnswer
+   * @param quiz       Data quiz berupa JSONObject
+   * @param respondent Data respondent berupa JSONObject
    */
-  public QuizAnswer(String code) {
+  public QuizAnswer(JSONObject quiz, JSONObject respondent) {
     initComponents();
     
-    Model questionModel = new Question();
-    quiz = new Quiz();
-    data = quiz.get("code", code);
+    this.quiz = quiz;
+    this.respondent = respondent
+            .put("quizAnswer", new JSONArray())
+            .put("score", 0)
+            .put("answerTime", 0);
     
+    Model questionModel = new Question();
     questionData = new LinkedList<>();
     
-    data.getJSONArray("questions").forEach(item -> {
+    quiz.getJSONArray("questions").forEach(item -> {
       questionData.add(questionModel.get((String) item));
     });
     
-    title.setText(data.getString("name"));
-    answerPanel.setBackground(new Color(0, 0, 0, 0));
+    title.setText(quiz.getString("name"));
+    answerContainer.setBackground(new Color(0, 0, 0, 0));
     
     updateQuestion();
   }
@@ -58,7 +69,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    answerPanel = new javax.swing.JPanel();
+    answerContainer = new javax.swing.JPanel();
     question = new javax.swing.JLabel();
     title = new javax.swing.JLabel();
     time = new javax.swing.JLabel();
@@ -70,24 +81,21 @@ public class QuizAnswer extends javax.swing.JPanel {
     setPreferredSize(new java.awt.Dimension(799, 527));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    answerPanel.setBackground(new java.awt.Color(0, 0, 0));
-    answerPanel.setLayout(new java.awt.CardLayout());
-    add(answerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 286, 670, 220));
+    answerContainer.setBackground(new java.awt.Color(0, 0, 0));
+    answerContainer.setLayout(new java.awt.CardLayout());
+    add(answerContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 286, 670, 220));
 
     question.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
     question.setForeground(new java.awt.Color(255, 255, 255));
-    question.setText("Apa itu Javascript?");
     question.setVerticalAlignment(javax.swing.SwingConstants.TOP);
     add(question, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 705, 165));
 
     title.setFont(new java.awt.Font("Comic Sans MS", 1, 40)); // NOI18N
     title.setForeground(new java.awt.Color(255, 255, 255));
-    title.setText("Pemrograman Objek");
-    add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, -1));
+    add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, 60));
 
     time.setFont(new java.awt.Font("sansserif", 0, 32)); // NOI18N
     time.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    time.setText("00:00");
     add(time, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 105, 50));
 
     btnNext.setText("Next");
@@ -104,7 +112,82 @@ public class QuizAnswer extends javax.swing.JPanel {
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseClicked
-    nextQuestion();
+    JSONObject quizAnswer = new JSONObject()
+          .put("questionId", currentQuestion.getString("_id"))
+          .put("answer", answerPanel.getAnswer());
+    
+    respondent.put(
+      "quizAnswer",
+      respondent.getJSONArray("quizAnswer").put(quizAnswer)
+    );
+    
+    int answerTime = currentQuestion.getInt("time") - counter;
+    respondent.put(
+      "answerTime",
+      respondent.getInt("answerTime") + answerTime
+    );
+    
+    // Matching jawaban yang bukan LongEssay
+    if(!currentQuestion.getString("type").equals("LongEssay")){
+      int score = 0;
+      
+      // Matching jawaban Multiple Choises
+      if(currentQuestion.getString("type").equals("MultiChoises")){
+        JSONArray correctAnswer = currentQuestion
+                .getJSONObject("answer").getJSONArray("correctAnswer");
+        
+        if(quizAnswer.getJSONArray("answer").similar(correctAnswer)){
+          score = currentQuestion.getInt("grade");
+        }
+      }
+      
+      // Matching jawaban Single Choise dan Short Essay
+      else{
+        Object correctAnswer = currentQuestion
+                .getJSONObject("answer").get("correctAnswer");
+        
+        if(quizAnswer.get("answer").equals(correctAnswer)){
+          score = currentQuestion.getInt("grade");
+        }
+      }
+      
+      respondent.put(
+        "score",
+        respondent.getInt("score") + score
+      );
+    }
+    
+    // Jika soal berikutnya merupakan soal terakhir,
+    // maka tombol next berubah menjadi finish
+    if(count + 2 >= questionData.size()) btnNext.setText("finish");
+    
+    // Jika soal ini merupakan soal terakhir
+    if(count + 2 > questionData.size()) {
+      task.cancel();
+      
+      respondent = new Respondent().insert(respondent);
+      
+      // Update isi respondent pada quiz
+      quiz.put(
+        "respondents",
+        quiz.getJSONArray("respondents")
+          .put(respondent.getString("_id"))
+      );
+      new Quiz().update(quiz, quiz.getString("_id"));
+      
+      Controller.showInformationDialog(String.format(
+              """
+              Jawaban Anda berhasil dikirim!
+              Score Anda : %d point / %d point
+              Waktu Pengerjaan : %d detik
+              """, respondent.getInt("score"),
+              scoreMax,
+              respondent.getInt("answerTime")),
+              "Quiz Selesai");
+      
+      Controller.setPanel(new Home());
+    }
+    else nextQuestion();
   }//GEN-LAST:event_btnNextMouseClicked
 
   private void nextQuestion(){
@@ -114,13 +197,14 @@ public class QuizAnswer extends javax.swing.JPanel {
   }
   
   private void setAnswerPanel(JPanel panel){
-    answerPanel.removeAll();
-    answerPanel.add(panel);
+    answerContainer.removeAll();
+    answerContainer.add(panel);
   }
   
   private void updateQuestion(){
-    JSONObject currentQuestion = questionData.get(count);
+    currentQuestion = questionData.get(count);
     counter = currentQuestion.getInt("time");
+    scoreMax += currentQuestion.getInt("grade");
     
     time.setForeground(Color.WHITE);
     time.setText(counter + "");
@@ -145,16 +229,29 @@ public class QuizAnswer extends javax.swing.JPanel {
     
     question.setText(currentQuestion.getString("question"));
     
+    // Ubah answer panel sesuai tipe soal
     switch(currentQuestion.getString("type")){
-      case "SingleChoise" -> setAnswerPanel(new SingleChoise());
-      case "MultiChoises" -> setAnswerPanel(new MultiChoises());
-      case "ShortEssay" -> setAnswerPanel(new ShortEssay());
-      case "LongEssay" -> setAnswerPanel(new LongEssay());
+      case "SingleChoise" -> {
+        JSONArray choises = currentQuestion
+                .getJSONObject("answer")
+                .getJSONArray("choises");
+        answerPanel = new SingleChoise(choises);
+      }
+      case "MultiChoises" -> {
+        JSONArray choises = currentQuestion
+                .getJSONObject("answer")
+                .getJSONArray("choises");
+        answerPanel = new MultiChoises(choises);
+      }
+      case "ShortEssay" -> answerPanel = new ShortEssay();
+      case "LongEssay" -> answerPanel = new LongEssay();
     }
+    
+    setAnswerPanel(answerPanel);
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JPanel answerPanel;
+  private javax.swing.JPanel answerContainer;
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnNext;
   private javax.swing.JLabel question;

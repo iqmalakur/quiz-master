@@ -121,7 +121,7 @@ public class RespondentTest {
       assertEquals("Otong", beforeUpdate.getString("name"));
       assertEquals("Mahasiswa", beforeUpdate.getString("optFieldValue"));
       
-      assertTrue(model.update(
+      assertNotNull(model.update(
               new JSONObject("""
                              {
                                "name": "Otong Surotong",

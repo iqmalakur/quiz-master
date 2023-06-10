@@ -203,7 +203,7 @@ public class Register extends javax.swing.JPanel {
       .put("quizzes", new ArrayList<String>())
     ;
     
-    if(user.insert(data)){
+    if(user.insert(data) != null){
       Controller.showInformationDialog("Berhasil melakukan Register!\nSilakan login kembali", "Notifikasi Registrasi");
       Controller.setPanel(new Login());
     } else{

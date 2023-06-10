@@ -8,6 +8,7 @@ import app.Controller;
 import app.models.Model;
 import app.models.Quiz;
 import app.models.User;
+import app.views.respondent.QuizAnswer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -157,12 +158,21 @@ public class Home extends javax.swing.JPanel {
 
   private void btnJoinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJoinMouseClicked
     Model quiz = new Quiz();
-    if(quiz.get("code", codeField.getText()) == null){
+    JSONObject findQuiz = quiz.get("code", codeField.getText());
+    
+    if(findQuiz == null){
       Controller.showErrorDialog("Kode yang anda masukkan salah!");
       return;
     }
-    Controller.showInformationDialog("Anda berhasil masuk bray!", "We did it!!!");
-//      Controller.setPanel(QuizPage);
+    
+    JSONObject respondent = new JSONObject()
+            .put("name", nameField.getText())
+            .put("optFieldValue", optionalField.getText());
+    
+    if (Controller.showConfirmDialog("Quiz akan dimulai\nApakah Anda siap?") == 0) { 
+      Controller.setPanel(new QuizAnswer(findQuiz, respondent));
+    }
+    
   }//GEN-LAST:event_btnJoinMouseClicked
 
   public List<String> remember() {

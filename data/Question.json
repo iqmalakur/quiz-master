@@ -19,7 +19,7 @@
     "grade": 2,
     "_id": "QST002",
     "time": 30,
-    "type": "MultiChoise"
+    "type": "MultiChoises"
   },
   {
     "question": "Syntax untuk menampilkan teks di konsol pada Java",
