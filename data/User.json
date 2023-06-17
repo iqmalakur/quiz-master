@@ -1,1 +1,23 @@
-[{"password":"ucup","name":"Ucupaaaaaaaaaa","_id":"USR001","quizzes":["QUZ001","QUZ002","QUZ011"],"username":"ucup"},{"password":"Mj12345678","name":"jekson","quizzes":["QUZ004","QUZ005","QUZ006"],"_id":"USR002","username":"mj123"},{"password":"Aldo1234","name":"aldo","quizzes":["QUZ007","QUZ008","QUZ009"],"_id":"USR003","username":"aldo123"}]
+[
+  {
+    "password": "ucup",
+    "name": "Ucup",
+    "_id": "USR001",
+    "quizzes": ["QUZ001", "QUZ002", "QUZ011"],
+    "username": "ucup"
+  },
+  {
+    "password": "Mj12345678",
+    "name": "jekson",
+    "quizzes": ["QUZ004", "QUZ005", "QUZ006"],
+    "_id": "USR002",
+    "username": "mj123"
+  },
+  {
+    "password": "Aldo1234",
+    "name": "aldo",
+    "quizzes": ["QUZ007", "QUZ008", "QUZ009"],
+    "_id": "USR003",
+    "username": "aldo123"
+  }
+]

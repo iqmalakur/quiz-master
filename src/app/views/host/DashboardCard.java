@@ -4,6 +4,7 @@
  */
 package app.views.host;
 
+import app.Controller;
 import java.awt.Color;
 import org.json.JSONObject;
 
@@ -12,12 +13,14 @@ import org.json.JSONObject;
  * @author User
  */
 public class DashboardCard extends javax.swing.JPanel {
+  public int index; 
   public static int COUNT = 0;
   /**
    * Creates new form DashboardCard
    */
   public DashboardCard() {
     initComponents();
+    index = COUNT;
     COUNT++;
     setBackground(new Color(0,0,0,0));
     setVisible(true);
@@ -53,6 +56,9 @@ public class DashboardCard extends javax.swing.JPanel {
     openQuizBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openQuizBtn.png"))); // NOI18N
     openQuizBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     openQuizBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        openQuizBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         openQuizBtnMouseEntered(evt);
       }
@@ -126,6 +132,10 @@ public class DashboardCard extends javax.swing.JPanel {
     // TODO add your handling code here:
     openScoreBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openScoreBtn.png")));
   }//GEN-LAST:event_openScoreBtnMouseReleased
+
+  private void openQuizBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openQuizBtnMouseClicked
+    Controller.setPanel(new CreateQuiz(index));  
+  }//GEN-LAST:event_openQuizBtnMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,6 +11,7 @@ import app.models.User;
 import java.awt.Color;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,6 +24,8 @@ public class Dashboard extends javax.swing.JPanel {
   /**
    * Creates new form Dashboard
    */
+  public static ArrayList<JSONObject> quizList = new ArrayList<>();
+  
   public Dashboard() {
     DashboardCard.COUNT=0;
     initComponents();
@@ -37,9 +40,11 @@ public class Dashboard extends javax.swing.JPanel {
     Model quiz = new Quiz();
     Login.getUSER().getJSONArray("quizzes").forEach(item -> {
       containerCardPanel.remove(DashboardCard.COUNT);
+      quizList.add(quiz.get((String)item));
       containerCardPanel.add(new DashboardCard(quiz.get((String)item)));
       if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
     });   
+    
   }
 
   /**
@@ -207,7 +212,7 @@ public class Dashboard extends javax.swing.JPanel {
     
     containerCardPanel.remove(DashboardCard.COUNT);
     containerCardPanel.add(new DashboardCard());
-    String karakter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    String karakter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     
     StringBuilder codeQuiz = new StringBuilder();
     Random rnd = new Random();

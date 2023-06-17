@@ -143,7 +143,6 @@ public class Login extends javax.swing.JPanel  {
     add(passwordLoginField, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
 
     passwordLoginFieldShow.setBackground(new java.awt.Color(217, 217, 217));
-    passwordLoginFieldShow.setText("jTextField1");
     passwordLoginFieldShow.addKeyListener(new java.awt.event.KeyAdapter() {
       public void keyReleased(java.awt.event.KeyEvent evt) {
         passwordLoginFieldShowKeyReleased(evt);

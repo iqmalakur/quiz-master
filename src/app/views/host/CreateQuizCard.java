@@ -5,19 +5,24 @@
 package app.views.host;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  *
  * @author User
  */
 public class CreateQuizCard extends javax.swing.JPanel {
-
+  
   /**
    * Creates new form CreateQuizCard
    */
   public CreateQuizCard() {
     initComponents();
-    setBackground(new Color(0,0,0,0));
+    CreateQuiz.numberOfCard++;
+    soalScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+    LabelOfNumber.setText(""+CreateQuiz.numberOfCard+".");
+    resContainer.setBackground(new Color(0,0,0,0));
+//    resContainer.add(new gandaCard());
   }
 
   /**
@@ -29,16 +34,106 @@ public class CreateQuizCard extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    LabelOfNumber = new javax.swing.JLabel();
+    tipeBtn = new javax.swing.JComboBox<>();
+    soalScroll = new javax.swing.JScrollPane();
+    jTextArea1 = new javax.swing.JTextArea();
+    scoreField = new javax.swing.JTextField();
+    timeField = new javax.swing.JTextField();
+    jLabel1 = new javax.swing.JLabel();
+    resContainer = new javax.swing.JPanel();
     container = new javax.swing.JLabel();
 
+    setBackground(new java.awt.Color(255, 255, 255));
+    setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    setPreferredSize(new java.awt.Dimension(725, 249));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+    LabelOfNumber.setFont(new java.awt.Font("MS Gothic", 1, 18)); // NOI18N
+    LabelOfNumber.setText("No.");
+    add(LabelOfNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(13, 15, -1, -1));
+
+    tipeBtn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jenis Soal", "Pilihan Tunggal", "Pilihan Ganda", "Isian Singkat", "Essay" }));
+    tipeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    tipeBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        tipeBtnActionPerformed(evt);
+      }
+    });
+    add(tipeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 13, 116, 25));
+
+    jTextArea1.setColumns(20);
+    jTextArea1.setLineWrap(true);
+    jTextArea1.setRows(5);
+    jTextArea1.setText("Buat soal anda disini");
+    soalScroll.setViewportView(jTextArea1);
+
+    add(soalScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 160, 170));
+
+    scoreField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    scoreField.setText("score");
+    scoreField.setBorder(null);
+    add(scoreField, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 15, 110, 20));
+
+    timeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    timeField.setText("time");
+    timeField.setBorder(null);
+    add(timeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 15, 110, 20));
+
+    jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 14)); // NOI18N
+    jLabel1.setText("Kunci Jawaban :");
+    add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, -1, -1));
+    add(resContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 487, 170));
+
     container.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/CreateQuizCard.png"))); // NOI18N
-    add(container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+    add(container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 730, 270));
   }// </editor-fold>//GEN-END:initComponents
+
+  private void tipeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipeBtnActionPerformed
+    int x = tipeBtn.getSelectedIndex();
+    switch(x){
+      case 0:
+        resContainer.removeAll();
+        resContainer.revalidate();
+        resContainer.repaint();
+      break;
+      case 1:
+        resContainer.removeAll();
+        resContainer.add(new tunggalCard());
+        resContainer.revalidate();
+        resContainer.repaint();
+//        System.out.println("test");
+      break;
+      case 2:
+        resContainer.removeAll();
+        resContainer.add(new gandaCard());
+        resContainer.revalidate();
+        resContainer.repaint();
+      break;
+      case 3:
+        resContainer.removeAll();
+        resContainer.add(new shortCard());
+        resContainer.revalidate();
+        resContainer.repaint();
+      break;
+      case 4:
+        resContainer.removeAll();
+        resContainer.revalidate();
+        resContainer.repaint();
+      break;
+    }
+  }//GEN-LAST:event_tipeBtnActionPerformed
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JLabel LabelOfNumber;
   private javax.swing.JLabel container;
+  private javax.swing.JLabel jLabel1;
+  private javax.swing.JTextArea jTextArea1;
+  private javax.swing.JPanel resContainer;
+  private javax.swing.JTextField scoreField;
+  private javax.swing.JScrollPane soalScroll;
+  private javax.swing.JTextField timeField;
+  private javax.swing.JComboBox<String> tipeBtn;
   // End of variables declaration//GEN-END:variables
 }
