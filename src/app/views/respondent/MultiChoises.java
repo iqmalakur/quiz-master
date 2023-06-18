@@ -26,11 +26,6 @@ public class MultiChoises extends Answer {
     secondOptionLabel.setText(choises.getString(1));
     thirdOptionLabel.setText(choises.getString(2));
     fourthOptionLabel.setText(choises.getString(3));
-    
-    firstOption.setVisible(false);
-    secondOption.setVisible(false);
-    thirdOption.setVisible(false);
-    fourthOption.setVisible(false);
   }
 
   /**
@@ -42,18 +37,17 @@ public class MultiChoises extends Answer {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    choises = new javax.swing.ButtonGroup();
     firstOptionPanel = new javax.swing.JPanel();
     firstOptionLabel = new javax.swing.JLabel();
+    firstOption = new javax.swing.JCheckBox();
     secondOptionPanel = new javax.swing.JPanel();
     secondOptionLabel = new javax.swing.JLabel();
+    secondOption = new javax.swing.JCheckBox();
     thirdOptionPanel = new javax.swing.JPanel();
     thirdOptionLabel = new javax.swing.JLabel();
+    thirdOption = new javax.swing.JCheckBox();
     fourthOptionPanel = new javax.swing.JPanel();
     fourthOptionLabel = new javax.swing.JLabel();
-    firstOption = new javax.swing.JCheckBox();
-    secondOption = new javax.swing.JCheckBox();
-    thirdOption = new javax.swing.JCheckBox();
     fourthOption = new javax.swing.JCheckBox();
     background = new javax.swing.JLabel();
 
@@ -72,6 +66,7 @@ public class MultiChoises extends Answer {
     firstOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     firstOptionLabel.setText("abc");
     firstOptionPanel.add(firstOptionLabel, java.awt.BorderLayout.CENTER);
+    firstOptionPanel.add(firstOption, java.awt.BorderLayout.PAGE_START);
 
     add(firstOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 100, 100));
 
@@ -87,6 +82,7 @@ public class MultiChoises extends Answer {
     secondOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     secondOptionLabel.setText("abc");
     secondOptionPanel.add(secondOptionLabel, java.awt.BorderLayout.CENTER);
+    secondOptionPanel.add(secondOption, java.awt.BorderLayout.PAGE_START);
 
     add(secondOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 100, 100));
 
@@ -102,6 +98,7 @@ public class MultiChoises extends Answer {
     thirdOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     thirdOptionLabel.setText("abc");
     thirdOptionPanel.add(thirdOptionLabel, java.awt.BorderLayout.CENTER);
+    thirdOptionPanel.add(thirdOption, java.awt.BorderLayout.PAGE_START);
 
     add(thirdOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, 100));
 
@@ -117,12 +114,9 @@ public class MultiChoises extends Answer {
     fourthOptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     fourthOptionLabel.setText("abc");
     fourthOptionPanel.add(fourthOptionLabel, java.awt.BorderLayout.CENTER);
+    fourthOptionPanel.add(fourthOption, java.awt.BorderLayout.PAGE_START);
 
     add(fourthOptionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 100, 100));
-    add(firstOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
-    add(secondOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
-    add(thirdOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, -1));
-    add(fourthOption, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, -1, -1));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/quizAnswer.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(-27, -274, 720, 510));
@@ -171,7 +165,6 @@ public class MultiChoises extends Answer {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
-  private javax.swing.ButtonGroup choises;
   private javax.swing.JCheckBox firstOption;
   private javax.swing.JLabel firstOptionLabel;
   private javax.swing.JPanel firstOptionPanel;
