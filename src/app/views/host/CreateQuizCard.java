@@ -158,25 +158,25 @@ public class CreateQuizCard extends javax.swing.JPanel {
       case 1:
         resContainer.removeAll();
         if(!dataQuestion.has("_id")){
-          resContainer.add(new TunggalCard(this)); 
+          resContainer.add(new SingleChoiseCard(this)); 
           
           break;
         }
-        resContainer.add(new TunggalCard(this, dataQuestion));
+        resContainer.add(new SingleChoiseCard(this, dataQuestion));
       break;
       case 2:
         resContainer.removeAll();
         if(!dataQuestion.has("_id")){
-          resContainer.add(new GandaCard(this)); break;
+          resContainer.add(new MultipleChoiseCard(this)); break;
         }
-        resContainer.add(new GandaCard(this, dataQuestion));
+        resContainer.add(new MultipleChoiseCard(this, dataQuestion));
       break;
       case 3:
         resContainer.removeAll();
         if(!dataQuestion.has("_id")){
-          resContainer.add(new ShortCard(this)); break;
+          resContainer.add(new ShortEssayCard(this)); break;
         }
-        resContainer.add(new ShortCard(this, dataQuestion));
+        resContainer.add(new ShortEssayCard(this, dataQuestion));
       break;
       case 4:
         resContainer.removeAll();
