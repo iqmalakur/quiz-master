@@ -6,6 +6,12 @@ package app.views.host;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JPanel;
+import org.json.JSONObject;
 
 /**
  *
@@ -16,13 +22,41 @@ public class CreateQuizCard extends javax.swing.JPanel {
   /**
    * Creates new form CreateQuizCard
    */
+  
+  public JSONObject dataQuestion;
+  public Object answers ;
+  
   public CreateQuizCard() {
+    dataQuestion = new JSONObject();
     initComponents();
     CreateQuiz.numberOfCard++;
     soalScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     LabelOfNumber.setText(""+CreateQuiz.numberOfCard+".");
     resContainer.setBackground(new Color(0,0,0,0));
-//    resContainer.add(new gandaCard());
+
+  }
+  
+  public CreateQuizCard(JSONObject data){
+    this();
+    dataQuestion = data;
+    soalTextArea.setText(data.getString("question"));
+    String score = "" + data.getInt("grade");
+    scoreField.setText(score);
+    timeField.setText(""+data.getInt("time"));
+    switch(data.getString("type")){
+      case "MultiChoises":
+        tipeBtn.setSelectedIndex(2);
+        break;
+      case "SingleChoise":
+        tipeBtn.setSelectedIndex(1);
+        break;
+      case "ShortEssay":
+        tipeBtn.setSelectedIndex(3);
+        break;
+      case "LongEssay":
+        tipeBtn.setSelectedIndex(4);
+        break;
+    }    
   }
 
   /**
@@ -37,12 +71,13 @@ public class CreateQuizCard extends javax.swing.JPanel {
     LabelOfNumber = new javax.swing.JLabel();
     tipeBtn = new javax.swing.JComboBox<>();
     soalScroll = new javax.swing.JScrollPane();
-    jTextArea1 = new javax.swing.JTextArea();
+    soalTextArea = new javax.swing.JTextArea();
     scoreField = new javax.swing.JTextField();
     timeField = new javax.swing.JTextField();
     jLabel1 = new javax.swing.JLabel();
     resContainer = new javax.swing.JPanel();
-    container = new javax.swing.JLabel();
+    deleteBtn = new javax.swing.JLabel();
+    containerBG = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(255, 255, 255));
     setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -62,78 +97,131 @@ public class CreateQuizCard extends javax.swing.JPanel {
     });
     add(tipeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 13, 116, 25));
 
-    jTextArea1.setColumns(20);
-    jTextArea1.setLineWrap(true);
-    jTextArea1.setRows(5);
-    jTextArea1.setText("Buat soal anda disini");
-    soalScroll.setViewportView(jTextArea1);
+    soalTextArea.setColumns(20);
+    soalTextArea.setLineWrap(true);
+    soalTextArea.setRows(5);
+    soalTextArea.setText("Buat soal anda disini");
+    soalScroll.setViewportView(soalTextArea);
 
     add(soalScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 160, 170));
 
     scoreField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     scoreField.setText("score");
     scoreField.setBorder(null);
-    add(scoreField, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 15, 110, 20));
+    scoreField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        scoreFieldKeyReleased(evt);
+      }
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        scoreFieldKeyTyped(evt);
+      }
+    });
+    add(scoreField, new org.netbeans.lib.awtextra.AbsoluteConstraints(234, 15, 110, 20));
 
     timeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     timeField.setText("time");
     timeField.setBorder(null);
-    add(timeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 15, 110, 20));
+    timeField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        timeFieldKeyTyped(evt);
+      }
+    });
+    add(timeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 15, 110, 20));
 
     jLabel1.setFont(new java.awt.Font("MS PGothic", 1, 14)); // NOI18N
     jLabel1.setText("Kunci Jawaban :");
     add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, -1, -1));
     add(resContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 487, 170));
 
-    container.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/CreateQuizCard.png"))); // NOI18N
-    add(container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 730, 270));
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png"))); // NOI18N
+    deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        deleteBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        deleteBtnMouseExited(evt);
+      }
+    });
+    add(deleteBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(662, 16, -1, -1));
+
+    containerBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/CreateQuizCard.png"))); // NOI18N
+    add(containerBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 730, 270));
   }// </editor-fold>//GEN-END:initComponents
 
   private void tipeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipeBtnActionPerformed
-    int x = tipeBtn.getSelectedIndex();
-    switch(x){
+    int tipe = tipeBtn.getSelectedIndex();
+    switch(tipe){
       case 0:
         resContainer.removeAll();
-        resContainer.revalidate();
-        resContainer.repaint();
       break;
       case 1:
         resContainer.removeAll();
-        resContainer.add(new tunggalCard());
-        resContainer.revalidate();
-        resContainer.repaint();
-//        System.out.println("test");
+        if(!dataQuestion.has("_id")){
+          resContainer.add(new TunggalCard()); 
+          
+          break;
+        }
+        resContainer.add(new TunggalCard(dataQuestion));
       break;
       case 2:
         resContainer.removeAll();
-        resContainer.add(new gandaCard());
-        resContainer.revalidate();
-        resContainer.repaint();
+        if(!dataQuestion.has("_id")){
+          resContainer.add(new GandaCard()); break;
+        }
+        resContainer.add(new GandaCard(dataQuestion));
       break;
       case 3:
         resContainer.removeAll();
-        resContainer.add(new shortCard());
-        resContainer.revalidate();
-        resContainer.repaint();
+        if(!dataQuestion.has("_id")){
+          resContainer.add(new ShortCard(this)); break;
+        }
+        resContainer.add(new ShortCard(this, dataQuestion));
       break;
       case 4:
         resContainer.removeAll();
-        resContainer.revalidate();
-        resContainer.repaint();
       break;
     }
+    resContainer.revalidate();
+    resContainer.repaint();
   }//GEN-LAST:event_tipeBtnActionPerformed
+
+  private void scoreFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_scoreFieldKeyTyped
+    Pattern pattern = Pattern.compile("[0-9]");
+    Matcher matcher = pattern.matcher(evt.getKeyChar()+"");
+    boolean matchFound = matcher.find();
+    if(!matchFound)evt.consume();
+  }//GEN-LAST:event_scoreFieldKeyTyped
+
+  private void timeFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_timeFieldKeyTyped
+    Pattern pattern = Pattern.compile("[0-9]");
+    Matcher matcher = pattern.matcher(evt.getKeyChar()+"");
+    boolean matchFound = matcher.find();
+    if(!matchFound)evt.consume();
+  }//GEN-LAST:event_timeFieldKeyTyped
+
+  private void deleteBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseEntered
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete-hover.png")));
+  }//GEN-LAST:event_deleteBtnMouseEntered
+
+  private void deleteBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseExited
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png")));
+  }//GEN-LAST:event_deleteBtnMouseExited
+
+  private void scoreFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_scoreFieldKeyReleased
+//    CreateQuiz.listDataQuestion.get
+  }//GEN-LAST:event_scoreFieldKeyReleased
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel LabelOfNumber;
-  private javax.swing.JLabel container;
+  private javax.swing.JLabel containerBG;
+  private javax.swing.JLabel deleteBtn;
   private javax.swing.JLabel jLabel1;
-  private javax.swing.JTextArea jTextArea1;
   private javax.swing.JPanel resContainer;
-  private javax.swing.JTextField scoreField;
+  public javax.swing.JTextField scoreField;
   private javax.swing.JScrollPane soalScroll;
-  private javax.swing.JTextField timeField;
-  private javax.swing.JComboBox<String> tipeBtn;
+  public javax.swing.JTextArea soalTextArea;
+  public javax.swing.JTextField timeField;
+  public javax.swing.JComboBox<String> tipeBtn;
   // End of variables declaration//GEN-END:variables
 }

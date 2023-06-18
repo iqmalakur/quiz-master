@@ -4,26 +4,56 @@
  */
 package app.views.host;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
-public class gandaCard extends javax.swing.JPanel {
+public class GandaCard extends javax.swing.JPanel {
 
   /**
    * Creates new form tunggalCard
    */
-  public gandaCard() {
+  public GandaCard() {
     initComponents();
     jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane2.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane3.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane4.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
   }
-
+  
+  public GandaCard(JSONObject data){
+    this();
+    if(data.getString("type").equals("MultiChoises")){
+    JSONArray choises = data.getJSONObject("answer").getJSONArray("choises");
+    JSONArray correctAnswer = data.getJSONObject("answer").getJSONArray("correctAnswer");
+    answerA.setText(choises.getString(0));
+    answerB.setText(choises.getString(1));
+    answerC.setText(choises.getString(2));
+    answerD.setText(choises.getString(3));
+    
+    correctAnswer.forEach(item -> {
+      int keywordIndex = (int)item;
+      switch(keywordIndex){
+        case 0:
+          checkA.setSelected(true);
+          break;
+        case 1:
+          checkB.setSelected(true);
+          break;
+        case 2:
+          checkC.setSelected(true);
+          break;
+        case 3:
+          checkD.setSelected(true);
+          break; 
+      }
+    });
+    }
+  }
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,10 +115,10 @@ public class gandaCard extends javax.swing.JPanel {
     jScrollPane4.setViewportView(answerD);
 
     add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 180, 70));
-    add(checkA, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
-    add(checkB, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+    add(checkA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+    add(checkB, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
     add(checkC, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-    add(checkD, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
+    add(checkD, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
   }// </editor-fold>//GEN-END:initComponents
 
 

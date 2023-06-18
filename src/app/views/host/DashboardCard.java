@@ -39,6 +39,7 @@ public class DashboardCard extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    deleteBtn = new javax.swing.JLabel();
     cardTitle = new javax.swing.JLabel();
     openQuizBtn = new javax.swing.JLabel();
     openScoreBtn = new javax.swing.JLabel();
@@ -47,11 +48,22 @@ public class DashboardCard extends javax.swing.JPanel {
     setPreferredSize(new java.awt.Dimension(136, 121));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png"))); // NOI18N
+    deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        deleteBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        deleteBtnMouseExited(evt);
+      }
+    });
+    add(deleteBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 7, -1, -1));
+
     cardTitle.setFont(new java.awt.Font("Gadugi", 1, 12)); // NOI18N
     cardTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     cardTitle.setText("title");
     cardTitle.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-    add(cardTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 40));
+    add(cardTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 17, 120, 40));
 
     openQuizBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openQuizBtn.png"))); // NOI18N
     openQuizBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -72,7 +84,7 @@ public class DashboardCard extends javax.swing.JPanel {
         openQuizBtnMouseReleased(evt);
       }
     });
-    add(openQuizBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 50, -1, -1));
+    add(openQuizBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 55, -1, -1));
 
     openScoreBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openScoreBtn.png"))); // NOI18N
     openScoreBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -90,7 +102,7 @@ public class DashboardCard extends javax.swing.JPanel {
         openScoreBtnMouseReleased(evt);
       }
     });
-    add(openScoreBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 72, -1, -1));
+    add(openScoreBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 77, -1, -1));
 
     cardBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-card.png"))); // NOI18N
     add(cardBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 120));
@@ -137,10 +149,19 @@ public class DashboardCard extends javax.swing.JPanel {
     Controller.setPanel(new CreateQuiz(index));  
   }//GEN-LAST:event_openQuizBtnMouseClicked
 
+  private void deleteBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseEntered
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete-hover.png")));
+  }//GEN-LAST:event_deleteBtnMouseEntered
+
+  private void deleteBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseExited
+    deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png")));
+  }//GEN-LAST:event_deleteBtnMouseExited
+
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel cardBG;
   private javax.swing.JLabel cardTitle;
+  private javax.swing.JLabel deleteBtn;
   private javax.swing.JLabel openQuizBtn;
   private javax.swing.JLabel openScoreBtn;
   // End of variables declaration//GEN-END:variables

@@ -5,19 +5,35 @@
 package app.views.host;
 
 import java.awt.Color;
+import javax.swing.JRadioButton;
+import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
-public class shortCard extends javax.swing.JPanel {
+public class ShortCard extends javax.swing.JPanel {
 
   /**
    * Creates new form tunggalCard
    */
-  public shortCard() {
+  public ShortCard(CreateQuizCard card) {
     initComponents();
     
+    card.answers = fieldIsianSingkat;
+    
+  }
+  
+  public ShortCard(CreateQuizCard card, JSONObject data){
+    this(card);
+    if(data.getString("type").equals("ShortEssay")){
+      String correctAnswer = data.getJSONObject("answer").getString("correctAnswer");
+      fieldIsianSingkat.setText(correctAnswer);
+    }
+  }
+  
+  public String getAnswer(){
+    return fieldIsianSingkat.getText();
   }
 
   /**

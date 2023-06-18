@@ -5,7 +5,7 @@
       "choises": ["Ruby", "Javascript", "Python", "C++"],
       "correctAnswer": 1
     },
-    "grade": 2,
+    "grade": 2000,
     "_id": "QST001",
     "time": 30,
     "type": "SingleChoise"
@@ -31,7 +31,7 @@
   },
   {
     "question": "Apa yang dimaksud dengan Asynchronous Programming?",
-    "answer": true,
+    "answer": null,
     "grade": 5,
     "_id": "QST004",
     "time": 120,

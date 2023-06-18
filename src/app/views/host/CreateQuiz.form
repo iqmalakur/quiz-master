@@ -84,6 +84,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saveBtnMouseClicked"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="650" y="27" width="-1" height="-1"/>
@@ -229,9 +232,12 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="timeAllFieldKeyTyped"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="190" y="110" width="115" height="25"/>
+          <AbsoluteConstraints x="382" y="110" width="115" height="25"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -257,7 +263,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="33" y="110" width="115" height="25"/>
+          <AbsoluteConstraints x="126" y="110" width="115" height="25"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -284,7 +290,7 @@
     <Component class="javax.swing.JLabel" name="createQuizBG">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/image/background/createQuizBG.png"/>
+          <Image iconType="3" name="/image/background/createQuizcard2.png"/>
         </Property>
       </Properties>
       <Constraints>

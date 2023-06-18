@@ -6,23 +6,53 @@ package app.views.host;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
-public class tunggalCard extends javax.swing.JPanel {
+public class TunggalCard extends javax.swing.JPanel {
 
   /**
    * Creates new form tunggalCard
    */
-  public tunggalCard() {
+  public TunggalCard() {
     initComponents();
+    
     jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane2.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane3.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane4.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
   }
+  
+    public TunggalCard(JSONObject data){
+      this();
+      if(data.getString("type").equals("SingleChoise")){
+      JSONArray choisesData = data.getJSONObject("answer").getJSONArray("choises");
+      int correctAnswer = data.getJSONObject("answer").getInt("correctAnswer");
+      answerA.setText(choisesData.getString(0));
+      answerB.setText(choisesData.getString(1));
+      answerC.setText(choisesData.getString(2));
+      answerD.setText(choisesData.getString(3));
+
+        switch(correctAnswer){
+          case 0:
+            Abtn.setSelected(true);
+            break;
+          case 1:
+            Bbtn.setSelected(true);
+            break;
+          case 2:
+            Bbtn.setSelected(true);
+            break;
+          case 3:
+            Bbtn.setSelected(true);
+            break; 
+        }
+      }
+    }
 
   /**
    * This method is called from within the constructor to initialize the form.
@@ -55,13 +85,13 @@ public class tunggalCard extends javax.swing.JPanel {
     add(Abtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
     tunggalPilihan.add(Bbtn);
-    add(Bbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+    add(Bbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
 
     tunggalPilihan.add(Cbtn);
-    add(Cbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
+    add(Cbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
     tunggalPilihan.add(Dbtn);
-    add(Dbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
+    add(Dbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
 
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 

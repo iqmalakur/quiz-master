@@ -8,15 +8,14 @@ import app.Controller;
 import app.models.Model;
 import app.models.Question;
 import app.models.Quiz;
-import app.models.User;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JLabel;
+import javax.swing.JTextField;
 import org.json.JSONObject;
 
 /**
@@ -27,6 +26,7 @@ import org.json.JSONObject;
     public static int numberOfCard = 0;
     JSONObject quiz;
     int index;
+    LinkedList<CreateQuizCard> listCard = new LinkedList<>();
   /**
    * Creates new form CreayeQuiz
    */
@@ -41,6 +41,15 @@ import org.json.JSONObject;
     containerScroll.getVerticalScrollBar().setUnitIncrement(16);
     judulField.setText(quiz.getString("name"));
     idLabel.setText("Kode: "+quiz.getString("code"));
+    
+    if(!quiz.getJSONArray("questions").isEmpty())teksLabel.setVisible(false);
+
+    Model question = new Question();
+    quiz.getJSONArray("questions").forEach(item ->{
+      listCard.addLast(new CreateQuizCard(question.get((String)item)));
+      System.out.println(listCard.getLast());
+      cardContainer.add(listCard.getLast());
+    });
   }
 
   /**
@@ -91,6 +100,11 @@ import org.json.JSONObject;
 
     saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/saveIcon.png"))); // NOI18N
     saveBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    saveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        saveBtnMouseClicked(evt);
+      }
+    });
     add(saveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 27, -1, -1));
 
     addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/tambahBtn.png"))); // NOI18N
@@ -159,7 +173,12 @@ import org.json.JSONObject;
     timeAllField.setText("60");
     timeAllField.setBorder(null);
     timeAllField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    add(timeAllField, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 115, 25));
+    timeAllField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        timeAllFieldKeyTyped(evt);
+      }
+    });
+    add(timeAllField, new org.netbeans.lib.awtextra.AbsoluteConstraints(382, 110, 115, 25));
 
     scoreAllField.setFont(new java.awt.Font("MS Gothic", 1, 16)); // NOI18N
     scoreAllField.setForeground(new java.awt.Color(255, 255, 255));
@@ -172,7 +191,7 @@ import org.json.JSONObject;
         scoreAllFieldKeyTyped(evt);
       }
     });
-    add(scoreAllField, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 110, 115, 25));
+    add(scoreAllField, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 110, 115, 25));
 
     judulField.setFont(new java.awt.Font("MS Gothic", 1, 14)); // NOI18N
     judulField.setText("judul");
@@ -181,12 +200,15 @@ import org.json.JSONObject;
     judulField.setEnabled(false);
     add(judulField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 190, 30));
 
-    createQuizBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/createQuizBG.png"))); // NOI18N
+    createQuizBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/createQuizcard2.png"))); // NOI18N
     add(createQuizBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
   }// </editor-fold>//GEN-END:initComponents
 
   private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
-    Controller.setPanel(new Dashboard());
+    if(Controller.showConfirmDialog("Apakah anda yakin ingin keluar?\nData yang belum disimpan akan hilang")==0){
+      Controller.setPanel(new Dashboard());
+      numberOfCard = 0;
+    }
   }//GEN-LAST:event_homeBtnMouseClicked
   boolean toggleON = true;
   private void penBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_penBtnMouseClicked
@@ -216,9 +238,11 @@ import org.json.JSONObject;
     Controller.showInformationDialog("id: \""+arrstrID[1]+"\" disalin ke clipboard", "");
   }//GEN-LAST:event_copyBtnMouseClicked
 
+  
   private void addBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseClicked
     remove(teksLabel);
-    cardContainer.add(new CreateQuizCard());
+    listCard.addLast(new CreateQuizCard());
+    cardContainer.add(listCard.getLast());
     repaint();
     revalidate();
   }//GEN-LAST:event_addBtnMouseClicked
@@ -240,11 +264,59 @@ import org.json.JSONObject;
   }//GEN-LAST:event_addBtnMouseExited
 
   private void scoreAllFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_scoreAllFieldKeyTyped
-    Pattern pattern = Pattern.compile("\\b([1-9][0-9]?|100)\\b");
+    Pattern pattern = Pattern.compile("[0-9]");
     Matcher matcher = pattern.matcher(evt.getKeyChar()+"");
     boolean matchFound = matcher.find();
     if(!matchFound)evt.consume();
   }//GEN-LAST:event_scoreAllFieldKeyTyped
+
+  private void timeAllFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_timeAllFieldKeyTyped
+    Pattern pattern = Pattern.compile("[0-9]");
+    Matcher matcher = pattern.matcher(evt.getKeyChar()+"");
+    boolean matchFound = matcher.find();
+    if(!matchFound)evt.consume();
+  }//GEN-LAST:event_timeAllFieldKeyTyped
+
+  private void saveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseClicked
+    listCard.forEach(item ->{
+      CreateQuizCard card = (CreateQuizCard) item;
+      
+      Model questionModel = new Question();
+      JSONObject answer = null;
+      String tipe = "";
+      switch((int)card.tipeBtn.getSelectedIndex()){
+        case 2:
+          tipe = "MultiChoises";
+          break;
+        case 1:
+          tipe = "SingleChoise";
+          break;
+        case 3:
+          tipe = "ShortEssay";
+          answer.put("correctAnswer", ((JTextField)item.answers).getText());
+          break;
+        case 4:
+          tipe = "LongEssay";
+          break;
+      }
+      
+      
+      card.dataQuestion
+              .put("grade", Integer.parseInt(card.scoreField.getText()))
+              .put("time",Integer.parseInt(card.timeField.getText()))
+              .put("type", tipe)
+              .put("question", card.soalTextArea.getText())
+              .put("answer", answer)
+          ;
+      if(card.dataQuestion.has("_id")){
+        questionModel.update(card.dataQuestion, card.dataQuestion.getString("_id"));
+      }else {
+        questionModel.insert(card.dataQuestion);
+        quiz.put("questions", quiz.getJSONArray("questions").put(card.dataQuestion.getString("_id")));
+        new Quiz().update(quiz, quiz.getString("_id"));
+      }
+    });
+  }//GEN-LAST:event_saveBtnMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
