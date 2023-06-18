@@ -9,6 +9,9 @@ import app.models.Model;
 import app.models.Quiz;
 import app.models.User;
 import app.views.respondent.QuizAnswer;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -32,6 +35,9 @@ public class Home extends javax.swing.JPanel {
   public Home() {
     initComponents();
     Controller.setFrameTitle("Quiz Master - Home");
+    
+    optionalField.setVisible(false);
+    optionalLabel.setVisible(false);
   }
 
   /**
@@ -43,15 +49,37 @@ public class Home extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    optionalLabel = new javax.swing.JLabel();
+    nameLabel = new javax.swing.JLabel();
+    codeLabel = new javax.swing.JLabel();
     btnJoin = new javax.swing.JLabel();
     btnLogin = new javax.swing.JLabel();
     optionalField = new javax.swing.JTextField();
     nameField = new javax.swing.JTextField();
     codeField = new javax.swing.JTextField();
+    title = new javax.swing.JLabel();
+    card = new javax.swing.JLabel();
     background = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    optionalLabel.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+    optionalLabel.setForeground(new java.awt.Color(255, 255, 255));
+    optionalLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    add(optionalLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 295, 181, 16));
+
+    nameLabel.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+    nameLabel.setForeground(new java.awt.Color(255, 255, 255));
+    nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    nameLabel.setText("Nama");
+    add(nameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 230, 181, -1));
+
+    codeLabel.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+    codeLabel.setForeground(new java.awt.Color(255, 255, 255));
+    codeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    codeLabel.setText("Kode");
+    add(codeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 165, 181, -1));
 
     btnJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-join-btn.png"))); // NOI18N
     btnJoin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -72,7 +100,7 @@ public class Home extends javax.swing.JPanel {
         btnJoinMouseReleased(evt);
       }
     });
-    add(btnJoin, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 373, -1, -1));
+    add(btnJoin, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 309, -1, -1));
 
     btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/home-login-btn.png"))); // NOI18N
     btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -96,7 +124,25 @@ public class Home extends javax.swing.JPanel {
     add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(664, 20, -1, -1));
     add(optionalField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 316, 181, 29));
     add(nameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 252, 181, 29));
+
+    codeField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        codeFieldKeyReleased(evt);
+      }
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        codeFieldKeyTyped(evt);
+      }
+    });
     add(codeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 186, 181, 29));
+
+    title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/home-title.png"))); // NOI18N
+    add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 130, 181, -1));
+
+    card.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/home-card.png"))); // NOI18N
+    add(card, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 110, -1, 266));
+    btnJoin.setLocation(btnJoin.getX(), 309);
+    card.setSize(card.getWidth(), 266);
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/home.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -175,10 +221,43 @@ public class Home extends javax.swing.JPanel {
     
   }//GEN-LAST:event_btnJoinMouseClicked
 
+  private void codeFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeFieldKeyTyped
+    if(codeField.getText().length() >= 5) evt.consume();
+  }//GEN-LAST:event_codeFieldKeyTyped
+
+  private void codeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeFieldKeyReleased
+    if(codeField.getText().length() >= 5){
+      JSONObject quiz = new Quiz().get("code", codeField.getText());
+      
+      if(quiz != null){
+        optionalField.setVisible(true);
+        optionalLabel.setVisible(true);
+        optionalLabel.setText(quiz.getString("optField"));
+        btnJoin.setLocation(btnJoin.getX(), 373);
+        card.setSize(card.getWidth(), 330);
+        
+        try {
+          Robot robot = new Robot();
+          robot.keyPress(KeyEvent.VK_SHIFT);
+          robot.keyRelease(KeyEvent.VK_SHIFT);
+        } catch (AWTException ex) {
+          Controller.showErrorDialog("Terjadi error saat memproses kode!");
+        }  
+        
+        return;
+      }
+    }
+    
+    optionalField.setVisible(false);
+    optionalLabel.setVisible(false);
+    optionalLabel.setText("");
+    btnJoin.setLocation(btnJoin.getX(), 309);
+    card.setSize(card.getWidth(), 266);
+  }//GEN-LAST:event_codeFieldKeyReleased
+
   public List<String> remember() {
-    try {
-      List<String> dataRemember = new ArrayList<String>();
-      BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"));
+    try(BufferedReader dataUser = new BufferedReader(new FileReader("cache/remember.txt"))){
+      List<String> dataRemember = new ArrayList<>();
       String line = dataUser.readLine();
       
       while (line != null) {
@@ -188,18 +267,24 @@ public class Home extends javax.swing.JPanel {
       
       return dataRemember;
       
-    } catch (Exception e) {
-        System.out.println(e);
-        return null;
+    } catch (IOException e) {
+      Controller.showErrorDialog("Terjadi kesalahan saat mengambil data!");
     }
+    
+    return null;
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnJoin;
   private javax.swing.JLabel btnLogin;
+  private javax.swing.JLabel card;
   private javax.swing.JTextField codeField;
+  private javax.swing.JLabel codeLabel;
   private javax.swing.JTextField nameField;
+  private javax.swing.JLabel nameLabel;
   private javax.swing.JTextField optionalField;
+  private javax.swing.JLabel optionalLabel;
+  private javax.swing.JLabel title;
   // End of variables declaration//GEN-END:variables
 }
