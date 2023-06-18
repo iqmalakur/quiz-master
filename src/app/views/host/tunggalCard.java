@@ -6,6 +6,8 @@ package app.views.host;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,8 +20,22 @@ public class TunggalCard extends javax.swing.JPanel {
   /**
    * Creates new form tunggalCard
    */
-  public TunggalCard() {
+  public TunggalCard(CreateQuizCard card) {
     initComponents();
+    JRadioButton[] radioArray = new JRadioButton[4];
+    radioArray[0] = Abtn;
+    radioArray[1] = Bbtn;
+    radioArray[2] = Cbtn;
+    radioArray[3] = Dbtn;
+    card.answers = radioArray;
+    
+    JTextArea[] textArray = new JTextArea[4];
+    textArray[0] = answerA;
+    textArray[1] = answerB;
+    textArray[2] = answerC;
+    textArray[3] = answerD;
+    card.answersCpt = textArray;
+    
     
     jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane2.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
@@ -27,8 +43,8 @@ public class TunggalCard extends javax.swing.JPanel {
     jScrollPane4.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
   }
   
-    public TunggalCard(JSONObject data){
-      this();
+    public TunggalCard(CreateQuizCard card, JSONObject data){
+      this(card);
       if(data.getString("type").equals("SingleChoise")){
       JSONArray choisesData = data.getJSONObject("answer").getJSONArray("choises");
       int correctAnswer = data.getJSONObject("answer").getInt("correctAnswer");
@@ -36,7 +52,6 @@ public class TunggalCard extends javax.swing.JPanel {
       answerB.setText(choisesData.getString(1));
       answerC.setText(choisesData.getString(2));
       answerD.setText(choisesData.getString(3));
-
         switch(correctAnswer){
           case 0:
             Abtn.setSelected(true);
@@ -45,10 +60,10 @@ public class TunggalCard extends javax.swing.JPanel {
             Bbtn.setSelected(true);
             break;
           case 2:
-            Bbtn.setSelected(true);
+            Cbtn.setSelected(true);
             break;
           case 3:
-            Bbtn.setSelected(true);
+            Dbtn.setSelected(true);
             break; 
         }
       }

@@ -89,6 +89,9 @@ public class DashboardCard extends javax.swing.JPanel {
     openScoreBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/openScoreBtn.png"))); // NOI18N
     openScoreBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     openScoreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        openScoreBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         openScoreBtnMouseEntered(evt);
       }
@@ -156,6 +159,10 @@ public class DashboardCard extends javax.swing.JPanel {
   private void deleteBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseExited
     deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png")));
   }//GEN-LAST:event_deleteBtnMouseExited
+
+  private void openScoreBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openScoreBtnMouseClicked
+    Controller.setPanel(new Score(Dashboard.quizList.get(index)));
+  }//GEN-LAST:event_openScoreBtnMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

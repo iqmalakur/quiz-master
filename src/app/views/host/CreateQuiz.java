@@ -15,7 +15,12 @@ import java.awt.datatransfer.StringSelection;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -47,7 +52,7 @@ import org.json.JSONObject;
     Model question = new Question();
     quiz.getJSONArray("questions").forEach(item ->{
       listCard.addLast(new CreateQuizCard(question.get((String)item)));
-      System.out.println(listCard.getLast());
+     
       cardContainer.add(listCard.getLast());
     });
   }
@@ -282,17 +287,45 @@ import org.json.JSONObject;
       CreateQuizCard card = (CreateQuizCard) item;
       
       Model questionModel = new Question();
-      JSONObject answer = null;
+      JSONObject answer = new JSONObject();
       String tipe = "";
       switch((int)card.tipeBtn.getSelectedIndex()){
         case 2:
           tipe = "MultiChoises";
+          
+          //update correct answer
+          JCheckBox[] checkArray = (JCheckBox[])item.answers;
+          JTextArea[] textArray2 = (JTextArea[])item.answersCpt;
+          JSONArray x = new JSONArray();
+          JSONArray x2 = new JSONArray();
+          
+          for (int i = 0 ; i < 4 ; i++){
+            if(checkArray[i].isSelected())x.put(i);
+            x2.put(textArray2[i].getText());
+          }
+          answer.put("correctAnswer", x);
+          answer.put("choises", x2);
+          
           break;
         case 1:
           tipe = "SingleChoise";
+          
+          //update correct answer
+          JRadioButton[] radioArray = (JRadioButton[])item.answers;
+          JTextArea[] textArray = (JTextArea[])item.answersCpt;
+          JSONArray y = new JSONArray();
+          
+          for (int i = 0 ; i < 4 ; i++){
+            if(radioArray[i].isSelected())
+              answer.put("correctAnswer", i);
+            y.put(textArray[i].getText());
+          }
+            answer.put("choises", y);
+          
           break;
         case 3:
           tipe = "ShortEssay";
+          
           answer.put("correctAnswer", ((JTextField)item.answers).getText());
           break;
         case 4:
@@ -316,6 +349,8 @@ import org.json.JSONObject;
         new Quiz().update(quiz, quiz.getString("_id"));
       }
     });
+    
+    Controller.showInformationDialog("Data Berhasil Disimpan!", "Sukses");
   }//GEN-LAST:event_saveBtnMouseClicked
 
 

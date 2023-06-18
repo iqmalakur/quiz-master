@@ -5,6 +5,9 @@
 package app.views.host;
 
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,16 +20,31 @@ public class GandaCard extends javax.swing.JPanel {
   /**
    * Creates new form tunggalCard
    */
-  public GandaCard() {
+  public GandaCard(CreateQuizCard card) {
     initComponents();
+    
+    JCheckBox[] checkArray = new JCheckBox[4];
+    checkArray[0] = checkA;
+    checkArray[1] = checkB;
+    checkArray[2] = checkC;
+    checkArray[3] = checkD;
+    card.answers = checkArray;
+    
+    JTextArea[] textArray = new JTextArea[4];
+    textArray[0] = answerA;
+    textArray[1] = answerB;
+    textArray[2] = answerC;
+    textArray[3] = answerD;
+    card.answersCpt = textArray;
+    
     jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane2.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane3.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane4.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
   }
   
-  public GandaCard(JSONObject data){
-    this();
+  public GandaCard(CreateQuizCard card, JSONObject data){
+    this(card);
     if(data.getString("type").equals("MultiChoises")){
     JSONArray choises = data.getJSONObject("answer").getJSONArray("choises");
     JSONArray correctAnswer = data.getJSONObject("answer").getJSONArray("correctAnswer");
