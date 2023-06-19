@@ -185,7 +185,7 @@ public class QuizAnswer extends javax.swing.JPanel {
         "respondents",
         quiz.getJSONArray("respondents")
           .put(respondent.getString("_id"))
-      );
+      ).put("state", 0);
       new Quiz().update(quiz, quiz.getString("_id"));
       
       Controller.showInformationDialog(String.format(

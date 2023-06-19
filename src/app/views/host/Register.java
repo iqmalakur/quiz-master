@@ -173,6 +173,16 @@ public class Register extends javax.swing.JPanel {
   }//GEN-LAST:event_btnBackMouseReleased
 
   private void btnSendMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSendMouseClicked
+    if(nameField.getText().equals("")){
+      Controller.showErrorDialog("Nama harus diisi!");
+      return;
+    }
+    
+    if(usernameField.getText().equals("")){
+      Controller.showErrorDialog("Username harus diisi!");
+      return;
+    }
+    
     String name = nameField.getText();
     String username = usernameField.getText();
     String password = new String(passwordField.getPassword());
