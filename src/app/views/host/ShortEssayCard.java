@@ -4,27 +4,25 @@
  */
 package app.views.host;
 
-import java.awt.Color;
-import javax.swing.JRadioButton;
 import org.json.JSONObject;
 
 /**
  *
  * @author User
  */
-public class ShortCard extends javax.swing.JPanel {
+public class ShortEssayCard extends javax.swing.JPanel {
 
   /**
    * Creates new form tunggalCard
    */
-  public ShortCard(CreateQuizCard card) {
+  public ShortEssayCard(CreateQuizCard card) {
     initComponents();
     
     card.answers = fieldIsianSingkat;
     
   }
   
-  public ShortCard(CreateQuizCard card, JSONObject data){
+  public ShortEssayCard(CreateQuizCard card, JSONObject data){
     this(card);
     if(data.getString("type").equals("ShortEssay")){
       String correctAnswer = data.getJSONObject("answer").getString("correctAnswer");
