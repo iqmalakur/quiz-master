@@ -67,8 +67,6 @@ import org.json.JSONObject;
   private void initComponents() {
 
     buttonGroup1 = new javax.swing.ButtonGroup();
-    radioYAbtn = new javax.swing.JRadioButton();
-    radioTIDAKbtn = new javax.swing.JRadioButton();
     homeBtn = new javax.swing.JLabel();
     saveBtn = new javax.swing.JLabel();
     addBtn = new javax.swing.JLabel();
@@ -85,14 +83,6 @@ import org.json.JSONObject;
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-    buttonGroup1.add(radioYAbtn);
-    radioYAbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    add(radioYAbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 64, 30, -1));
-
-    buttonGroup1.add(radioTIDAKbtn);
-    radioTIDAKbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    add(radioTIDAKbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 64, 30, -1));
 
     homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/homeIcon.png"))); // NOI18N
     homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -365,8 +355,6 @@ import org.json.JSONObject;
   private javax.swing.JLabel idLabel;
   private javax.swing.JTextField judulField;
   private javax.swing.JLabel penBtn;
-  private javax.swing.JRadioButton radioTIDAKbtn;
-  private javax.swing.JRadioButton radioYAbtn;
   private javax.swing.JLabel saveBtn;
   private javax.swing.JTextField scoreAllField;
   private javax.swing.JLabel teksLabel;

@@ -98,11 +98,23 @@ public class QuizAnswer extends javax.swing.JPanel {
     time.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     add(time, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 105, 50));
 
-    btnNext.setText("Next");
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png"))); // NOI18N
     btnNext.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnNext.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         btnNextMouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        btnNextMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        btnNextMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        btnNextMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        btnNextMouseReleased(evt);
       }
     });
     add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 400, -1, -1));
@@ -189,6 +201,25 @@ public class QuizAnswer extends javax.swing.JPanel {
     }
     else nextQuestion();
   }//GEN-LAST:event_btnNextMouseClicked
+
+  private void btnNextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseEntered
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-hover.png")));
+  }//GEN-LAST:event_btnNextMouseEntered
+
+  private void btnNextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseExited
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
+    // TODO add your handling code here:
+  }//GEN-LAST:event_btnNextMouseExited
+
+  private void btnNextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMousePressed
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-click.png")));
+    // TODO add your handling code here:
+  }//GEN-LAST:event_btnNextMousePressed
+
+  private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
+    // TODO add your handling code here:
+  }//GEN-LAST:event_btnNextMouseReleased
 
   private void nextQuestion(){
     task.cancel();
