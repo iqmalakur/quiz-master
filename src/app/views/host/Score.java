@@ -31,7 +31,11 @@ public class Score extends javax.swing.JPanel {
     Model respondentModel = new Respondent();
     boolean haveOptField = !quiz.getString("optField").equals("");
     
-    respondents = respondentModel.get();
+    respondents = new LinkedList<>();
+    quiz.getJSONArray("respondents").forEach(res -> {
+      respondents.add(respondentModel.get((String) res));
+    });
+    
     Object[][] dataTable = new Object[respondents.size()][haveOptField ? 5 : 4];
     
     // Mengurutkan data berdasarkan score dan answer time

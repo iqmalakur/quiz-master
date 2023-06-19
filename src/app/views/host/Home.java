@@ -203,6 +203,22 @@ public class Home extends javax.swing.JPanel {
   }//GEN-LAST:event_btnLoginMouseReleased
 
   private void btnJoinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJoinMouseClicked
+    if(codeField.getText().equals("")){
+      Controller.showErrorDialog("Kode harus diisi!");
+      return;
+    }
+    
+    if(nameField.getText().equals("")){
+      Controller.showErrorDialog("Nama harus diisi!");
+      return;
+    }
+    
+    if(optionalField.isVisible() && optionalField.getText().equals("")){
+      JSONObject quiz = new Quiz().get("code", codeField.getText());
+      Controller.showErrorDialog(quiz.getString("optField") + " harus diisi!");
+      return;
+    }
+    
     Model quiz = new Quiz();
     JSONObject findQuiz = quiz.get("code", codeField.getText());
     

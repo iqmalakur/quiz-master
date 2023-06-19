@@ -31,6 +31,15 @@ public class EssayCheck extends javax.swing.JPanel {
     
     quizAnswer = Score.getQuizAnswer();
     answer.setText(quizAnswer.get(answerIndex).getString("answer"));
+    
+    switch(quizAnswer.get(answerIndex).getInt("state")){
+      case -1 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+      case 0 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+      case 1 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)));
+    }
   }
   
   private void updateStatus(int status){
@@ -97,9 +106,11 @@ public class EssayCheck extends javax.swing.JPanel {
       }
     });
 
+    answer.setEditable(false);
     answer.setColumns(20);
     answer.setLineWrap(true);
     answer.setRows(5);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
     scrollPane.setViewportView(answer);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -125,23 +136,25 @@ public class EssayCheck extends javax.swing.JPanel {
         .addComponent(question)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
-            .addGap(18, 18, 18)
-            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addGroup(layout.createSequentialGroup()
             .addGap(39, 39, 39)
             .addComponent(btnTrue)
             .addGap(18, 18, 18)
-            .addComponent(btnFalse)))
-        .addContainerGap(19, Short.MAX_VALUE))
+            .addComponent(btnFalse))
+          .addGroup(layout.createSequentialGroup()
+            .addGap(18, 18, 18)
+            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        .addContainerGap(20, Short.MAX_VALUE))
     );
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnTrueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrueMouseClicked
     updateStatus(1);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)));
   }//GEN-LAST:event_btnTrueMouseClicked
 
   private void btnFalseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFalseMouseClicked
     updateStatus(-1);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
   }//GEN-LAST:event_btnFalseMouseClicked
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
