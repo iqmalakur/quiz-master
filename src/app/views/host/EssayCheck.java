@@ -31,6 +31,15 @@ public class EssayCheck extends javax.swing.JPanel {
     
     quizAnswer = Score.getQuizAnswer();
     answer.setText(quizAnswer.get(answerIndex).getString("answer"));
+    
+    switch(quizAnswer.get(answerIndex).getInt("state")){
+      case -1 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+      case 0 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+      case 1 ->
+        answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)));
+    }
   }
   
   private void updateStatus(int status){
@@ -81,7 +90,7 @@ public class EssayCheck extends javax.swing.JPanel {
 
     question.setText("jLabel1");
 
-    btnTrue.setText("true");
+    btnTrue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/true.png"))); // NOI18N
     btnTrue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnTrue.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -89,7 +98,7 @@ public class EssayCheck extends javax.swing.JPanel {
       }
     });
 
-    btnFalse.setText("false");
+    btnFalse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/false.png"))); // NOI18N
     btnFalse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnFalse.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,9 +106,11 @@ public class EssayCheck extends javax.swing.JPanel {
       }
     });
 
+    answer.setEditable(false);
     answer.setColumns(20);
     answer.setLineWrap(true);
     answer.setRows(5);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
     scrollPane.setViewportView(answer);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -114,17 +125,25 @@ public class EssayCheck extends javax.swing.JPanel {
             .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
               .addComponent(btnFalse)
               .addComponent(btnTrue, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
         .addContainerGap(21, Short.MAX_VALUE))
+=======
+              .addComponent(btnTrue)
+              .addComponent(btnFalse))))
+        .addContainerGap(46, Short.MAX_VALUE))
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addGap(19, 19, 19)
         .addComponent(question)
+        .addGap(18, 18, 18)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
             .addGap(18, 18, 18)
             .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
           .addGroup(layout.createSequentialGroup()
@@ -133,15 +152,24 @@ public class EssayCheck extends javax.swing.JPanel {
             .addGap(18, 18, 18)
             .addComponent(btnFalse)))
         .addContainerGap(19, Short.MAX_VALUE))
+=======
+            .addComponent(btnTrue)
+            .addGap(26, 26, 26)
+            .addComponent(btnFalse))
+          .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap(20, Short.MAX_VALUE))
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
     );
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnTrueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrueMouseClicked
     updateStatus(1);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)));
   }//GEN-LAST:event_btnTrueMouseClicked
 
   private void btnFalseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFalseMouseClicked
     updateStatus(-1);
+    answer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
   }//GEN-LAST:event_btnFalseMouseClicked
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

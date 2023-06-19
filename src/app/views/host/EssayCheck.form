@@ -29,7 +29,11 @@
                       </Group>
                   </Group>
               </Group>
+<<<<<<< HEAD
               <EmptySpace pref="21" max="32767" attributes="0"/>
+=======
+              <EmptySpace pref="46" max="32767" attributes="0"/>
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,8 +42,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Component id="question" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+<<<<<<< HEAD
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="scrollPane" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -47,10 +53,15 @@
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="btnTrue" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+=======
+                      <Component id="btnTrue" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
                       <Component id="btnFalse" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="scrollPane" min="-2" pref="97" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,7 +74,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="btnTrue">
       <Properties>
-        <Property name="text" type="java.lang.String" value="true"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/image/button/true.png"/>
+        </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
         </Property>
@@ -74,7 +87,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="btnFalse">
       <Properties>
-        <Property name="text" type="java.lang.String" value="false"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/image/button/false.png"/>
+        </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
         </Property>
@@ -92,9 +107,17 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="answer">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder>
+                  <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
+                </LineBorder>
+              </Border>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>

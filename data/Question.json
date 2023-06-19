@@ -1,1 +1,51 @@
-[{"question":"Bahasa pemrograman untuk web","answer":{"correctAnswer":1,"choises":["Ruby","Javascript",".net","C++"]},"grade":20,"_id":"QST001","time":30,"type":"SingleChoise"},{"question":"Framework untuk Backend","answer":{"correctAnswer":[1,2,3],"choises":["Laravel","Bootstrap","Tailwind CSS","Express JS"]},"grade":25,"_id":"QST002","time":20,"type":"MultiChoises"},{"question":"Apa yang dimaksud dengan Asynchronous Programming?","answer":{},"grade":75,"_id":"QST004","time":120,"type":"LongEssay"},{"question":"Fitur bahasa pemrograman Java","answer":{"correctAnswer":[0,3],"choises":["OOP","Socket Programming","Multi-Platform","Dinamis"]},"grade":50,"time":40,"_id":"QST005","type":"MultiChoises"},{"question":"Syntax apa yang digunakan untuk meng-outputkan data String tanpa membuat baris baru?(Tuliskan secara lengkap hingga titik-koma)","answer":{"correctAnswer":"System.out.print();"},"grade":100,"time":30,"_id":"QST006","type":"ShortEssay"}]
+[
+  {
+    "question": "Bahasa pemrograman untuk web",
+    "answer": {
+      "correctAnswer": 1,
+      "choises": ["Ruby", "Javascript", ".net", "C++"]
+    },
+    "grade": 20,
+    "_id": "QST001",
+    "time": 30,
+    "type": "SingleChoise"
+  },
+  {
+    "question": "Framework untuk Backend",
+    "answer": {
+      "correctAnswer": [1, 2, 3],
+      "choises": ["Laravel", "Bootstrap", "Tailwind CSS", "Express JS"]
+    },
+    "grade": 25,
+    "_id": "QST002",
+    "time": 20,
+    "type": "MultiChoises"
+  },
+  {
+    "question": "Apa yang dimaksud dengan Asynchronous Programming?",
+    "answer": {},
+    "grade": 75,
+    "_id": "QST004",
+    "time": 120,
+    "type": "LongEssay"
+  },
+  {
+    "question": "Fitur bahasa pemrograman Java",
+    "answer": {
+      "correctAnswer": [0, 3],
+      "choises": ["OOP", "Socket Programming", "Multi-Platform", "Dinamis"]
+    },
+    "grade": 50,
+    "time": 40,
+    "_id": "QST005",
+    "type": "MultiChoises"
+  },
+  {
+    "question": "Syntax apa yang digunakan untuk meng-outputkan data String tanpa membuat baris baru?(Tuliskan secara lengkap hingga titik-koma)",
+    "answer": { "correctAnswer": "System.out.print();" },
+    "grade": 100,
+    "time": 30,
+    "_id": "QST006",
+    "type": "ShortEssay"
+  }
+]
