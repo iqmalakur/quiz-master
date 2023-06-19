@@ -114,9 +114,9 @@ public class EssayCheck extends javax.swing.JPanel {
             .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(btnTrue)
-              .addComponent(btnFalse))))
-        .addContainerGap(52, Short.MAX_VALUE))
+              .addComponent(btnFalse)
+              .addComponent(btnTrue, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        .addContainerGap(21, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,8 +128,8 @@ public class EssayCheck extends javax.swing.JPanel {
             .addGap(18, 18, 18)
             .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
           .addGroup(layout.createSequentialGroup()
-            .addGap(39, 39, 39)
-            .addComponent(btnTrue)
+            .addGap(30, 30, 30)
+            .addComponent(btnTrue, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addComponent(btnFalse)))
         .addContainerGap(19, Short.MAX_VALUE))

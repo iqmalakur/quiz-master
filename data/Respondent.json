@@ -149,5 +149,18 @@
     "name": "Hello world",
     "_id": "RES024",
     "optFieldValue": "lorem ipsum"
+  },
+  {
+    "score": 2000,
+    "answerTime": 3,
+    "quizAnswer": [
+      { "questionId": "QST001", "answer": 3 },
+      { "questionId": "QST002", "answer": [] },
+      { "questionId": "QST003", "answer": "" },
+      { "questionId": "QST004", "answer": "" }
+    ],
+    "name": "Aldo",
+    "_id": "RES002",
+    "optFieldValue": "turu"
   }
 ]

@@ -5,9 +5,9 @@
 package app.views.host;
 
 import app.Controller;
-import app.models.Question;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.json.JSONObject;
@@ -25,19 +25,24 @@ public class CreateQuizCard extends javax.swing.JPanel {
   public JSONObject dataQuestion;
   public Object answers ;
   public Object answersCpt;
+  public CreateQuiz x;
+  public int index;
   
-  public CreateQuizCard() {
+  public CreateQuizCard(CreateQuiz x) {
+    this.x = x;
     dataQuestion = new JSONObject();
     initComponents();
+    this.index = CreateQuiz.numberOfCard;
     CreateQuiz.numberOfCard++;
     soalScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     LabelOfNumber.setText(""+CreateQuiz.numberOfCard+".");
     resContainer.setBackground(new Color(0,0,0,0));
-
+    scoreField.setText(CreateQuiz.scrAll+"");
+    timeField.setText(CreateQuiz.timeAll+"");
   }
   
-  public CreateQuizCard(JSONObject data){
-    this();
+  public CreateQuizCard(CreateQuiz x, JSONObject data){
+    this(x);
     dataQuestion = data;
     soalTextArea.setText(data.getString("question"));
     String score = "" + data.getInt("grade");
@@ -214,17 +219,18 @@ public class CreateQuizCard extends javax.swing.JPanel {
 //    CreateQuiz.listDataQuestion.get
   }//GEN-LAST:event_scoreFieldKeyReleased
 
+  
   private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
     
     if(Controller.
        showConfirmDialog(
                "Anda yakin mau menghapus soal ini?\nSoal yang dihapus tidak dapat dikembalikan")==0){
-      System.out.println(dataQuestion);
-//      new Question().delete(dataQuestion.getString("_id"));
-////      this.removeAll();
-//      repaint();
-//      revalidate();
-//      CreateQuiz.numberOfCard=0;
+
+
+      x.deleteData.add(dataQuestion.getString("_id"));
+      x.cardContainer.remove(index);
+      x.loopQuestionCard();
+ 
     }
   }//GEN-LAST:event_deleteBtnMouseClicked
 
