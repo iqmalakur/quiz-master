@@ -1,1 +1,26 @@
-[{"respondents":["RES001"],"code":"FK45R","name":"Test Pemrog.WEB","questions":["QST001","QST002","QST003","QST004"],"_id":"QUZ001","optField":"Profesi"},{"respondents":[],"code":"05YJv","name":"Quiz2","questions":[],"_id":"QUZ002","optField":""}]
+[
+  {
+    "respondents": ["RES001"],
+    "code": "FK45R",
+    "name": "Test Pemrog.WEB",
+    "questions": ["QST001", "QST002", "QST003", "QST004"],
+    "_id": "QUZ001",
+    "optField": "Profesi"
+  },
+  {
+    "respondents": [],
+    "code": "05YJv",
+    "name": "Quiz Percobaan",
+    "questions": [],
+    "_id": "QUZ002",
+    "optField": ""
+  },
+  {
+    "respondents": ["RES025"],
+    "code": "EUZXX",
+    "name": "Pemrograman Dasar",
+    "questions": ["QST005", "QST006", "QST007", "QST008"],
+    "_id": "QUZ003",
+    "optField": ""
+  }
+]

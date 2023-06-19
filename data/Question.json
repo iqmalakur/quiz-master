@@ -36,5 +36,40 @@
     "_id": "QST004",
     "time": 120,
     "type": "LongEssay"
+  },
+  {
+    "question": "Yang tidak termasuk kedalam control flow pada pemrograman adalah?",
+    "answer": {
+      "correctAnswer": 3,
+      "choises": ["if statement", "for loop", "switch case", "function"]
+    },
+    "grade": 2,
+    "time": 20,
+    "_id": "QST005",
+    "type": "SingleChoise"
+  },
+  {
+    "question": "Lorem ipsum dolor sit amet",
+    "answer": {},
+    "grade": 5,
+    "time": 30,
+    "_id": "QST006",
+    "type": "LongEssay"
+  },
+  {
+    "question": "Lorem ipsum dolor sit aemt",
+    "answer": {},
+    "grade": 5,
+    "time": 30,
+    "_id": "QST007",
+    "type": "LongEssay"
+  },
+  {
+    "question": "Lorem",
+    "answer": { "correctAnswer": 2, "choises": ["sdf", "sdf", "sdf", "sdf"] },
+    "grade": 3,
+    "time": 2,
+    "_id": "QST008",
+    "type": "SingleChoise"
   }
 ]

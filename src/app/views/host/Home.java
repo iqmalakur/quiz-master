@@ -245,20 +245,20 @@ public class Home extends javax.swing.JPanel {
     if(codeField.getText().length() >= 5){
       JSONObject quiz = new Quiz().get("code", codeField.getText());
       
-      if(quiz != null){
+      if(quiz != null && !quiz.getString("optField").equals("")){
         optionalField.setVisible(true);
         optionalLabel.setVisible(true);
         optionalLabel.setText(quiz.getString("optField"));
         btnJoin.setLocation(btnJoin.getX(), 373);
         card.setSize(card.getWidth(), 330);
-        
+
         try {
           Robot robot = new Robot();
           robot.keyPress(KeyEvent.VK_SHIFT);
           robot.keyRelease(KeyEvent.VK_SHIFT);
         } catch (AWTException ex) {
           Controller.showErrorDialog("Terjadi error saat memproses kode!");
-        }  
+        }
         
         return;
       }

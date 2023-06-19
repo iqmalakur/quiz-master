@@ -208,7 +208,7 @@ public class Login extends javax.swing.JPanel  {
     String password = new String(passwordLoginField.getPassword());
     JSONObject user = users.get(new JSONObject().put("username", username).put("password", password));
     
-    if("".equals(username) && "".equals(password)){
+    if("".equals(username) || "".equals(password)){
       Controller.showErrorDialog(
               "Username dan Password tidak boleh kosong"); return;
     }

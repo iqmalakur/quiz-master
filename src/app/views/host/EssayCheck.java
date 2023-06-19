@@ -90,7 +90,7 @@ public class EssayCheck extends javax.swing.JPanel {
 
     question.setText("jLabel1");
 
-    btnTrue.setText("true");
+    btnTrue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/true.png"))); // NOI18N
     btnTrue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnTrue.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -98,7 +98,7 @@ public class EssayCheck extends javax.swing.JPanel {
       }
     });
 
-    btnFalse.setText("false");
+    btnFalse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/false.png"))); // NOI18N
     btnFalse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     btnFalse.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -127,22 +127,20 @@ public class EssayCheck extends javax.swing.JPanel {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addComponent(btnTrue)
               .addComponent(btnFalse))))
-        .addContainerGap(52, Short.MAX_VALUE))
+        .addContainerGap(46, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addGap(19, 19, 19)
         .addComponent(question)
+        .addGap(18, 18, 18)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
-            .addGap(39, 39, 39)
             .addComponent(btnTrue)
-            .addGap(18, 18, 18)
+            .addGap(26, 26, 26)
             .addComponent(btnFalse))
-          .addGroup(layout.createSequentialGroup()
-            .addGap(18, 18, 18)
-            .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+          .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap(20, Short.MAX_VALUE))
     );
   }// </editor-fold>//GEN-END:initComponents

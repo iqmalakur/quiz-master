@@ -183,14 +183,26 @@ public class Score extends javax.swing.JPanel {
 
     add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 690, 350));
 
-    showBtn.setText("Show Table");
+    showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
     showBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     showBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         showBtnMouseClicked(evt);
       }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        showBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        showBtnMouseExited(evt);
+      }
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        showBtnMousePressed(evt);
+      }
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        showBtnMouseReleased(evt);
+      }
     });
-    add(showBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
+    add(showBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
     closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/close.png"))); // NOI18N
     closeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -252,6 +264,22 @@ public class Score extends javax.swing.JPanel {
     scrollPane.setViewportView(scoreTable);
     showBtn.setVisible(false);
   }//GEN-LAST:event_showBtnMouseClicked
+
+  private void showBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseEntered
+    showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-hover.png")));
+  }//GEN-LAST:event_showBtnMouseEntered
+
+  private void showBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseExited
+    showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png")));
+  }//GEN-LAST:event_showBtnMouseExited
+
+  private void showBtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMousePressed
+    showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn-click.png")));
+  }//GEN-LAST:event_showBtnMousePressed
+
+  private void showBtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseReleased
+    showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png")));
+  }//GEN-LAST:event_showBtnMouseReleased
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel closeBtn;
