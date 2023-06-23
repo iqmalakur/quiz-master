@@ -24,12 +24,16 @@
                       <Component id="scrollPane" min="-2" pref="571" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnTrue" min="-2" max="-2" attributes="0"/>
                           <Component id="btnFalse" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnTrue" min="-2" pref="55" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
+<<<<<<< HEAD
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+=======
               <EmptySpace pref="46" max="32767" attributes="0"/>
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
           </Group>
       </Group>
     </DimensionLayout>
@@ -41,8 +45,18 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+<<<<<<< HEAD
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="scrollPane" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btnTrue" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+=======
                       <Component id="btnTrue" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+>>>>>>> cf1520f5595cce9dfc39e5fb33406b95bf9314d3
                       <Component id="btnFalse" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="scrollPane" min="-2" pref="97" max="-2" attributes="0"/>

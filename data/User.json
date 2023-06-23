@@ -1,1 +1,44 @@
-[{"password":"ucup","name":"Ucup","_id":"USR001","quizzes":["QUZ001","QUZ002"],"username":"ucup"},{"password":"Budi12345","name":"Budi Sutardi","quizzes":["QUZ003"],"_id":"USR004","username":"budi"}]
+[
+  {
+    "password": "ucup",
+    "name": "Ucup",
+    "_id": "USR001",
+    "quizzes": ["QUZ001"],
+    "username": "ucup"
+  },
+  {
+    "password": "Mj12345678",
+    "name": "jekson",
+    "quizzes": ["QUZ004", "QUZ005", "QUZ006"],
+    "_id": "USR002",
+    "username": "mj123"
+  },
+  {
+    "password": "Aldo1234",
+    "name": "aldo",
+    "quizzes": ["QUZ007", "QUZ008", "QUZ009"],
+    "_id": "USR003",
+    "username": "aldo123"
+  },
+  {
+    "password": "Dai12345",
+    "name": "dai",
+    "quizzes": ["QUZ012"],
+    "_id": "USR004",
+    "username": "dai12345"
+  },
+  {
+    "password": "Faza12345",
+    "name": "faza",
+    "quizzes": ["QUZ013"],
+    "_id": "USR005",
+    "username": "faza12345"
+  },
+  {
+    "password": "Iqmal12345",
+    "name": "iqmal",
+    "quizzes": ["QUZ014"],
+    "_id": "USR006",
+    "username": "iqmal12345"
+  }
+]

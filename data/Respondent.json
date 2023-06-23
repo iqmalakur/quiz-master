@@ -1,6 +1,6 @@
 [
   {
-    "score": 23,
+    "score": 8,
     "answerTime": 200,
     "quizAnswer": [
       { "questionId": "QST001", "answer": 2 },
@@ -9,7 +9,7 @@
       {
         "questionId": "QST004",
         "answer": "Asyncronous Programming adalah teknik pemrograman untuk menjalankan beberapa perintah secara bersamaan dalam satu waktu",
-        "state": 1
+        "state": 0
       }
     ],
     "name": "Jack",
@@ -151,16 +151,16 @@
     "optFieldValue": "lorem ipsum"
   },
   {
-    "score": 2,
-    "answerTime": 9,
+    "score": 2000,
+    "answerTime": 3,
     "quizAnswer": [
-      { "questionId": "QST005", "answer": 3 },
-      { "questionId": "QST006", "answer": "sadfasdfdsafdsa", "state": 0 },
-      { "questionId": "QST007", "answer": "dfgdfgdfgdf", "state": 0 },
-      { "questionId": "QST008", "answer": 1 }
+      { "questionId": "QST001", "answer": 3 },
+      { "questionId": "QST002", "answer": [] },
+      { "questionId": "QST003", "answer": "" },
+      { "questionId": "QST004", "answer": "" }
     ],
-    "name": "Ucup Surucup",
-    "_id": "RES025",
-    "optFieldValue": ""
+    "name": "Aldo",
+    "_id": "RES002",
+    "optFieldValue": "turu"
   }
 ]

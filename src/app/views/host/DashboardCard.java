@@ -5,7 +5,10 @@
 package app.views.host;
 
 import app.Controller;
+import app.models.Quiz;
+import app.models.User;
 import java.awt.Color;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -15,19 +18,24 @@ import org.json.JSONObject;
 public class DashboardCard extends javax.swing.JPanel {
   public int index; 
   public static int COUNT = 0;
+  public Dashboard x;
   /**
    * Creates new form DashboardCard
    */
-  public DashboardCard() {
+  public DashboardCard(Dashboard x) {
     initComponents();
+    this.x = x;
     index = COUNT;
     COUNT++;
     setBackground(new Color(0,0,0,0));
     setVisible(true);
+    cardTitle.setText("Quiz "+COUNT);
   }
-  public DashboardCard(JSONObject data) {
-    this();
+  public DashboardCard(Dashboard x, JSONObject data) {
+    this(x);
      cardTitle.setText(data.getString("name"));
+     
+     
   }
 
   /**
@@ -50,6 +58,9 @@ public class DashboardCard extends javax.swing.JPanel {
 
     deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png"))); // NOI18N
     deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        deleteBtnMouseClicked(evt);
+      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         deleteBtnMouseEntered(evt);
       }
@@ -163,6 +174,35 @@ public class DashboardCard extends javax.swing.JPanel {
   private void openScoreBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openScoreBtnMouseClicked
     Controller.setPanel(new Score(Dashboard.quizList.get(index)));
   }//GEN-LAST:event_openScoreBtnMouseClicked
+
+  private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
+    if(Controller.
+       showConfirmDialog(
+               "Anda yakin mau menghapus Quiz ini?\nQuiz yang dihapus tidak dapat dikembalikan")==0){
+      String idQuiz = x.quizList.get(index).getString("_id");
+      new Quiz().delete(idQuiz);
+      
+      x.containerCardPanel.remove(index);
+      x.quizList.remove(index);
+      
+      JSONArray listID = new JSONArray();
+      x.quizList.forEach(item -> listID.put(((JSONObject)item).getString("_id")));
+      
+      Login.getUSER().put("quizzes", listID);
+      new User().update(Login.getUSER(), Login.getUSER().getString("_id"));
+      x.loopcard();
+       
+
+//      x.idOfQuiz.add();
+//      x.idOfQuiz.forEach(item -> {
+//      for (int i = 0 ; i < idQuiz.length() ; i++){
+//        if (idQuiz.getString(i).equals(item))
+//          idQuiz.remove(i);
+//      }
+//    });
+    }
+    
+  }//GEN-LAST:event_deleteBtnMouseClicked
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

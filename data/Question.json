@@ -2,10 +2,10 @@
   {
     "question": "Bahasa pemrograman untuk web",
     "answer": {
-      "correctAnswer": 3,
-      "choises": ["Ruby", "Javascript", "php", "C++"]
+      "correctAnswer": 1,
+      "choises": ["Ruby", "Javascript", ".net", "C++"]
     },
-    "grade": 2000,
+    "grade": 20,
     "_id": "QST001",
     "time": 30,
     "type": "SingleChoise"
@@ -14,62 +14,38 @@
     "question": "Framework untuk Backend",
     "answer": {
       "correctAnswer": [1, 2, 3],
-      "choises": ["Laravel", "Hapi JS", "Tailwind CSS", "Express JS"]
+      "choises": ["Laravel", "Bootstrap", "Tailwind CSS", "Express JS"]
     },
-    "grade": 2,
+    "grade": 25,
     "_id": "QST002",
-    "time": 30,
+    "time": 20,
     "type": "MultiChoises"
-  },
-  {
-    "question": "Syntax untuk menampilkan teks di konsol pada Java",
-    "answer": { "correctAnswer": "System.out.printf();" },
-    "grade": 5,
-    "_id": "QST003",
-    "time": 60,
-    "type": "ShortEssay"
   },
   {
     "question": "Apa yang dimaksud dengan Asynchronous Programming?",
     "answer": {},
-    "grade": 5,
+    "grade": 75,
     "_id": "QST004",
     "time": 120,
     "type": "LongEssay"
   },
   {
-    "question": "Yang tidak termasuk kedalam control flow pada pemrograman adalah?",
+    "question": "Fitur bahasa pemrograman Java",
     "answer": {
-      "correctAnswer": 3,
-      "choises": ["if statement", "for loop", "switch case", "function"]
+      "correctAnswer": [0, 3],
+      "choises": ["OOP", "Socket Programming", "Multi-Platform", "Dinamis"]
     },
-    "grade": 2,
-    "time": 20,
+    "grade": 50,
+    "time": 40,
     "_id": "QST005",
-    "type": "SingleChoise"
+    "type": "MultiChoises"
   },
   {
-    "question": "Lorem ipsum dolor sit amet",
-    "answer": {},
-    "grade": 5,
+    "question": "Syntax apa yang digunakan untuk meng-outputkan data String tanpa membuat baris baru?(Tuliskan secara lengkap hingga titik-koma)",
+    "answer": { "correctAnswer": "System.out.print();" },
+    "grade": 100,
     "time": 30,
     "_id": "QST006",
-    "type": "LongEssay"
-  },
-  {
-    "question": "Lorem ipsum dolor sit aemt",
-    "answer": {},
-    "grade": 5,
-    "time": 30,
-    "_id": "QST007",
-    "type": "LongEssay"
-  },
-  {
-    "question": "Lorem",
-    "answer": { "correctAnswer": 2, "choises": ["sdf", "sdf", "sdf", "sdf"] },
-    "grade": 3,
-    "time": 2,
-    "_id": "QST008",
-    "type": "SingleChoise"
+    "type": "ShortEssay"
   }
 ]

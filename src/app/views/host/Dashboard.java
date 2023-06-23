@@ -20,11 +20,11 @@ import org.json.JSONObject;
  * @author iakba
  */
 public class Dashboard extends javax.swing.JPanel {
-
+  ArrayList<String> idOfQuiz = new ArrayList<>();
   /**
    * Creates new form Dashboard
    */
-  public static ArrayList<JSONObject> quizList = new ArrayList<>();
+  public static ArrayList<JSONObject> quizList;
   
   public Dashboard() {
     DashboardCard.COUNT=0;
@@ -37,16 +37,28 @@ public class Dashboard extends javax.swing.JPanel {
     String nama = Login.getUSER().getString("name");
     nameTextField.setText(nama);
     
-    Model quiz = new Quiz();
-    Login.getUSER().getJSONArray("quizzes").forEach(item -> {
-      containerCardPanel.remove(DashboardCard.COUNT);
-      quizList.add(quiz.get((String)item));
-      containerCardPanel.add(new DashboardCard(quiz.get((String)item)));
-      if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
-    });   
+    loopcard();
+    
     
   }
 
+  public void loopcard(){
+    containerCardPanel.removeAll();
+    DashboardCard.COUNT=0;
+    quizList = new ArrayList<>();
+    Model quiz = new Quiz();
+    Login.getUSER().getJSONArray("quizzes").forEach(item -> {
+      if(containerCardPanel.getComponents().length > 0)
+      containerCardPanel.remove(DashboardCard.COUNT);
+      quizList.add(quiz.get((String)item));
+      containerCardPanel.add(new DashboardCard(this, quiz.get((String)item)));
+      if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
+    }); 
+    containerCardPanel.repaint();
+    containerCardPanel.revalidate();
+    repaint();
+    revalidate();
+  }
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,6 +175,7 @@ public class Dashboard extends javax.swing.JPanel {
     if(check == 0){
       Controller.setPanel(new Login());
       Login.setUSER(null);
+      quizList = new ArrayList<>();
       try(FileWriter fw = new FileWriter("cache/remember.txt")){} catch (IOException ex) {}
     }
   }//GEN-LAST:event_btnLogoutMouseClicked
@@ -211,7 +224,7 @@ public class Dashboard extends javax.swing.JPanel {
     boolean codeIsExist = true;
     
     containerCardPanel.remove(DashboardCard.COUNT);
-    containerCardPanel.add(new DashboardCard());
+    containerCardPanel.add(new DashboardCard(this));
     String karakter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     
     StringBuilder codeQuiz = new StringBuilder();
@@ -234,6 +247,7 @@ public class Dashboard extends javax.swing.JPanel {
     .put("optField","")
     ;
     
+    quizList.add(dataQuiz);
     quiz.insert(dataQuiz);
     String s = dataQuiz.getString("_id");
     Login.getUSER().getJSONArray("quizzes").put(s);
@@ -248,9 +262,9 @@ public class Dashboard extends javax.swing.JPanel {
   private javax.swing.JLabel addCardBtn;
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnLogout;
-  private javax.swing.JPanel containerCardPanel;
+  public javax.swing.JPanel containerCardPanel;
   private javax.swing.JLabel editBtn;
-  private javax.swing.JLabel homeBtn;
+  public javax.swing.JLabel homeBtn;
   private javax.swing.JTextField nameTextField;
   // End of variables declaration//GEN-END:variables
 }

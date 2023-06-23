@@ -125,9 +125,11 @@ public class EssayCheck extends javax.swing.JPanel {
             .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
               .addComponent(btnTrue)
               .addComponent(btnFalse))))
         .addContainerGap(46, Short.MAX_VALUE))
+
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,11 +139,13 @@ public class EssayCheck extends javax.swing.JPanel {
         .addGap(18, 18, 18)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
+
             .addComponent(btnTrue)
             .addGap(26, 26, 26)
             .addComponent(btnFalse))
           .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap(20, Short.MAX_VALUE))
+
     );
   }// </editor-fold>//GEN-END:initComponents
 

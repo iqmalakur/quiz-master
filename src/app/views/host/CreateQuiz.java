@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +33,9 @@ import org.json.JSONObject;
     JSONObject quiz;
     int index;
     LinkedList<CreateQuizCard> listCard = new LinkedList<>();
+    public static int scrAll=100;
+    public static int timeAll=60;
+    ArrayList<String> deleteData = new ArrayList<>();
   /**
    * Creates new form CreayeQuiz
    */
@@ -45,16 +49,30 @@ import org.json.JSONObject;
     scoreAllField.setBackground(new Color(0,0,0,0));
     containerScroll.getVerticalScrollBar().setUnitIncrement(16);
     judulField.setText(quiz.getString("name"));
+    infoField.setText(quiz.getString("optField"));
     idLabel.setText("Kode: "+quiz.getString("code"));
     
     if(!quiz.getJSONArray("questions").isEmpty())teksLabel.setVisible(false);
 
+    loopQuestionCard();
+    
+            
+  }
+  
+  public void loopQuestionCard(){
+    cardContainer.removeAll();
+    numberOfCard = 0;
     Model question = new Question();
     quiz.getJSONArray("questions").forEach(item ->{
-      listCard.addLast(new CreateQuizCard(question.get((String)item)));
-     
-      cardContainer.add(listCard.getLast());
+      if(!deleteData.contains(item)){
+        listCard.addLast(new CreateQuizCard(this, question.get((String)item)));
+        cardContainer.add(listCard.getLast());
+      }
     });
+    cardContainer.repaint();
+    cardContainer.revalidate();
+    if(numberOfCard == 0 )teksLabel.setVisible(true);
+    else teksLabel.setVisible(false);
   }
 
   /**
@@ -67,8 +85,6 @@ import org.json.JSONObject;
   private void initComponents() {
 
     buttonGroup1 = new javax.swing.ButtonGroup();
-    radioYAbtn = new javax.swing.JRadioButton();
-    radioTIDAKbtn = new javax.swing.JRadioButton();
     homeBtn = new javax.swing.JLabel();
     saveBtn = new javax.swing.JLabel();
     addBtn = new javax.swing.JLabel();
@@ -81,18 +97,13 @@ import org.json.JSONObject;
     timeAllField = new javax.swing.JTextField();
     scoreAllField = new javax.swing.JTextField();
     judulField = new javax.swing.JTextField();
+    infoField = new javax.swing.JTextField();
+    infoBtn = new javax.swing.JCheckBox();
+    jLabel1 = new javax.swing.JLabel();
     createQuizBG = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-    buttonGroup1.add(radioYAbtn);
-    radioYAbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    add(radioYAbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 64, 30, -1));
-
-    buttonGroup1.add(radioTIDAKbtn);
-    radioTIDAKbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    add(radioTIDAKbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 64, 30, -1));
 
     homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/homeIcon.png"))); // NOI18N
     homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -177,8 +188,11 @@ import org.json.JSONObject;
     timeAllField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     timeAllField.setText("60");
     timeAllField.setBorder(null);
-    timeAllField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    timeAllField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
     timeAllField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        timeAllFieldKeyReleased(evt);
+      }
       public void keyTyped(java.awt.event.KeyEvent evt) {
         timeAllFieldKeyTyped(evt);
       }
@@ -190,8 +204,11 @@ import org.json.JSONObject;
     scoreAllField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     scoreAllField.setText("100");
     scoreAllField.setBorder(null);
-    scoreAllField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    scoreAllField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
     scoreAllField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyReleased(java.awt.event.KeyEvent evt) {
+        scoreAllFieldKeyReleased(evt);
+      }
       public void keyTyped(java.awt.event.KeyEvent evt) {
         scoreAllFieldKeyTyped(evt);
       }
@@ -204,6 +221,22 @@ import org.json.JSONObject;
     judulField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
     judulField.setEnabled(false);
     add(judulField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 190, 30));
+
+    infoField.setFont(new java.awt.Font("MS UI Gothic", 1, 12)); // NOI18N
+    infoField.setEnabled(false);
+    add(infoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 120, -1));
+
+    infoBtn.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        infoBtnActionPerformed(evt);
+      }
+    });
+    add(infoBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 63, -1, -1));
+
+    jLabel1.setFont(new java.awt.Font("MS UI Gothic", 1, 12)); // NOI18N
+    jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+    jLabel1.setText("Info Tambahan");
+    add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(384, 35, -1, -1));
 
     createQuizBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/createQuizcard2.png"))); // NOI18N
     add(createQuizBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -246,7 +279,7 @@ import org.json.JSONObject;
   
   private void addBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseClicked
     remove(teksLabel);
-    listCard.addLast(new CreateQuizCard());
+    listCard.addLast(new CreateQuizCard(this));
     cardContainer.add(listCard.getLast());
     repaint();
     revalidate();
@@ -350,23 +383,50 @@ import org.json.JSONObject;
       }
     });
     
+    deleteData.forEach(item -> {
+      JSONArray idQuestions = quiz.getJSONArray("questions");
+      for (int i = 0 ; i < idQuestions.length() ; i++){
+        if (idQuestions.getString(i).equals(item))
+          idQuestions.remove(i);
+      }
+      quiz.put("questions", idQuestions);
+      new Question().delete(item);
+    });
+    
+    JSONObject dataInfoTambahan = new JSONObject().put("optField", infoField.getText());
+    quiz = new Quiz().update(dataInfoTambahan, quiz.getString("_id"));
+    
     Controller.showInformationDialog("Data Berhasil Disimpan!", "Sukses");
   }//GEN-LAST:event_saveBtnMouseClicked
+
+  private void scoreAllFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_scoreAllFieldKeyReleased
+    scrAll = Integer.parseInt(scoreAllField.getText());
+  }//GEN-LAST:event_scoreAllFieldKeyReleased
+
+  private void timeAllFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_timeAllFieldKeyReleased
+    timeAll = Integer.parseInt(timeAllField.getText());
+    // TODO add your handling code here:
+  }//GEN-LAST:event_timeAllFieldKeyReleased
+
+  private void infoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoBtnActionPerformed
+    if(infoBtn.isSelected())infoField.setEnabled(true);
+  }//GEN-LAST:event_infoBtnActionPerformed
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel addBtn;
   private javax.swing.ButtonGroup buttonGroup1;
-  private javax.swing.JPanel cardContainer;
+  public javax.swing.JPanel cardContainer;
   private javax.swing.JScrollPane containerScroll;
   private javax.swing.JLabel copyBtn;
   private javax.swing.JLabel createQuizBG;
   private javax.swing.JLabel homeBtn;
   private javax.swing.JLabel idLabel;
+  private javax.swing.JCheckBox infoBtn;
+  private javax.swing.JTextField infoField;
+  private javax.swing.JLabel jLabel1;
   private javax.swing.JTextField judulField;
   private javax.swing.JLabel penBtn;
-  private javax.swing.JRadioButton radioTIDAKbtn;
-  private javax.swing.JRadioButton radioYAbtn;
   private javax.swing.JLabel saveBtn;
   private javax.swing.JTextField scoreAllField;
   private javax.swing.JLabel teksLabel;
