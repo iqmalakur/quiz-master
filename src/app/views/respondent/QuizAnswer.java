@@ -128,6 +128,9 @@ public class QuizAnswer extends javax.swing.JPanel {
           .put("questionId", currentQuestion.getString("_id"))
           .put("answer", answerPanel.getAnswer());
     
+    if(currentQuestion.getString("type").equals("LongEssay"))
+      quizAnswer.put("state", 0);
+    
     respondent.put(
       "quizAnswer",
       respondent.getJSONArray("quizAnswer").put(quizAnswer)
@@ -139,7 +142,7 @@ public class QuizAnswer extends javax.swing.JPanel {
       respondent.getInt("answerTime") + answerTime
     );
     
-    // Matching jawaban yang bukan LongEssay
+    // Cek jawaban selain LongEssay
     if(!currentQuestion.getString("type").equals("LongEssay")){
       int score = 0;
       
@@ -147,22 +150,22 @@ public class QuizAnswer extends javax.swing.JPanel {
       if(currentQuestion.getString("type").equals("MultiChoises")){
         JSONArray correctAnswer = currentQuestion
                 .getJSONObject("answer").getJSONArray("correctAnswer");
-        
+
         if(quizAnswer.getJSONArray("answer").similar(correctAnswer)){
           score = currentQuestion.getInt("grade");
         }
       }
-      
+
       // Matching jawaban Single Choise dan Short Essay
       else{
         Object correctAnswer = currentQuestion
                 .getJSONObject("answer").get("correctAnswer");
-        
+
         if(quizAnswer.get("answer").equals(correctAnswer)){
           score = currentQuestion.getInt("grade");
         }
       }
-      
+
       respondent.put(
         "score",
         respondent.getInt("score") + score
