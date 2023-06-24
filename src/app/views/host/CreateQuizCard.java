@@ -23,26 +23,29 @@ public class CreateQuizCard extends javax.swing.JPanel {
    */
   
   public JSONObject dataQuestion;
-  public Object answers ;
-  public Object answersCpt;
-  public CreateQuiz x;
-  public int index;
+  public Object answers ; //answer btn (check/radio)
+  public Object answersCpt; //answer text
+  public CreateQuiz parentPanel;
+  public int index; //index from createQuiz.nmbrQuestionCard
   
-  public CreateQuizCard(CreateQuiz x) {
-    this.x = x;
-    dataQuestion = new JSONObject();
+  public CreateQuizCard(CreateQuiz parentPanel) {
     initComponents();
-    this.index = CreateQuiz.numberOfCard;
-    CreateQuiz.numberOfCard++;
+    this.parentPanel = parentPanel;
+    this.index = CreateQuiz.nmbrOfQuestionCard;
+    dataQuestion = new JSONObject(); //init
+    CreateQuiz.nmbrOfQuestionCard++;//increment every add new questionCard
+    
     soalScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
-    LabelOfNumber.setText(""+CreateQuiz.numberOfCard+".");
     resContainer.setBackground(new Color(0,0,0,0));
+    
+    
+    LabelOfNumber.setText(""+CreateQuiz.nmbrOfQuestionCard+".");
     scoreField.setText(CreateQuiz.scrAll+"");
     timeField.setText(CreateQuiz.timeAll+"");
   }
   
-  public CreateQuizCard(CreateQuiz x, JSONObject data){
-    this(x);
+  public CreateQuizCard(CreateQuiz parentPanel, JSONObject data){
+    this(parentPanel);
     dataQuestion = data;
     soalTextArea.setText(data.getString("question"));
     String score = "" + data.getInt("grade");
@@ -61,7 +64,8 @@ public class CreateQuizCard extends javax.swing.JPanel {
       case "LongEssay":
         tipeBtn.setSelectedIndex(4);
         break;
-    }    
+    } 
+    
   }
 
   /**
@@ -114,9 +118,6 @@ public class CreateQuizCard extends javax.swing.JPanel {
     scoreField.setText("score");
     scoreField.setBorder(null);
     scoreField.addKeyListener(new java.awt.event.KeyAdapter() {
-      public void keyReleased(java.awt.event.KeyEvent evt) {
-        scoreFieldKeyReleased(evt);
-      }
       public void keyTyped(java.awt.event.KeyEvent evt) {
         scoreFieldKeyTyped(evt);
       }
@@ -165,9 +166,7 @@ public class CreateQuizCard extends javax.swing.JPanel {
       case 1:
         resContainer.removeAll();
         if(!dataQuestion.has("_id")){
-          resContainer.add(new SingleChoiseCard(this)); 
-          
-          break;
+          resContainer.add(new SingleChoiseCard(this)); break;
         }
         resContainer.add(new SingleChoiseCard(this, dataQuestion));
       break;
@@ -215,10 +214,6 @@ public class CreateQuizCard extends javax.swing.JPanel {
     deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/trash.png")));
   }//GEN-LAST:event_deleteBtnMouseExited
 
-  private void scoreFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_scoreFieldKeyReleased
-//    CreateQuiz.listDataQuestion.get
-  }//GEN-LAST:event_scoreFieldKeyReleased
-
   
   private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
     
@@ -226,11 +221,12 @@ public class CreateQuizCard extends javax.swing.JPanel {
        showConfirmDialog(
                "Anda yakin mau menghapus soal ini?\nSoal yang dihapus tidak dapat dikembalikan")==0){
 
-
-      x.deleteData.add(dataQuestion.getString("_id"));
-      x.cardContainer.remove(index);
-      x.loopQuestionCard();
- 
+      if(dataQuestion.has("_id")){ //dataQuestion == one question
+        parentPanel.deleteData.add(dataQuestion.getString("_id")); //parentPanel == CreateQuiz panel
+      }                                                               
+      parentPanel.loopQuestionCard();
+      parentPanel.cardContainer.remove(index);
+      parentPanel.loopQuestionCard();
     }
   }//GEN-LAST:event_deleteBtnMouseClicked
 

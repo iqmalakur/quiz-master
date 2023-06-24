@@ -36,7 +36,6 @@ public class Dashboard extends javax.swing.JPanel {
     
     String nama = Login.getUSER().getString("name");
     nameTextField.setText(nama);
-    
     loopcard();
     
     
@@ -47,8 +46,9 @@ public class Dashboard extends javax.swing.JPanel {
     DashboardCard.COUNT=0;
     quizList = new ArrayList<>();
     Model quiz = new Quiz();
+    containerCardPanel.add(addCardBtn);
     Login.getUSER().getJSONArray("quizzes").forEach(item -> {
-      if(containerCardPanel.getComponents().length > 0)
+      
       containerCardPanel.remove(DashboardCard.COUNT);
       quizList.add(quiz.get((String)item));
       containerCardPanel.add(new DashboardCard(this, quiz.get((String)item)));
@@ -148,6 +148,11 @@ public class Dashboard extends javax.swing.JPanel {
     nameTextField.setText("jTextField1");
     nameTextField.setBorder(null);
     nameTextField.setEnabled(false);
+    nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        nameTextFieldKeyTyped(evt);
+      }
+    });
     add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 20, 190, 30));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/dashboard.png"))); // NOI18N
@@ -257,6 +262,10 @@ public class Dashboard extends javax.swing.JPanel {
     revalidate();
     repaint();
   }//GEN-LAST:event_addCardBtnMouseClicked
+
+  private void nameTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyTyped
+    if(nameTextField.getText().length() > 13)evt.consume();
+  }//GEN-LAST:event_nameTextFieldKeyTyped
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel addCardBtn;

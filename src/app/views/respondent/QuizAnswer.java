@@ -204,7 +204,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   }//GEN-LAST:event_btnNextMouseClicked
 
   private void btnNextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseEntered
-     if(count + 2 >= questionData.size()) {
+     if(count + 1 >= questionData.size()) {
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
      return;
      }
@@ -212,7 +212,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   }//GEN-LAST:event_btnNextMouseEntered
 
   private void btnNextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseExited
-     if(count + 2 >= questionData.size()) {
+     if(count + 1 >= questionData.size()) {
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
      return;
      }
@@ -221,7 +221,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   }//GEN-LAST:event_btnNextMouseExited
 
   private void btnNextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMousePressed
-     if(count + 2 >= questionData.size()) {
+     if(count + 1 >= questionData.size()) {
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
      return;
      }
@@ -230,7 +230,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   }//GEN-LAST:event_btnNextMousePressed
 
   private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
-     if(count + 2 >= questionData.size()) {
+     if(count + 1 >= questionData.size()) {
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
      return;
      }

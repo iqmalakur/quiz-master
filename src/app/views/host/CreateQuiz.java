@@ -29,20 +29,21 @@ import org.json.JSONObject;
  * @author User
  */
     public class CreateQuiz extends javax.swing.JPanel {
-    public static int numberOfCard = 0;
-    JSONObject quiz;
-    int index;
-    LinkedList<CreateQuizCard> listCard = new LinkedList<>();
+    public static int nmbrOfQuestionCard = 0;
+    JSONObject quiz; //one quiz
+    int index; //index QUIZ card from Dashboard
+    LinkedList<CreateQuizCard> listCard = new LinkedList<>(); //list contain data might saved
     public static int scrAll=100;
     public static int timeAll=60;
-    ArrayList<String> deleteData = new ArrayList<>();
+    ArrayList<String> deleteData = new ArrayList<>(); //array contains data might deleted
+    boolean toggleON = true;
   /**
    * Creates new form CreayeQuiz
    */
   public CreateQuiz(int index) {
+    initComponents();
     this.quiz = Dashboard.quizList.get(index);
     this.index = index;
-    initComponents();
     judulField.setBackground(new Color(0,0,0,0));
     judulField.setDisabledTextColor(Color.black);
     timeAllField.setBackground(new Color(0,0,0,0));
@@ -51,27 +52,36 @@ import org.json.JSONObject;
     judulField.setText(quiz.getString("name"));
     infoField.setText(quiz.getString("optField"));
     idLabel.setText("Kode: "+quiz.getString("code"));
-    
-    if(!quiz.getJSONArray("questions").isEmpty())teksLabel.setVisible(false);
 
-    loopQuestionCard();
-    
+  
+    //opt field condition
+    if(!quiz.getString("optField").equals("")){
+      infoCheck.setSelected(toggleON);
+      infoField.setEnabled(toggleON);
+    }
             
+    loopQuestionCard();//build every question card
+//    System.out.println(listCard);
   }
   
   public void loopQuestionCard(){
     cardContainer.removeAll();
-    numberOfCard = 0;
+    nmbrOfQuestionCard = 0;
+    listCard = new LinkedList<>();
+    
     Model question = new Question();
-    quiz.getJSONArray("questions").forEach(item ->{
+    quiz.getJSONArray("questions").forEach(item ->{ // item = idQuestion
       if(!deleteData.contains(item)){
         listCard.addLast(new CreateQuizCard(this, question.get((String)item)));
         cardContainer.add(listCard.getLast());
       }
+    
     });
     cardContainer.repaint();
     cardContainer.revalidate();
-    if(numberOfCard == 0 )teksLabel.setVisible(true);
+    
+    //guide txt filter
+    if(nmbrOfQuestionCard == 0 )teksLabel.setVisible(true);
     else teksLabel.setVisible(false);
   }
 
@@ -98,21 +108,26 @@ import org.json.JSONObject;
     scoreAllField = new javax.swing.JTextField();
     judulField = new javax.swing.JTextField();
     infoField = new javax.swing.JTextField();
-    infoBtn = new javax.swing.JCheckBox();
-    jLabel1 = new javax.swing.JLabel();
+    infoCheck = new javax.swing.JCheckBox();
     createQuizBG = new javax.swing.JLabel();
 
     setBackground(new java.awt.Color(68, 74, 74));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/homeIcon.png"))); // NOI18N
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard.png"))); // NOI18N
     homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         homeBtnMouseClicked(evt);
       }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        homeBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        homeBtnMouseExited(evt);
+      }
     });
-    add(homeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(708, 24, -1, -1));
+    add(homeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 27, -1, -1));
 
     saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/saveIcon.png"))); // NOI18N
     saveBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -120,8 +135,14 @@ import org.json.JSONObject;
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         saveBtnMouseClicked(evt);
       }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        saveBtnMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        saveBtnMouseExited(evt);
+      }
     });
-    add(saveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 27, -1, -1));
+    add(saveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(655, 27, -1, -1));
 
     addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/tambahBtn.png"))); // NOI18N
     addBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -220,23 +241,23 @@ import org.json.JSONObject;
     judulField.setBorder(null);
     judulField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
     judulField.setEnabled(false);
+    judulField.addKeyListener(new java.awt.event.KeyAdapter() {
+      public void keyTyped(java.awt.event.KeyEvent evt) {
+        judulFieldKeyTyped(evt);
+      }
+    });
     add(judulField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 190, 30));
 
     infoField.setFont(new java.awt.Font("MS UI Gothic", 1, 12)); // NOI18N
     infoField.setEnabled(false);
     add(infoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 120, -1));
 
-    infoBtn.addActionListener(new java.awt.event.ActionListener() {
+    infoCheck.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        infoBtnActionPerformed(evt);
+        infoCheckActionPerformed(evt);
       }
     });
-    add(infoBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 63, -1, -1));
-
-    jLabel1.setFont(new java.awt.Font("MS UI Gothic", 1, 12)); // NOI18N
-    jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-    jLabel1.setText("Info Tambahan");
-    add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(384, 35, -1, -1));
+    add(infoCheck, new org.netbeans.lib.awtextra.AbsoluteConstraints(375, 63, -1, -1));
 
     createQuizBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/createQuizcard2.png"))); // NOI18N
     add(createQuizBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -245,10 +266,10 @@ import org.json.JSONObject;
   private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
     if(Controller.showConfirmDialog("Apakah anda yakin ingin keluar?\nData yang belum disimpan akan hilang")==0){
       Controller.setPanel(new Dashboard());
-      numberOfCard = 0;
+      nmbrOfQuestionCard = 0;
     }
   }//GEN-LAST:event_homeBtnMouseClicked
-  boolean toggleON = true;
+  
   private void penBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_penBtnMouseClicked
     toggleON = !toggleON; 
       
@@ -281,6 +302,7 @@ import org.json.JSONObject;
     remove(teksLabel);
     listCard.addLast(new CreateQuizCard(this));
     cardContainer.add(listCard.getLast());
+    
     repaint();
     revalidate();
   }//GEN-LAST:event_addBtnMouseClicked
@@ -323,23 +345,6 @@ import org.json.JSONObject;
       JSONObject answer = new JSONObject();
       String tipe = "";
       switch((int)card.tipeBtn.getSelectedIndex()){
-        case 2:
-          tipe = "MultiChoises";
-          
-          //update correct answer
-          JCheckBox[] checkArray = (JCheckBox[])item.answers;
-          JTextArea[] textArray2 = (JTextArea[])item.answersCpt;
-          JSONArray x = new JSONArray();
-          JSONArray x2 = new JSONArray();
-          
-          for (int i = 0 ; i < 4 ; i++){
-            if(checkArray[i].isSelected())x.put(i);
-            x2.put(textArray2[i].getText());
-          }
-          answer.put("correctAnswer", x);
-          answer.put("choises", x2);
-          
-          break;
         case 1:
           tipe = "SingleChoise";
           
@@ -356,6 +361,23 @@ import org.json.JSONObject;
             answer.put("choises", y);
           
           break;
+        case 2:
+          tipe = "MultiChoises";
+          
+          //update correct answer
+          JCheckBox[] checkArray = (JCheckBox[])item.answers;
+          JTextArea[] textArray2 = (JTextArea[])item.answersCpt;
+          JSONArray answerPoint = new JSONArray();
+          JSONArray answerTXT = new JSONArray();
+          
+          for (int i = 0 ; i < 4 ; i++){
+            if(checkArray[i].isSelected())answerPoint.put(i);
+            answerTXT.put(textArray2[i].getText());
+          }
+          answer.put("correctAnswer", answerPoint); // answer point == check/radio
+          answer.put("choises", answerTXT);
+          
+          break;
         case 3:
           tipe = "ShortEssay";
           
@@ -365,7 +387,20 @@ import org.json.JSONObject;
           tipe = "LongEssay";
           break;
       }
+     
       
+      if(card.scoreField.getText().equals("")||
+         card.timeField.getText().equals("")||
+         tipe.equals("") ||
+         card.soalTextArea.getText().equals("")||
+         answer.getString("correctAnswer").equals("")||
+         answer.has("choises") && answer.getString("choises").equals("")
+         )
+      {
+        Controller.showErrorDialog("Lengkapi semua field yang tersedia!");
+        
+        return;
+      }
       
       card.dataQuestion
               .put("grade", Integer.parseInt(card.scoreField.getText()))
@@ -374,6 +409,7 @@ import org.json.JSONObject;
               .put("question", card.soalTextArea.getText())
               .put("answer", answer)
           ;
+      
       if(card.dataQuestion.has("_id")){
         questionModel.update(card.dataQuestion, card.dataQuestion.getString("_id"));
       }else {
@@ -391,9 +427,14 @@ import org.json.JSONObject;
       }
       quiz.put("questions", idQuestions);
       new Question().delete(item);
+      quiz = new Quiz().update(quiz, quiz.getString("_id"));
     });
     
-    JSONObject dataInfoTambahan = new JSONObject().put("optField", infoField.getText());
+    //opt field filter
+    JSONObject dataInfoTambahan = new JSONObject();
+    if(!infoCheck.isSelected())dataInfoTambahan = new JSONObject().put("optField", "");
+    else dataInfoTambahan = new JSONObject().put("optField", infoField.getText());
+    //quiz query update for opt field
     quiz = new Quiz().update(dataInfoTambahan, quiz.getString("_id"));
     
     Controller.showInformationDialog("Data Berhasil Disimpan!", "Sukses");
@@ -408,9 +449,34 @@ import org.json.JSONObject;
     // TODO add your handling code here:
   }//GEN-LAST:event_timeAllFieldKeyReleased
 
-  private void infoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoBtnActionPerformed
-    if(infoBtn.isSelected())infoField.setEnabled(true);
-  }//GEN-LAST:event_infoBtnActionPerformed
+  private void infoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoCheckActionPerformed
+    if(!infoCheck.isSelected()){
+      infoField.setEnabled(false);
+      infoField.setText("");
+      return;
+    }
+    infoField.setEnabled(true);
+  }//GEN-LAST:event_infoCheckActionPerformed
+
+  private void homeBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseEntered
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard-hover.png")));
+  }//GEN-LAST:event_homeBtnMouseEntered
+
+  private void homeBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseExited
+    homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard.png")));
+  }//GEN-LAST:event_homeBtnMouseExited
+
+  private void saveBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseEntered
+    saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/save-hover.png")));
+  }//GEN-LAST:event_saveBtnMouseEntered
+
+  private void saveBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseExited
+    saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/saveIcon.png")));
+  }//GEN-LAST:event_saveBtnMouseExited
+
+  private void judulFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_judulFieldKeyTyped
+    if(judulField.getText().length() > 24)evt.consume();
+  }//GEN-LAST:event_judulFieldKeyTyped
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -422,9 +488,8 @@ import org.json.JSONObject;
   private javax.swing.JLabel createQuizBG;
   private javax.swing.JLabel homeBtn;
   private javax.swing.JLabel idLabel;
-  private javax.swing.JCheckBox infoBtn;
+  private javax.swing.JCheckBox infoCheck;
   private javax.swing.JTextField infoField;
-  private javax.swing.JLabel jLabel1;
   private javax.swing.JTextField judulField;
   private javax.swing.JLabel penBtn;
   private javax.swing.JLabel saveBtn;

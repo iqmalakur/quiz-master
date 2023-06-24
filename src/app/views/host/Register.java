@@ -40,8 +40,6 @@ public class Register extends javax.swing.JPanel {
     eyeIcon = new javax.swing.JLabel();
     passwordField = new javax.swing.JPasswordField();
     passwordFieldUnhide = new javax.swing.JTextField();
-    quoteText = new javax.swing.JLabel();
-    quoteSource = new javax.swing.JLabel();
     btnSend = new javax.swing.JLabel();
     btnBack = new javax.swing.JLabel();
     background = new javax.swing.JLabel();
@@ -79,16 +77,6 @@ public class Register extends javax.swing.JPanel {
       }
     });
     add(passwordFieldUnhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 385, 300, 35));
-
-    quoteText.setFont(new java.awt.Font("Palatino Linotype", 1, 24)); // NOI18N
-    quoteText.setForeground(new java.awt.Color(255, 255, 255));
-    quoteText.setText("quote text");
-    add(quoteText, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, -1, -1));
-
-    quoteSource.setFont(new java.awt.Font("Palatino Linotype", 1, 12)); // NOI18N
-    quoteSource.setForeground(new java.awt.Color(255, 255, 255));
-    quoteSource.setText("- quote source");
-    add(quoteSource, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
 
     btnSend.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/register-submit-btn.png"))); // NOI18N
     btnSend.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -251,8 +239,6 @@ public class Register extends javax.swing.JPanel {
   private javax.swing.JTextField nameField;
   private javax.swing.JPasswordField passwordField;
   private javax.swing.JTextField passwordFieldUnhide;
-  private javax.swing.JLabel quoteSource;
-  private javax.swing.JLabel quoteText;
   private javax.swing.JTextField usernameField;
   // End of variables declaration//GEN-END:variables
 }

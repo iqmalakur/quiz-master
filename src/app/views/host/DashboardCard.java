@@ -18,21 +18,22 @@ import org.json.JSONObject;
 public class DashboardCard extends javax.swing.JPanel {
   public int index; 
   public static int COUNT = 0;
-  public Dashboard x;
+  public Dashboard parentPanel;
+  
   /**
    * Creates new form DashboardCard
    */
-  public DashboardCard(Dashboard x) {
+  public DashboardCard(Dashboard parentPanel) {
     initComponents();
-    this.x = x;
+    this.parentPanel = parentPanel;
     index = COUNT;
     COUNT++;
     setBackground(new Color(0,0,0,0));
     setVisible(true);
     cardTitle.setText("Quiz "+COUNT);
   }
-  public DashboardCard(Dashboard x, JSONObject data) {
-    this(x);
+  public DashboardCard(Dashboard parentPanel, JSONObject data) {
+    this(parentPanel);
      cardTitle.setText(data.getString("name"));
      
      
@@ -179,27 +180,19 @@ public class DashboardCard extends javax.swing.JPanel {
     if(Controller.
        showConfirmDialog(
                "Anda yakin mau menghapus Quiz ini?\nQuiz yang dihapus tidak dapat dikembalikan")==0){
-      String idQuiz = x.quizList.get(index).getString("_id");
+      String idQuiz = parentPanel.quizList.get(index).getString("_id");
       new Quiz().delete(idQuiz);
       
-      x.containerCardPanel.remove(index);
-      x.quizList.remove(index);
+      parentPanel.containerCardPanel.remove(index);
+      parentPanel.quizList.remove(index);
       
       JSONArray listID = new JSONArray();
-      x.quizList.forEach(item -> listID.put(((JSONObject)item).getString("_id")));
+      parentPanel.quizList.forEach(item -> listID.put(((JSONObject)item).getString("_id")));
       
       Login.getUSER().put("quizzes", listID);
       new User().update(Login.getUSER(), Login.getUSER().getString("_id"));
-      x.loopcard();
+      parentPanel.loopcard();
        
-
-//      x.idOfQuiz.add();
-//      x.idOfQuiz.forEach(item -> {
-//      for (int i = 0 ; i < idQuiz.length() ; i++){
-//        if (idQuiz.getString(i).equals(item))
-//          idQuiz.remove(i);
-//      }
-//    });
     }
     
   }//GEN-LAST:event_deleteBtnMouseClicked

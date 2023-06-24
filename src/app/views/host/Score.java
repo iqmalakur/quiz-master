@@ -222,7 +222,7 @@ public class Score extends javax.swing.JPanel {
     scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png"))); // NOI18N
     scoreBg.setMinimumSize(new java.awt.Dimension(799, 527));
     scoreBg.setPreferredSize(new java.awt.Dimension(799, 527));
-    add(scoreBg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 527));
+    add(scoreBg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 799, 527));
   }// </editor-fold>//GEN-END:initComponents
 
   private void closeBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseEntered
@@ -240,7 +240,7 @@ public class Score extends javax.swing.JPanel {
   private void scoreTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scoreTableMouseClicked
     respondent = respondents.get(scoreTable.getSelectedRow());
     quizAnswer = new LinkedList<>();
-    
+
     respondent.getJSONArray("quizAnswer").forEach(answer -> {
       quizAnswer.add((JSONObject) answer);
     });
@@ -258,11 +258,14 @@ public class Score extends javax.swing.JPanel {
     
     scrollPane.setViewportView(essayPanel);
     showBtn.setVisible(true);
+    
   }//GEN-LAST:event_scoreTableMouseClicked
 
   private void showBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseClicked
     scrollPane.setViewportView(scoreTable);
     showBtn.setVisible(false);
+    essayPanel.removeAll();
+
   }//GEN-LAST:event_showBtnMouseClicked
 
   private void showBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseEntered
