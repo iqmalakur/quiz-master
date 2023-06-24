@@ -180,7 +180,8 @@ public class SingleChoise extends Answer {
     if(firstOption.isSelected()) return 0;
     if(secondOption.isSelected()) return 1;
     if(thirdOption.isSelected()) return 2;
-    return 3;
+    if(fourthOption.isSelected()) return 3;
+    return -1;
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

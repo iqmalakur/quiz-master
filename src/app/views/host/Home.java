@@ -227,6 +227,16 @@ public class Home extends javax.swing.JPanel {
       return;
     }
     
+    if(findQuiz.getJSONArray("questions").length() == 0){
+      Controller.showInformationDialog(
+              "Quiz ini tidak memiliki pertanyaan!\n" +
+              "Silakan hubungi pembuat Quiz",
+              "Gagal masuk Quiz"
+      );
+      
+      return;
+    }
+    
     JSONObject respondent = new JSONObject()
             .put("name", nameField.getText())
             .put("optFieldValue", optionalField.getText());

@@ -12,8 +12,6 @@ import app.models.Respondent;
 import app.views.host.Home;
 import java.awt.Color;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,8 +28,9 @@ public class QuizAnswer extends javax.swing.JPanel {
   private Answer answerPanel;
   private int count = 0;
   private int counter = 0;
+  private int maxTime = 0;
   private int scoreMax = 0;
-  private TimerTask task;
+  private Thread timer;
 
   /**
    * Creates new form QuizAnswer
@@ -57,6 +56,9 @@ public class QuizAnswer extends javax.swing.JPanel {
     title.setText(quiz.getString("name"));
     answerContainer.setBackground(new Color(0, 0, 0, 0));
     
+    if(questionData.size() == 1)
+      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
+    
     updateQuestion();
   }
 
@@ -73,6 +75,7 @@ public class QuizAnswer extends javax.swing.JPanel {
     question = new javax.swing.JLabel();
     title = new javax.swing.JLabel();
     time = new javax.swing.JLabel();
+    addTime = new javax.swing.JLabel();
     btnNext = new javax.swing.JLabel();
     background = new javax.swing.JLabel();
 
@@ -97,6 +100,10 @@ public class QuizAnswer extends javax.swing.JPanel {
     time.setFont(new java.awt.Font("sansserif", 0, 32)); // NOI18N
     time.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     add(time, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 105, 50));
+
+    addTime.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+    addTime.setForeground(new java.awt.Color(255, 255, 255));
+    add(addTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 60, 50));
 
     btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png"))); // NOI18N
     btnNext.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -124,22 +131,54 @@ public class QuizAnswer extends javax.swing.JPanel {
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseClicked
+    nextQuestion();
+  }//GEN-LAST:event_btnNextMouseClicked
+
+  private void btnNextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseEntered
+     if(isNextLastQuestion()) {
+      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
+      return;
+     }
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-hover.png")));
+  }//GEN-LAST:event_btnNextMouseEntered
+
+  private void btnNextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseExited
+     if(isNextLastQuestion()) {
+      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
+      return;
+     }
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
+  }//GEN-LAST:event_btnNextMouseExited
+
+  private void btnNextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMousePressed
+     if(isNextLastQuestion()) {
+      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
+      return;
+     }
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-click.png")));
+  }//GEN-LAST:event_btnNextMousePressed
+
+  private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
+     if(isNextLastQuestion()) {
+      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
+      return;
+     }
+    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
+  }//GEN-LAST:event_btnNextMouseReleased
+
+  private void nextQuestion(){
     JSONObject quizAnswer = new JSONObject()
           .put("questionId", currentQuestion.getString("_id"))
           .put("answer", answerPanel.getAnswer());
     
+    // Menambahkan atribut state pada quizAnswer yang bertipe LongEssay
     if(currentQuestion.getString("type").equals("LongEssay"))
-      quizAnswer.put("state", 0);
+      quizAnswer.put("state", 0); // 0 artinya belum diperiksa
     
+    // Menambahkan isi dari quizAnswer pada respondent
     respondent.put(
       "quizAnswer",
       respondent.getJSONArray("quizAnswer").put(quizAnswer)
-    );
-    
-    int answerTime = currentQuestion.getInt("time") - counter;
-    respondent.put(
-      "answerTime",
-      respondent.getInt("answerTime") + answerTime
     );
     
     // Cek jawaban selain LongEssay
@@ -151,9 +190,8 @@ public class QuizAnswer extends javax.swing.JPanel {
         JSONArray correctAnswer = currentQuestion
                 .getJSONObject("answer").getJSONArray("correctAnswer");
 
-        if(quizAnswer.getJSONArray("answer").similar(correctAnswer)){
+        if(quizAnswer.getJSONArray("answer").similar(correctAnswer))
           score = currentQuestion.getInt("grade");
-        }
       }
 
       // Matching jawaban Single Choise dan Short Essay
@@ -161,26 +199,35 @@ public class QuizAnswer extends javax.swing.JPanel {
         Object correctAnswer = currentQuestion
                 .getJSONObject("answer").get("correctAnswer");
 
-        if(quizAnswer.get("answer").equals(correctAnswer)){
+        if(quizAnswer.get("answer").equals(correctAnswer))
           score = currentQuestion.getInt("grade");
-        }
       }
 
+      // Mengubah score pada respondent
       respondent.put(
         "score",
         respondent.getInt("score") + score
       );
     }
     
+    count++;
+    
     // Jika soal berikutnya merupakan soal terakhir,
     // maka tombol next berubah menjadi finish
-    if(count + 2 >= questionData.size()) 
+    if(isNextLastQuestion()) 
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
     
     // Jika soal ini merupakan soal terakhir
-    if(count + 2 > questionData.size()) {
-      task.cancel();
+    if(count + 1 > questionData.size()) {
+      // Mengubah isi dari answerTime pada respondent
+      int answerTime = maxTime - counter;
+      respondent.put(
+        "answerTime",
+        respondent.getInt("answerTime") + answerTime - 1
+      );
       
+      counter = -99;
+    
       respondent = new Respondent().insert(respondent);
       
       // Update isi respondent pada quiz
@@ -188,7 +235,7 @@ public class QuizAnswer extends javax.swing.JPanel {
         "respondents",
         quiz.getJSONArray("respondents")
           .put(respondent.getString("_id"))
-      ).put("state", 0);
+      );
       new Quiz().update(quiz, quiz.getString("_id"));
       
       Controller.showInformationDialog(String.format(
@@ -203,48 +250,7 @@ public class QuizAnswer extends javax.swing.JPanel {
       
       Controller.setPanel(new Home());
     }
-    else nextQuestion();
-  }//GEN-LAST:event_btnNextMouseClicked
-
-  private void btnNextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseEntered
-     if(count + 2 >= questionData.size()) {
-      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
-     return;
-     }
-    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-hover.png")));
-  }//GEN-LAST:event_btnNextMouseEntered
-
-  private void btnNextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseExited
-     if(count + 2 >= questionData.size()) {
-      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
-     return;
-     }
-    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
-    // TODO add your handling code here:
-  }//GEN-LAST:event_btnNextMouseExited
-
-  private void btnNextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMousePressed
-     if(count + 2 >= questionData.size()) {
-      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
-     return;
-     }
-    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next-click.png")));
-    // TODO add your handling code here:
-  }//GEN-LAST:event_btnNextMousePressed
-
-  private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
-     if(count + 2 >= questionData.size()) {
-      btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish-hover.png")));
-     return;
-     }
-    btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/next.png")));
-    // TODO add your handling code here:
-  }//GEN-LAST:event_btnNextMouseReleased
-
-  private void nextQuestion(){
-    task.cancel();
-    count++;
-    updateQuestion();
+    else updateQuestion();
   }
   
   private void setAnswerPanel(JPanel panel){
@@ -252,31 +258,55 @@ public class QuizAnswer extends javax.swing.JPanel {
     answerContainer.add(panel);
   }
   
+  private boolean isNextLastQuestion(){
+    return count + 1 >= questionData.size();
+  }
+  
   private void updateQuestion(){
     currentQuestion = questionData.get(count);
-    counter = currentQuestion.getInt("time");
     scoreMax += currentQuestion.getInt("grade");
+    maxTime += currentQuestion.getInt("time");
     
     time.setForeground(Color.WHITE);
-    time.setText(counter + "");
     
-    task = new TimerTask() {
-        @Override
-        public void run() {
-          time.setText(--counter + "");
-          if(counter <= 5) time.setForeground(Color.RED);
-          if(counter <= 0) {
-            cancel();
-            nextQuestion();
-          }
+    if(timer == null || counter <= 0){
+      counter = currentQuestion.getInt("time");
+      
+      timer = new Thread(() -> {
+        while(counter >= 0){
+          time.setText(counter-- + "");
+          if(counter < 5) time.setForeground(Color.RED);
+
+          try{
+            Thread.sleep(1000);
+          } catch(InterruptedException e){}
         }
-    };
-    
-    int delay = 1000; // 1 second first delay
-    int period = 1000; // 1 second every time changing
-    
-    Timer timer = new Timer("Timer");
-    timer.schedule(task, delay, period);
+        
+        if(counter != -99)
+          nextQuestion();
+      }, "timer");
+      timer.start();
+    }
+    else{
+      counter += currentQuestion.getInt("time");
+      time.setText((counter + 1) + "");
+      new Thread(() -> {
+        try{
+          addTime.setText("+" + currentQuestion.getInt("time"));
+          addTime.setVisible(true);
+          
+          Thread.sleep(800);
+          
+          for(int x = 560; x <= 660; x++){
+            addTime.setLocation(x, addTime.getY());
+            Thread.sleep(5);
+          }
+          
+          addTime.setVisible(false);
+          addTime.setLocation(560, addTime.getY());
+        } catch(InterruptedException e){}
+      }).start();
+    }
     
     question.setText(currentQuestion.getString("question"));
     
@@ -302,6 +332,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JLabel addTime;
   private javax.swing.JPanel answerContainer;
   private javax.swing.JLabel background;
   private javax.swing.JLabel btnNext;
