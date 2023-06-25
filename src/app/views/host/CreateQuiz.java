@@ -338,8 +338,8 @@ import org.json.JSONObject;
   }//GEN-LAST:event_timeAllFieldKeyTyped
 
   private void saveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseClicked
-    listCard.forEach(item ->{
-      CreateQuizCard card = (CreateQuizCard) item;
+    for (CreateQuizCard item : listCard){
+      CreateQuizCard card =  item;
       
       Model questionModel = new Question();
       JSONObject answer = new JSONObject();
@@ -417,7 +417,7 @@ import org.json.JSONObject;
         quiz.put("questions", quiz.getJSONArray("questions").put(card.dataQuestion.getString("_id")));
         new Quiz().update(quiz, quiz.getString("_id"));
       }
-    });
+    }
     
     deleteData.forEach(item -> {
       JSONArray idQuestions = quiz.getJSONArray("questions");

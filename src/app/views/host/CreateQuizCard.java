@@ -224,7 +224,7 @@ public class CreateQuizCard extends javax.swing.JPanel {
       if(dataQuestion.has("_id")){ //dataQuestion == one question
         parentPanel.deleteData.add(dataQuestion.getString("_id")); //parentPanel == CreateQuiz panel
       }                                                               
-      parentPanel.loopQuestionCard();
+      
       parentPanel.cardContainer.remove(index);
       parentPanel.loopQuestionCard();
     }

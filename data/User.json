@@ -1,1 +1,16 @@
-[{"password":"Ucup12345","name":"Ucup","quizzes":["QUZ001","QUZ002","QUZ003"],"_id":"USR001","username":"ucup123"}]
+[
+  {
+    "password": "test",
+    "name": "Ucup",
+    "quizzes": ["QUZ001", "QUZ002", "QUZ003"],
+    "_id": "USR001",
+    "username": "test"
+  },
+  {
+    "password": "faza",
+    "name": "Faza",
+    "quizzes": ["QUZ004", "QUZ005"],
+    "_id": "USR002",
+    "username": "faza"
+  }
+]
