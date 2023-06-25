@@ -123,6 +123,7 @@ import org.json.JSONObject;
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/dashboard.png"))); // NOI18N
+    homeBtn.setToolTipText("Dashboard");
     homeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -138,6 +139,7 @@ import org.json.JSONObject;
     add(homeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 27, -1, -1));
 
     saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/saveIcon.png"))); // NOI18N
+    saveBtn.setToolTipText("Simpan");
     saveBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     saveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -153,6 +155,7 @@ import org.json.JSONObject;
     add(saveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(655, 27, -1, -1));
 
     addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/tambahBtn.png"))); // NOI18N
+    addBtn.setToolTipText("Tambah");
     addBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     addBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -179,6 +182,7 @@ import org.json.JSONObject;
     add(idLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
 
     penBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/pen.png"))); // NOI18N
+    penBtn.setToolTipText("Edit");
     penBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     penBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -188,6 +192,7 @@ import org.json.JSONObject;
     add(penBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, -1));
 
     copyBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/copy.png"))); // NOI18N
+    copyBtn.setToolTipText("Salin");
     copyBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     copyBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -403,7 +408,7 @@ import org.json.JSONObject;
          card.timeField.getText().equals("")||
          tipe.equals("") ||
          card.soalTextArea.getText().equals("")||
-         answer.getString("correctAnswer").equals("")||
+         answer.has("correctAnswer") && answer.getString("correctAnswer").equals("")||
          answer.has("choises") && answer.getString("choises").equals("")
          )
       {

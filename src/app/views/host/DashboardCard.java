@@ -58,6 +58,7 @@ public class DashboardCard extends javax.swing.JPanel {
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/delete.png"))); // NOI18N
+    deleteBtn.setToolTipText("Hapus");
     deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         deleteBtnMouseClicked(evt);

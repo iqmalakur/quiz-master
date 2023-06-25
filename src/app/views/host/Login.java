@@ -190,6 +190,7 @@ public class Login extends javax.swing.JPanel  {
     add(daftarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 424, -1, -1));
 
     showIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/closed-eye.png"))); // NOI18N
+    showIcon.setToolTipText("Show Password");
     showIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     showIcon.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {

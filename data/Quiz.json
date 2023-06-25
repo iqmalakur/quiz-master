@@ -1,1 +1,42 @@
-[{"respondents":["RES001","RES002","RES003","RES004"],"code":"bsTVm","name":"Quiz Pemrograman WEB","questions":["QST001","QST002","QST003"],"_id":"QUZ001","optField":"NIM"},{"respondents":["RES005","RES006"],"code":"sX8ZG","name":"Quiz2","questions":["QST004","QST007","QST008"],"_id":"QUZ002","optField":""},{"respondents":[],"code":"CULuC","name":"Quiz3","questions":[],"_id":"QUZ003","optField":""},{"respondents":[],"code":"NyZq3","name":"Quiz1","questions":[],"_id":"QUZ004","optField":""},{"respondents":[],"code":"qRsGW","name":"Quiz2","questions":[],"_id":"QUZ005","optField":""}]
+[
+  {
+    "respondents": ["RES001", "RES002", "RES003", "RES004"],
+    "code": "bsTVm",
+    "name": "Quiz Pemrograman WEB",
+    "questions": ["QST001", "QST002", "QST003"],
+    "_id": "QUZ001",
+    "optField": "NIM"
+  },
+  {
+    "respondents": ["RES005", "RES006", "RES007"],
+    "code": "sX8ZG",
+    "name": "Quiz2",
+    "questions": ["QST004", "QST007", "QST008"],
+    "_id": "QUZ002",
+    "optField": ""
+  },
+  {
+    "respondents": [],
+    "code": "CULuC",
+    "name": "Quiz3",
+    "questions": [],
+    "_id": "QUZ003",
+    "optField": ""
+  },
+  {
+    "respondents": [],
+    "code": "NyZq3",
+    "name": "Quiz1",
+    "questions": [],
+    "_id": "QUZ004",
+    "optField": ""
+  },
+  {
+    "respondents": [],
+    "code": "qRsGW",
+    "name": "Quiz2",
+    "questions": [],
+    "_id": "QUZ005",
+    "optField": ""
+  }
+]
