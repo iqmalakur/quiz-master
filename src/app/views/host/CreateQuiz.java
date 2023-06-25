@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -31,10 +30,10 @@ import org.json.JSONObject;
  */
     public class CreateQuiz extends javax.swing.JPanel {
     public static int nmbrOfQuestionCard = 0;
-    JSONObject quiz; //one quiz
+    public JSONObject quiz; //one quiz
     int index; //index QUIZ card from Dashboard
     LinkedList<CreateQuizCard> listCard = new LinkedList<>(); //list contain card might saved
-    LinkedList<CreateQuizCard> listCardTmp = new LinkedList<>(); 
+    public LinkedList<CreateQuizCard> listCardTmp = new LinkedList<>(); 
     public static int scrAll=100;
     public static int timeAll=60;
     public ArrayList<String> deleteData = new ArrayList<>(); //array contains data might deleted
