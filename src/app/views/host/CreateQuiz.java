@@ -32,7 +32,8 @@ import org.json.JSONObject;
     public static int nmbrOfQuestionCard = 0;
     JSONObject quiz; //one quiz
     int index; //index QUIZ card from Dashboard
-    LinkedList<CreateQuizCard> listCard = new LinkedList<>(); //list contain data might saved
+    LinkedList<CreateQuizCard> listCard = new LinkedList<>(); //list contain card might saved
+    LinkedList<CreateQuizCard> listCardTmp = new LinkedList<>(); 
     public static int scrAll=100;
     public static int timeAll=60;
     ArrayList<String> deleteData = new ArrayList<>(); //array contains data might deleted
@@ -76,6 +77,13 @@ import org.json.JSONObject;
         cardContainer.add(listCard.getLast());
       }
     
+    });
+    listCardTmp.forEach(item -> {
+      CreateQuizCard card = ((CreateQuizCard)item);
+      card.index = nmbrOfQuestionCard++;
+      card.LabelOfNumber.setText(""+nmbrOfQuestionCard);
+      cardContainer.add(card);
+      listCard.addLast(card);
     });
     cardContainer.repaint();
     cardContainer.revalidate();
@@ -300,7 +308,9 @@ import org.json.JSONObject;
   
   private void addBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseClicked
     remove(teksLabel);
-    listCard.addLast(new CreateQuizCard(this));
+    CreateQuizCard newCard = new CreateQuizCard(this);
+    listCard.addLast(newCard);
+    listCardTmp.addLast(newCard);
     cardContainer.add(listCard.getLast());
     
     repaint();

@@ -54,6 +54,7 @@ public class Dashboard extends javax.swing.JPanel {
       containerCardPanel.add(new DashboardCard(this, quiz.get((String)item)));
       if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
     }); 
+    
     containerCardPanel.repaint();
     containerCardPanel.revalidate();
     repaint();

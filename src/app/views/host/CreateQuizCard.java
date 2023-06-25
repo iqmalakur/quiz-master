@@ -223,7 +223,10 @@ public class CreateQuizCard extends javax.swing.JPanel {
 
       if(dataQuestion.has("_id")){ //dataQuestion == one question
         parentPanel.deleteData.add(dataQuestion.getString("_id")); //parentPanel == CreateQuiz panel
-      }                                                               
+      } else {
+        System.out.println(index);
+        parentPanel.listCardTmp.remove(index-parentPanel.quiz.getJSONArray("questions").length());
+      }                                                              
       
       parentPanel.cardContainer.remove(index);
       parentPanel.loopQuestionCard();
@@ -232,7 +235,7 @@ public class CreateQuizCard extends javax.swing.JPanel {
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JLabel LabelOfNumber;
+  public javax.swing.JLabel LabelOfNumber;
   private javax.swing.JLabel containerBG;
   private javax.swing.JLabel deleteBtn;
   private javax.swing.JLabel jLabel1;
