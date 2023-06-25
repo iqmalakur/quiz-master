@@ -11,6 +11,7 @@ import app.models.Respondent;
 import java.awt.Cursor;
 import java.util.LinkedList;
 import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -27,7 +28,7 @@ public class Score extends javax.swing.JPanel {
    */
   public Score(JSONObject quiz) {
     initComponents();
-    
+    namaLabel.setVisible(false);
     Model respondentModel = new Respondent();
     boolean haveOptField = !quiz.getString("optField").equals("");
     
@@ -133,6 +134,8 @@ public class Score extends javax.swing.JPanel {
     scoreTable = new javax.swing.JTable();
     showBtn = new javax.swing.JLabel();
     closeBtn = new javax.swing.JLabel();
+    namaLabel = new javax.swing.JLabel();
+    infoLabel = new javax.swing.JLabel();
     scoreBg = new javax.swing.JLabel();
 
     essayPanel.setLayout(new javax.swing.BoxLayout(essayPanel, javax.swing.BoxLayout.Y_AXIS));
@@ -184,6 +187,7 @@ public class Score extends javax.swing.JPanel {
     add(scrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 690, 350));
 
     showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/loginBackBtn.png"))); // NOI18N
+    showBtn.setToolTipText("Tabel Skor");
     showBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     showBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -202,9 +206,10 @@ public class Score extends javax.swing.JPanel {
         showBtnMouseReleased(evt);
       }
     });
-    add(showBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+    add(showBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 28, -1, -1));
 
     closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/close.png"))); // NOI18N
+    closeBtn.setToolTipText("Dashboad");
     closeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -219,9 +224,17 @@ public class Score extends javax.swing.JPanel {
     });
     add(closeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(688, 28, 60, 50));
 
+    namaLabel.setFont(new java.awt.Font("MS PGothic", 1, 30)); // NOI18N
+    namaLabel.setForeground(new java.awt.Color(255, 255, 255));
+    namaLabel.setText("Nama: Ucup");
+    add(namaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
+
+    infoLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+    infoLabel.setForeground(new java.awt.Color(255, 255, 255));
+    infoLabel.setText("*Klik tabel untuk memeriksa jawaban essay peserta.");
+    add(infoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(53, 490, -1, -1));
+
     scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png"))); // NOI18N
-    scoreBg.setMinimumSize(new java.awt.Dimension(799, 527));
-    scoreBg.setPreferredSize(new java.awt.Dimension(799, 527));
     add(scoreBg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 799, 527));
   }// </editor-fold>//GEN-END:initComponents
 
@@ -250,22 +263,29 @@ public class Score extends javax.swing.JPanel {
       String questionId = (questionAnswer).getString("questionId");
       JSONObject question = new Question().get(questionId);
       
-      if(question.getString("type").equals("LongEssay"))
-        essayPanel.add(new EssayCheck(question.getString("question"), i,  scoreTable.getSelectedRow()));
-      
-      i++;
+      if(question != null){
+        if(question.getString("type").equals("LongEssay"))
+          essayPanel.add(new EssayCheck(question.getString("question"), i,  scoreTable.getSelectedRow()));
+
+        i++;
+      }
     }
     
     scrollPane.setViewportView(essayPanel);
     showBtn.setVisible(true);
+    closeBtn.setVisible(false);
+    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/essayBG.png")));
+    namaLabel.setVisible(true);
+    infoLabel.setVisible(false);
     
   }//GEN-LAST:event_scoreTableMouseClicked
 
   private void showBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseClicked
     scrollPane.setViewportView(scoreTable);
     showBtn.setVisible(false);
+    closeBtn.setVisible(true);
     essayPanel.removeAll();
-
+    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png")));
   }//GEN-LAST:event_showBtnMouseClicked
 
   private void showBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseEntered
@@ -287,6 +307,8 @@ public class Score extends javax.swing.JPanel {
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel closeBtn;
   private javax.swing.JPanel essayPanel;
+  private javax.swing.JLabel infoLabel;
+  private javax.swing.JLabel namaLabel;
   private javax.swing.JLabel scoreBg;
   private javax.swing.JTable scoreTable;
   private javax.swing.JScrollPane scrollPane;

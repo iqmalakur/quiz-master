@@ -57,6 +57,7 @@ public class Dashboard extends javax.swing.JPanel {
       containerCardPanel.add(new DashboardCard(this, quiz.get((String)item)));
       if (DashboardCard.COUNT != 3) containerCardPanel.add(addCardBtn);
     }); 
+    
     containerCardPanel.repaint();
     containerCardPanel.revalidate();
     repaint();
@@ -105,6 +106,7 @@ public class Dashboard extends javax.swing.JPanel {
     add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 458, -1, -1));
 
     editBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/pen.png"))); // NOI18N
+    editBtn.setToolTipText("Edit");
     editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     editBtn.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
