@@ -12,6 +12,7 @@ import app.models.Respondent;
 import app.views.host.Home;
 import java.awt.Color;
 import java.util.LinkedList;
+import java.util.Random;
 import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   private final JSONObject quiz;
   private JSONObject respondent;
   private LinkedList<JSONObject> questionData;
+  private LinkedList<Integer> indexes;
   private JSONObject currentQuestion;
   private Answer answerPanel;
   private int count = 0;
@@ -31,6 +33,7 @@ public class QuizAnswer extends javax.swing.JPanel {
   private int maxTime = 0;
   private int scoreMax = 0;
   private Thread timer;
+  private Random picker;
 
   /**
    * Creates new form QuizAnswer
@@ -58,6 +61,9 @@ public class QuizAnswer extends javax.swing.JPanel {
     
     if(questionData.size() == 1)
       btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/button/finish.png")));
+    
+    indexes = new LinkedList<>();
+    picker = new Random();
     
     updateQuestion();
   }
@@ -263,7 +269,15 @@ public class QuizAnswer extends javax.swing.JPanel {
   }
   
   private void updateQuestion(){
-    currentQuestion = questionData.get(count);
+    int i;
+    
+    do{
+      i = picker.nextInt(questionData.size());
+    } while(indexes.contains(i));
+    
+    indexes.add(i);
+    
+    currentQuestion = questionData.get(i);
     scoreMax += currentQuestion.getInt("grade");
     maxTime += currentQuestion.getInt("time");
     
