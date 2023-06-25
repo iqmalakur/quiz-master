@@ -4,6 +4,7 @@
  */
 package app.views.host;
 
+import app.views.host.cards.CreateQuizCard;
 import app.Controller;
 import app.models.Model;
 import app.models.Question;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
     LinkedList<CreateQuizCard> listCard = new LinkedList<>(); //list contain data might saved
     public static int scrAll=100;
     public static int timeAll=60;
-    ArrayList<String> deleteData = new ArrayList<>(); //array contains data might deleted
+    public ArrayList<String> deleteData = new ArrayList<>(); //array contains data might deleted
     boolean toggleON = true;
   /**
    * Creates new form CreayeQuiz
@@ -61,7 +62,6 @@ import org.json.JSONObject;
     }
             
     loopQuestionCard();//build every question card
-//    System.out.println(listCard);
   }
   
   public void loopQuestionCard(){

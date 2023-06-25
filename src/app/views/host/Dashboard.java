@@ -4,6 +4,9 @@
  */
 package app.views.host;
 
+import app.views.host.cards.DashboardCard;
+import app.auth.Login;
+import app.Home;
 import app.Controller;
 import app.models.Model;
 import app.models.Quiz;

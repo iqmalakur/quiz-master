@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package app.views.host;
+package app.views.host.cards;
 
 import java.awt.Dimension;
-import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,20 +14,19 @@ import org.json.JSONObject;
  *
  * @author User
  */
-public class MultipleChoiseCard extends javax.swing.JPanel {
+public class SingleChoiseCard extends javax.swing.JPanel {
 
   /**
    * Creates new form tunggalCard
    */
-  public MultipleChoiseCard(CreateQuizCard card) {
+  public SingleChoiseCard(CreateQuizCard card) {
     initComponents();
-    
-    JCheckBox[] checkArray = new JCheckBox[4];
-    checkArray[0] = checkA;
-    checkArray[1] = checkB;
-    checkArray[2] = checkC;
-    checkArray[3] = checkD;
-    card.answers = checkArray;
+    JRadioButton[] radioArray = new JRadioButton[4];
+    radioArray[0] = Abtn;
+    radioArray[1] = Bbtn;
+    radioArray[2] = Cbtn;
+    radioArray[3] = Dbtn;
+    card.answers = radioArray;
     
     JTextArea[] textArray = new JTextArea[4];
     textArray[0] = answerA;
@@ -36,41 +35,39 @@ public class MultipleChoiseCard extends javax.swing.JPanel {
     textArray[3] = answerD;
     card.answersCpt = textArray;
     
+    
     jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane2.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane3.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
     jScrollPane4.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
   }
   
-  public MultipleChoiseCard(CreateQuizCard card, JSONObject data){
-    this(card);
-    if(data.getString("type").equals("MultiChoises")){
-    JSONArray choises = data.getJSONObject("answer").getJSONArray("choises");
-    JSONArray correctAnswer = data.getJSONObject("answer").getJSONArray("correctAnswer");
-    answerA.setText(choises.getString(0));
-    answerB.setText(choises.getString(1));
-    answerC.setText(choises.getString(2));
-    answerD.setText(choises.getString(3));
-    
-    correctAnswer.forEach(item -> {
-      int keywordIndex = (int)item;
-      switch(keywordIndex){
-        case 0:
-          checkA.setSelected(true);
-          break;
-        case 1:
-          checkB.setSelected(true);
-          break;
-        case 2:
-          checkC.setSelected(true);
-          break;
-        case 3:
-          checkD.setSelected(true);
-          break; 
+    public SingleChoiseCard(CreateQuizCard card, JSONObject data){
+      this(card);
+      if(data.getString("type").equals("SingleChoise")){
+      JSONArray choisesData = data.getJSONObject("answer").getJSONArray("choises");
+      int correctAnswer = data.getJSONObject("answer").getInt("correctAnswer");
+      answerA.setText(choisesData.getString(0));
+      answerB.setText(choisesData.getString(1));
+      answerC.setText(choisesData.getString(2));
+      answerD.setText(choisesData.getString(3));
+        switch(correctAnswer){
+          case 0:
+            Abtn.setSelected(true);
+            break;
+          case 1:
+            Bbtn.setSelected(true);
+            break;
+          case 2:
+            Cbtn.setSelected(true);
+            break;
+          case 3:
+            Dbtn.setSelected(true);
+            break; 
+        }
       }
-    });
     }
-  }
+
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,6 +77,11 @@ public class MultipleChoiseCard extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    tunggalPilihan = new javax.swing.ButtonGroup();
+    Abtn = new javax.swing.JRadioButton();
+    Bbtn = new javax.swing.JRadioButton();
+    Cbtn = new javax.swing.JRadioButton();
+    Dbtn = new javax.swing.JRadioButton();
     jScrollPane1 = new javax.swing.JScrollPane();
     answerA = new javax.swing.JTextArea();
     jScrollPane2 = new javax.swing.JScrollPane();
@@ -88,14 +90,22 @@ public class MultipleChoiseCard extends javax.swing.JPanel {
     answerC = new javax.swing.JTextArea();
     jScrollPane4 = new javax.swing.JScrollPane();
     answerD = new javax.swing.JTextArea();
-    checkA = new javax.swing.JCheckBox();
-    checkB = new javax.swing.JCheckBox();
-    checkC = new javax.swing.JCheckBox();
-    checkD = new javax.swing.JCheckBox();
 
     setBackground(new java.awt.Color(255, 255, 255));
     setPreferredSize(new java.awt.Dimension(487, 170));
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    tunggalPilihan.add(Abtn);
+    add(Abtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+    tunggalPilihan.add(Bbtn);
+    add(Bbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
+
+    tunggalPilihan.add(Cbtn);
+    add(Cbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+    tunggalPilihan.add(Dbtn);
+    add(Dbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
 
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -132,25 +142,22 @@ public class MultipleChoiseCard extends javax.swing.JPanel {
     jScrollPane4.setViewportView(answerD);
 
     add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 180, 70));
-    add(checkA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-    add(checkB, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
-    add(checkC, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-    add(checkD, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
   }// </editor-fold>//GEN-END:initComponents
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JRadioButton Abtn;
+  private javax.swing.JRadioButton Bbtn;
+  private javax.swing.JRadioButton Cbtn;
+  private javax.swing.JRadioButton Dbtn;
   private javax.swing.JTextArea answerA;
   private javax.swing.JTextArea answerB;
   private javax.swing.JTextArea answerC;
   private javax.swing.JTextArea answerD;
-  private javax.swing.JCheckBox checkA;
-  private javax.swing.JCheckBox checkB;
-  private javax.swing.JCheckBox checkC;
-  private javax.swing.JCheckBox checkD;
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JScrollPane jScrollPane4;
+  private javax.swing.ButtonGroup tunggalPilihan;
   // End of variables declaration//GEN-END:variables
 }

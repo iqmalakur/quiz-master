@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package app.views.host;
+package app.auth;
 
+import app.Home;
 import app.Controller;
 import app.models.Model;
 import app.models.User;
+import app.views.host.Dashboard;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
