@@ -7,8 +7,16 @@ package app.views.host;
 import app.Controller;
 import app.models.Model;
 import app.models.User;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.LinkedList;
+import java.util.Random;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -24,8 +32,38 @@ public class Login extends javax.swing.JPanel  {
   public Login() {  
     initComponents();
     Controller.setFrameTitle("Quiz Master - Login");
-        
+    
+    LinkedList<JSONObject> quotes = getQuotes();
+    
+    if(quotes.size() > 0){
+      new Thread(() -> {
+        while(true){
+          Random rand = new Random();
+          int i = rand.nextInt(quotes.size());
+
+          String quoteText = quotes.get(i).getString("quote");
+          String quote = "";
+
+          try{
+            for(int j = 0; j < quoteText.length(); j++){
+              quote += quoteText.charAt(j);
+              quoteLabel.setText("<html>" + quote + "</html>");
+              Thread.sleep(50);
+            }
+
+            quote += "<br/><div style=\"text-align: right; margin-top: 20px;\">- "
+                    + quotes.get(i).getString("source")
+                    + "</div>";
+            quoteLabel.setText("<html>" + quote + "</html>");
+
+            Thread.sleep(5000);
+          } catch(InterruptedException e){}
+        }
+      }, "quote")
+      .start();
+    }
   }
+  
   private static JSONObject USER;
 
   public static JSONObject getUSER() {
@@ -34,6 +72,31 @@ public class Login extends javax.swing.JPanel  {
 
   public static void setUSER(JSONObject USER) {
     Login.USER = USER;
+  }
+  
+  public static LinkedList<JSONObject> getQuotes() {
+    File quoteFile = new File("data/Quotes.json");
+    
+    if(!quoteFile.exists()){
+      try(OutputStream dataWrite = new FileOutputStream(quoteFile)){
+        String quoteStr = "[]";
+        dataWrite.write(quoteStr.getBytes());
+      } catch(IOException e){}
+    }
+    
+    try(InputStream dataRead = new FileInputStream(quoteFile)) {
+      byte[] byteData = dataRead.readAllBytes();
+      
+      JSONArray data = new JSONArray(new String(byteData));
+      LinkedList<JSONObject> result = new LinkedList<>();
+
+      // Mengisi linked list dengan data pada file JSON
+      data.forEach(item -> result.add((JSONObject) item));
+
+      return result;
+    } catch(IOException e){
+      return null;
+    }
   }
   
   /**
@@ -53,6 +116,7 @@ public class Login extends javax.swing.JPanel  {
     showIcon = new javax.swing.JLabel();
     passwordLoginField = new javax.swing.JPasswordField();
     passwordLoginFieldShow = new javax.swing.JTextField();
+    quoteLabel = new javax.swing.JLabel();
     loginBG = new javax.swing.JLabel();
 
     setPreferredSize(new java.awt.Dimension(799, 527));
@@ -149,6 +213,11 @@ public class Login extends javax.swing.JPanel  {
       }
     });
     add(passwordLoginFieldShow, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 296, 300, 35));
+
+    quoteLabel.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+    quoteLabel.setForeground(new java.awt.Color(255, 255, 255));
+    quoteLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    add(quoteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 240, 250));
 
     loginBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/login.png"))); // NOI18N
     add(loginBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 527));
@@ -261,6 +330,7 @@ public class Login extends javax.swing.JPanel  {
   private javax.swing.JLabel loginBtn;
   private javax.swing.JPasswordField passwordLoginField;
   private javax.swing.JTextField passwordLoginFieldShow;
+  private javax.swing.JLabel quoteLabel;
   private javax.swing.JCheckBox rememberMeCheckBox;
   private javax.swing.JLabel showIcon;
   private javax.swing.JTextField usernameLoginField1;

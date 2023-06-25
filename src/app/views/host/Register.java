@@ -8,6 +8,8 @@ import app.Controller;
 import app.models.Model;
 import app.models.User;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Random;
 import org.json.JSONObject;
 
 /**
@@ -24,6 +26,34 @@ public class Register extends javax.swing.JPanel {
   public Register() {
     initComponents();
     Controller.setFrameTitle("Quiz Master - Register");
+    
+    LinkedList<JSONObject> quotes = Login.getQuotes();
+    
+    new Thread(() -> {
+      while(true){
+        Random rand = new Random();
+        int i = rand.nextInt(quotes.size());
+        
+        String quoteText = quotes.get(i).getString("quote");
+        String quote = "";
+        
+        try{
+          for(int j = 0; j < quoteText.length(); j++){
+            quote += quoteText.charAt(j);
+            quoteLabel.setText("<html>" + quote + "</html>");
+            Thread.sleep(50);
+          }
+          
+          quote += "<br/><div style=\"text-align: right; margin-top: 20px;\">- "
+                  + quotes.get(i).getString("source")
+                  + "</div>";
+          quoteLabel.setText("<html>" + quote + "</html>");
+        
+          Thread.sleep(5000);
+        } catch(InterruptedException e){}
+      }
+    }, "quote")
+    .start();
   }
 
   /**
@@ -42,6 +72,7 @@ public class Register extends javax.swing.JPanel {
     passwordFieldUnhide = new javax.swing.JTextField();
     btnSend = new javax.swing.JLabel();
     btnBack = new javax.swing.JLabel();
+    quoteLabel = new javax.swing.JLabel();
     background = new javax.swing.JLabel();
 
     setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -119,6 +150,11 @@ public class Register extends javax.swing.JPanel {
       }
     });
     add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(725, 38, -1, -1));
+
+    quoteLabel.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+    quoteLabel.setForeground(new java.awt.Color(255, 255, 255));
+    quoteLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    add(quoteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 240, 250));
 
     background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/register.png"))); // NOI18N
     add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -239,6 +275,7 @@ public class Register extends javax.swing.JPanel {
   private javax.swing.JTextField nameField;
   private javax.swing.JPasswordField passwordField;
   private javax.swing.JTextField passwordFieldUnhide;
+  private javax.swing.JLabel quoteLabel;
   private javax.swing.JTextField usernameField;
   // End of variables declaration//GEN-END:variables
 }
