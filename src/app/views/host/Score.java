@@ -274,7 +274,7 @@ public class Score extends javax.swing.JPanel {
     scrollPane.setViewportView(essayPanel);
     showBtn.setVisible(true);
     closeBtn.setVisible(false);
-    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/essayBG.png")));
+//    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/essayBG.png")));
     namaLabel.setVisible(true);
     infoLabel.setVisible(false);
     
@@ -285,7 +285,7 @@ public class Score extends javax.swing.JPanel {
     showBtn.setVisible(false);
     closeBtn.setVisible(true);
     essayPanel.removeAll();
-    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png")));
+//    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png")));
   }//GEN-LAST:event_showBtnMouseClicked
 
   private void showBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseEntered
