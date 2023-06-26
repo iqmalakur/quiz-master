@@ -277,7 +277,7 @@ public class Score extends javax.swing.JPanel {
 //    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/essayBG.png")));
     namaLabel.setVisible(true);
     infoLabel.setVisible(false);
-    
+    namaLabel.setText("Nama : " + respondent.getString("name"));
   }//GEN-LAST:event_scoreTableMouseClicked
 
   private void showBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showBtnMouseClicked
