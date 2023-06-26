@@ -284,6 +284,7 @@ public class Score extends javax.swing.JPanel {
     scrollPane.setViewportView(scoreTable);
     showBtn.setVisible(false);
     closeBtn.setVisible(true);
+    namaLabel.setVisible(false);
     essayPanel.removeAll();
 //    scoreBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/background/score.png")));
   }//GEN-LAST:event_showBtnMouseClicked
