@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package app;
+package app.views;
 
+import app.Controller;
 import app.models.Model;
 import app.models.Quiz;
 import app.models.User;

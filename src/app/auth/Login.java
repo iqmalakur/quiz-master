@@ -4,7 +4,7 @@
  */
 package app.auth;
 
-import app.Home;
+import app.views.Home;
 import app.Controller;
 import app.models.Model;
 import app.models.User;

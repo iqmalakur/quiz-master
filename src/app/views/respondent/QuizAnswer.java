@@ -9,7 +9,7 @@ import app.models.Model;
 import app.models.Question;
 import app.models.Quiz;
 import app.models.Respondent;
-import app.Home;
+import app.views.Home;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Random;
