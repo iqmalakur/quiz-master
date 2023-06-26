@@ -406,9 +406,9 @@ import org.json.JSONObject;
       if(card.scoreField.getText().equals("")||
          card.timeField.getText().equals("")||
          tipe.equals("") ||
-         card.soalTextArea.getText().equals("")||
-         answer.has("correctAnswer") && answer.getString("correctAnswer").equals("")||
-         answer.has("choises") && answer.getString("choises").equals("")
+         card.soalTextArea.getText().equals("")//||
+//         answer.has("correctAnswer") && answer.getString("correctAnswer").equals("")||
+//         answer.has("choises") && answer.getString("choises").equals("")
          )
       {
         Controller.showErrorDialog("Lengkapi semua field yang tersedia!");
